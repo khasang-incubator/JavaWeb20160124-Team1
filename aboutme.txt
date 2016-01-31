@@ -1,1 +1,3 @@
 Hello, I am conflict!
+Hello World!
+Hello, whatsup?

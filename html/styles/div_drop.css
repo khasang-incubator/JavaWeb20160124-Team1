@@ -1,0 +1,15 @@
+div#drop_div * {
+    font-size: 14px;
+    color: darkblue;
+    font-family: Calibri;
+}
+
+div#drop_div button {
+    height: 35px;
+}
+
+div#drop_div img {
+    width: 25px;
+    height: 25px;
+    vertical-align: middle;
+}

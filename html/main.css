@@ -1,0 +1,58 @@
+html, body {
+    padding: 0;
+    margin: 0;
+    font-family: Helvetica, sans-serif
+}
+
+.darkblue {
+    font-size: 14px;
+    font-family: "Calibri", "SansSerif", "DejaVu Sans"
+}
+
+.content {
+    width: 960px;
+    margin: 0 auto;
+}
+
+.wrapper {
+    width: 100%;
+}
+
+.main-menu {
+    width: 100%;
+    background-color: #0D47A1;
+    box-shadow: 0 5px 10px rgba(0,0,0,0.5);;
+}
+
+.main-menu ul {
+    margin: 0;
+    padding: 0;
+    height: 45px;
+    display: table-cell;
+    vertical-align: middle;
+}
+
+.main-menu ul li {
+    display: inline-block;
+    color: white;
+    margin-right: 15px;
+}
+
+table {
+    border-collapse: collapse;
+    border: 1px solid #424242;
+}
+
+table td {
+    border: 1px solid #424242;
+    padding: 2px;
+}
+
+table thead td {
+    font-weight: bold;
+}
+
+table caption {
+    font-weight: bold;
+    font-size: larger;
+}

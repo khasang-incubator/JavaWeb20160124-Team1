@@ -100,7 +100,7 @@ LogModelOrderBy --> LogErrorSource
 note bottom of LogModel: <b>LogModel</b>\nЭкземпляр класса олицетворяет\nсобой запись базы данных,\nон только хранит данные\nи предоставляет доступ к ним.\nЭкземпляр создается после\nизвлечения данных из СУБД.\n(Магия ORM)
 note top of LogModelRepository: <b>LogModelRepository</b>\nКласс предоставляет необходимые\nметоды для работы с логами:\nсоздание, обновление, поиск.\nПолностью инкапсулирует работу с СУБД.
 note bottom of LogModelCriteria: <b>LogModelCriteria</b>\nОсновная обазянность класса -\nобработать данные из запроса\nи трансформировать (при наличии)\nв условия фильтрации (WHERE)\nдля SQL запроса
-note right of LogModelOrderBy: <b>LogModelOrderBy</b>\nОсновная обазянность класса -\nобработать данные из запроса\nи трансформировать (при наличии)\nв условия сортировки (ORDER BY)\nдля SQL запроса
+note right of LogModelOrderBy: <b>LogModelOrderBy</b>\nОсновная обазянность класса -\nобработать данные из запроса\nи трансформировать (при наличии)\nв список полей для сортировки\n(ORDER BY) для SQL запроса
 note bottom of LogErrorLevel: <b>LogErrorLevel</b>\nВозможные уровни ошибок
 note bottom of LogErrorSource: <b>LogErrorSource</b>\nВозможные источники ошибок
 

@@ -1,0 +1,107 @@
+@startuml
+
+enum LogErrorLevel {
+    ERROR
+    WARNING
+    PARSE
+    NOTICE
+    CORE_ERROR
+    CORE_WARNING
+    COMPILE_ERROR
+    COMPILE_WARNING
+    USER_ERROR
+    USER_WARNING
+    USER_NOTICE
+    RECOVERABLE_ERROR
+    DEPRECATED
+    USER_DEPRECATED
+}
+
+enum LogErrorSource {
+    KERNEL
+    EVENT
+    SECURITY
+    TRANSLATOR
+    REQUEST
+    ROUTER
+    VALIDATOR
+    RESPONSE
+    TEMPLATE
+    ASSETS
+}
+
+class LogModel {
+    -long: id
+    -LogErrorLevel: errorLevel
+    -LogErrorSource: errorSource
+    -Date: occurredAt
+    -String: errorDescription
+    +long: getId()
+    +LogErrorLevel: getErrorLevel()
+    +LogErrorSource: getErrorSource()
+    +Date: getOccurredAt()
+    +String: getErrorDescription()
+    +LogErrorLevel: setErrorLevel(LogErrorLevel errorLevel)
+    +LogErrorSource: setErrorSource(LogErrorSource errorSource)
+    +Date: setOccurredAt(Date occurredAt)
+    +String: setErrorDescription(String errorDescription)
+}
+
+class LogModelRepository {
+    +boolean: insert(LogModel logModel)
+    +boolean: insert(List<LogModel> logModel)
+    +boolean: insert(LogErrorLevel errorLevel, LogErrorSource errorSource, Date occurredAt, String errorDescription)
+    +boolean: update(LogModel logModel)
+    +boolean: update(List<LogModel> logModel)
+    +boolean: delete(LogModel logModel)
+    +boolean: delete(List<LogModel> logModel)
+    +List<LogModel>: findBy(LogModelCriteria criteria, LogModelOrderBy orderBy, Integer limit, Integer offset)
+    +int: countBy(LogModelCriteria criteria)
+    +LogModel: find(Integer logErrorRecordId)
+    +List<LogModel>: getLastRecords(int lastCount)
+    +List<LogModel>: getFirstRecords(int firstCount)
+    +List<LogModelErrorLevel>: getAvailableErrorLevels()
+    +List<LogModelErrorSource>: getAvailableErrorSource()
+}
+
+class LogModelCriteria {
+    -Date: startAt
+    -Date: finishedAt
+    -List<LogModelErrorLevel>: errorLevels
+    -List<LogModelErrorSource>: errorSources
+    -String: errorDescription
+    +void: handleRequest(Object requestData)
+    +String: getSQL()
+}
+
+class LogModelOrderBy {
+    -boolean: hasOccurredAt
+    -boolean: hasLogErrorLevel
+    -boolean: hasLogErrorSource
+    -String: occurredAtOrder
+    -String: logErrorLevelOrder
+    -String: logErrorSourceOrder
+    +void: handleRequest(Object requestData)
+    +String: getSQL()
+}
+
+LogModelRepository --> LogErrorLevel
+LogModelRepository --> LogErrorSource
+LogModelRepository --> LogModel
+LogModelRepository --> LogModelCriteria
+LogModelRepository --> LogModelOrderBy
+LogModel --> LogErrorLevel
+LogModel --> LogErrorSource
+LogModelCriteria --> LogErrorLevel
+LogModelCriteria --> LogErrorSource
+LogModelOrderBy --> LogErrorLevel
+LogModelOrderBy --> LogErrorSource
+
+note bottom of LogModel: <b>LogModel</b>\nЭкземпляр класса олицетворяет\nсобой запись базы данных,\nон только хранит данные\nи предоставляет доступ к ним.\nЭкземпляр создается после\nизвлечения данных из СУБД.\n(Магия ORM)
+note top of LogModelRepository: <b>LogModelRepository</b>\nКласс предоставляет необходимые\nметоды для работы с логами:\nсоздание, обновление, поиск.\nПолностью инкапсулирует работу с СУБД.
+note bottom of LogModelCriteria: <b>LogModelCriteria</b>\nОсновная обазянность класса -\nобработать данные из запроса\nи трансформировать (при наличии)\nв условия фильтрации (WHERE)\nдля SQL запроса
+note right of LogModelOrderBy: <b>LogModelOrderBy</b>\nОсновная обазянность класса -\nобработать данные из запроса\nи трансформировать (при наличии)\nв условия сортировки (ORDER BY)\nдля SQL запроса
+note bottom of LogErrorLevel: <b>LogErrorLevel</b>\nВозможные уровни ошибок
+note bottom of LogErrorSource: <b>LogErrorSource</b>\nВозможные источники ошибок
+
+@enduml

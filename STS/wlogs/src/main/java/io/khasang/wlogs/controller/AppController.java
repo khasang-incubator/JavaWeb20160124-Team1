@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 public class AppController {
-    @RequestMapping("/hello")
+    @RequestMapping({"/", "hello"})
     public String welcome(Model model) {
         model.addAttribute("greeting", "Welcome to wLogs! Our Best Program!");
         model.addAttribute("tagline", "The one and only amazing logging system!");

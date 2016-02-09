@@ -11,6 +11,7 @@
     <title>backup</title>
 </head>
 <body>
-<h1> ${backupstatus} </h1>
+<p>Backup</p>
+<h1> ${backup} </h1>
 </body>
 </html>

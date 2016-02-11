@@ -13,15 +13,15 @@ public class AppController {
         return "welcome";
     }
 
-//    @RequestMapping("/backup")
-//    public String backup(Model model) {
-//        model.addAttribute("backup", "Success");
-//        return "backup";
-//    }
-//
-//    @RequestMapping("/admin")
-//    public String admin(Model model) {
-//        model.addAttribute("admin", "You are number 1!");
-//        return "admin";
-//    }
+    @RequestMapping("/backup")
+    public String backup(Model model) {
+        model.addAttribute("backup", "Success");
+        return "backup";
+    }
+
+    @RequestMapping("/admin")
+    public String admin(Model model) {
+        model.addAttribute("admin", "You are number 1!");
+        return "admin";
+    }
 }

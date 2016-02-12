@@ -1,21 +1,70 @@
-button {
-    color: gray;
-    font-size:14px;
-    font-family:Calibri;
+/* Total reset */
+
+html, body {
+    padding: 0;
+    margin: 0;
 }
 
-body {
-    background-color: #F5F5F5;
-    padding: 0px;
-    margin: 0px;
-    color: #045757;
+/* Main menu style */
+
+div#main_menu {
+    width: 100%;
+    height: 50px;
+    background-color: #006064;
+    box-shadow: 0 1px 6px rgba(0,0,0,0.4);
+    border-bottom-color: rgba(0,0,0,0.3);
 }
 
-h1 {
-    padding: 0px;
-    margin: 0px;
-    font-size: 24px;
-    border-bottom: 2px solid #045757;
-    margin-bottom: 15px;
-    text-align: center;
+div#menu_wrapper {
+    width: 960px;
+    margin: 0 auto;
+    padding: 0;
+    display: table;
+}
+
+div#logo {
+    display: table-cell;
+    vertical-align: middle;
+    margin: 0;
+    padding: 0;
+    width: auto;
+    height: 50px;
+    float: left;
+}
+
+ul#menu_items {
+    display: table-cell;
+    vertical-align: middle;
+    margin: 0;
+    padding: 0;
+}
+
+ul#menu_items li {
+    margin: 0 15px 0;
+    padding: 0;
+    float: left;
+    display: inline-block;
+    font-size: larger;
+}
+
+ul#menu_items li a {
+    text-decoration: none;
+    color: white;
+}
+
+ul#menu_items li a:visited {
+    color: #ECEFF1;
+}
+
+ul#menu_items li a:hover {
+    text-decoration: underline;
+}
+
+div#content {
+    width: 960px;
+    margin: 20px auto;
+    padding: 1px 25px;
+    box-shadow: 0 0 6px rgba(0,0,0,0.4);
+    border-radius: 2px;
+    border-color: rgba(0,0,0,0.3);
 }

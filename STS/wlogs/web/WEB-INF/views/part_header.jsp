@@ -14,13 +14,38 @@
     <body>
         <div id="main_menu">
             <div id="menu_wrapper">
-                <div id="logo"></div>
+                <div id="logo"><span class="glyphicon glyphicon-tasks" aria-hidden="true"></span></div>
                 <ul id="menu_items">
-                    <li><a href="/" title="Просмотр">Просмотр</a></li>
-                    <li><a href="/delete" title="Удаление">Удаление</a></li>
-                    <li><a href="/import" title="Импорт">Импорт</a></li>
-                    <li><a href="/export" title="Экспорт">Экспорт</a></li>
-                    <li><a href="/logout" title="Выход">Выход</a></li>
+                    <li>
+                        <a href="/" title="Просмотр">
+                            <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+                            Просмотр
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/delete" title="Удаление">
+                            <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                            Удаление
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/import" title="Импорт">
+                            <span class="glyphicon glyphicon-import" aria-hidden="true"></span>
+                            Импорт
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/export" title="Экспорт">
+                            <span class="glyphicon glyphicon-export" aria-hidden="true"></span>
+                            Экспорт
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/logout" title="Выход">
+                            <span class="glyphicon glyphicon-log-out" aria-hidden="true"></span>
+                            Выход
+                        </a>
+                    </li>
                 </ul>
                 </div>
         </div>

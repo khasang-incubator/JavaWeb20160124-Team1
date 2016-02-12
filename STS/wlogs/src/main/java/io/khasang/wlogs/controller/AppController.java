@@ -6,16 +6,22 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 public class AppController {
-    @RequestMapping("/hello")
+    @RequestMapping("/")
     public String welcome(Model model) {
-        model.addAttribute("greeting", "Welcome to wLogs! Our Best Program!");
-        model.addAttribute("tagline", "The one and only amazing logging system!");
+        model.addAttribute("greeting", "Welcome to our best webstore!");
+        model.addAttribute("tagline", "The one and only amazing webstore!");
         return "welcome";
     }
 
     @RequestMapping("/backup")
     public String backup(Model model) {
-        model.addAttribute("backupstatus", "Backup Success");
+        model.addAttribute("backup", "Success");
         return "backup";
+    }
+
+    @RequestMapping("/admin")
+    public String admin(Model model) {
+        model.addAttribute("admin", "You are number 1!");
+        return "admin";
     }
 }

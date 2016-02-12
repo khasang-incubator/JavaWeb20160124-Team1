@@ -11,6 +11,11 @@ public class AppController {
         return "index";
     }
 
+    @RequestMapping("/delete")
+    public String delete(Model model) {
+        return "delete";
+    }
+
     @RequestMapping("/hello")
     public String welcome(Model model) {
         model.addAttribute("greeting", "Welcome to wLogs! Our Best Program!");

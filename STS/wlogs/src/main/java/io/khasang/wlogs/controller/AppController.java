@@ -3,6 +3,7 @@ package io.khasang.wlogs.controller;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller
 public class AppController {
@@ -12,20 +13,28 @@ public class AppController {
     }
 
     @RequestMapping("/delete")
-    public String delete(Model model) {
+    public String deleteForm(Model model) {
         return "delete";
     }
 
-    @RequestMapping("/hello")
-    public String welcome(Model model) {
-        model.addAttribute("greeting", "Welcome to wLogs! Our Best Program!");
-        model.addAttribute("tagline", "The one and only amazing logging system!");
-        return "welcome";
+    @RequestMapping(value = "/delete", method = RequestMethod.POST)
+    public String deleteAction(Model model) {
+        model.addAttribute("process", "Processing of log deleting...");
+        return "delete";
     }
 
-    @RequestMapping("/backup")
-    public String backup(Model model) {
-        model.addAttribute("backupstatus", "Backup Success");
-        return "backup";
+    @RequestMapping("/import")
+    public String importLogs(Model model) {
+        return "import";
+    }
+
+    @RequestMapping("/export")
+    public String exportLogs(Model model) {
+        return "export";
+    }
+
+    @RequestMapping("/logout")
+    public String logout(Model model) {
+        return "logout";
     }
 }

@@ -3,22 +3,23 @@
 
     <h2>Импорт логов из CSV</h2>
     <div>
-        <form action="" method="post">
-            <fieldset>
-                <legend>Загрузить тестовый файл</legend>
-                <div id="load-fixtures-success" class="alert alert-success alert-dismissible" role="alert">
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <strong>Операция прошла успешно!</strong> <p>Тестовые данные полностью загружены в базу данных.</p>
-                </div>
-                <div id="load-fixtures-error" class="alert alert-danger alert-dismissible" role="alert">
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <strong>При загрузке произошла ошибка!</strong> <p class="error-text">Неизвестная ошибка.</p>
-                </div>
-                <button id="loadFixturesBtn" class="btn btn-primary btn-lg">
-                    Загрузить данные <img src="images/ajax-loader.gif"/>
-                </button>
-            </fieldset>
-        </form>
+        <fieldset>
+            <legend>Создать таблицу WLOGS</legend>
+            <button id="createTableBtn" class="btn btn-primary btn-lg">
+                Создать таблицу <img src="images/ajax-loader.gif"/>
+            </button>
+        </fieldset>
+    </div>
+    <br/>
+    <br/>
+    <div>
+        <fieldset>
+            <legend>Загрузить тестовый файл</legend>
+            <button id="loadFixturesBtn" class="btn btn-primary btn-lg">
+                Загрузить данные <img src="images/ajax-loader.gif"/>
+            </button>
+        </fieldset>
     </div>
 
+    <hr/>
 <jsp:directive.include file="part_footer.jsp"/>

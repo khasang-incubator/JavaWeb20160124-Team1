@@ -1,11 +1,41 @@
 /* Import page, AJAX loading of fixtures */
 $(document).ready(function() {
+    var createTableBtn = $('#createTableBtn');
+    createTableBtn.children('img').hide();
+    createTableBtn.click(function() {
+        createTableBtn.attr("disabled", "disabled");
+        createTableBtn.children('img').show();
+        $.ajax({
+            type: "POST",
+            url: "/ajax/create-table",
+            dataType: "json",
+            success: function(data, textStatus, jqXHR) {
+                alert("Таблица успешно создана!");
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                var errorText = "Неизвестная ошибка!";
+                try {
+                    if (jqXHR.status === 400) {
+                        var data = JSON.parse(jqXHR.responseText);
+                        if ('error' in data) {
+                            errorText = data.error;
+                        }
+                    } else {
+                        errorText = jqXHR.statusText;
+                    }
+                } catch (err) {}
+                alert("Произошла ошибка: " + errorText);
+            },
+            complete: function(jqXHR, textStatus) {
+                createTableBtn.removeAttr("disabled");
+                createTableBtn.children('img').hide();
+            }
+        });
+        return false;
+    });
+
     var loadFixturesBtn = $('#loadFixturesBtn');
-    var onErrorMessageEl = $('#load-fixtures-error');
-    var onSuccessMessageEl = $('#load-fixtures-success');
     loadFixturesBtn.children('img').hide();
-    onErrorMessageEl.hide();
-    onSuccessMessageEl.hide();
     loadFixturesBtn.click(function() {
         loadFixturesBtn.attr("disabled", "disabled");
         $(this).children('img').show();
@@ -14,20 +44,21 @@ $(document).ready(function() {
             url: "/ajax/import-fixtures",
             dataType: "json",
             success: function(data, textStatus, jqXHR) {
-                onSuccessMessageEl.show();
+                alert("Данные успешно импортированы!");
             },
             error: function(jqXHR, textStatus, errorThrown) {
+                var errorText = "Неизвестная ошибка!";
                 try {
                     if (jqXHR.status === 400) {
                         var data = JSON.parse(jqXHR.responseText);
                         if ('error' in data) {
-                            onErrorMessageEl.children('p').html(data.error);
+                            errorText = data.error;
                         }
                     } else {
-                        onErrorMessageEl.children('p').html(jqXHR.statusText);
+                        errorText = jqXHR.statusText;
                     }
                 } catch (err) {}
-                onErrorMessageEl.show();
+                alert("Произошла ошибка: " + errorText);
             },
             complete: function(jqXHR, textStatus) {
                 loadFixturesBtn.removeAttr("disabled");

@@ -6,6 +6,10 @@
 
 <!-- Prepare PAGER -->
 <c:choose>
+    <c:when test="${recordsPerPage >= recordsTotal}">
+        <c:set var="previous" value="0"/>
+        <c:set var="next" value="0"/>
+    </c:when>
     <c:when test="${0 == currentOffset}">
         <c:set var="previous" value="0"/>
         <c:set var="next" value="${recordsPerPage}"/>
@@ -67,7 +71,7 @@
                 </c:when>
                 <c:otherwise>
                     <tr>
-                        <td colspan="5">Записей нет</td>
+                        <td colspan="6">Записей нет</td>
                     </tr>
                 </c:otherwise>
             </c:choose>

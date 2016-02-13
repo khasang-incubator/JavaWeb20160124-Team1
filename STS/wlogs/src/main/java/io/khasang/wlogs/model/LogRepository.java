@@ -34,4 +34,18 @@ public class LogRepository {
             }
         });
     }
+
+    public Integer countAll() {
+        String sql = "SELECT COUNT(*) AS total FROM :tableName".replace(":tableName", tableName);
+        return jdbcTemplate.query(sql, new ResultSetExtractor<Integer>() {
+            @Override
+            public Integer extractData(ResultSet rs) throws SQLException, DataAccessException {
+                Integer count = 0;
+                if(rs.next()) {
+                    count = rs.getInt("total");
+                }
+                return count;
+            }
+        });
+    }
 }

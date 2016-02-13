@@ -1,6 +1,5 @@
 package io.khasang.wlogs.model;
 
-import io.khasang.wlogs.service.DataSource;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCallback;
@@ -52,7 +51,7 @@ public class DeleteLogsRecords {
     }
 
     public void deleteAllByDateRange(final Date limit) throws SQLException {
-        JdbcTemplate jdbcTemplate = new JdbcTemplate(DataSource.getInstance());
+        JdbcTemplate jdbcTemplate = new JdbcTemplate();
         jdbcTemplate.execute(
             "DELETE FROM wlogs WHERE occured_at > ?",
             new PreparedStatementCallback<Boolean>() {
@@ -65,7 +64,7 @@ public class DeleteLogsRecords {
     }
 
     public void deleteAllExceptLastNRecords(int recordsAmountToKeepAlive) throws DataAccessException {
-        JdbcTemplate jdbcTemplate = new JdbcTemplate(DataSource.getInstance());
+        JdbcTemplate jdbcTemplate = new JdbcTemplate();
         final Integer recordId = jdbcTemplate.query(
                 "SELECT id as recordId FROM wlogs ORDER BY id DESC LIMIT 1 OFFSET :offset"
                     .replace(":offset", String.valueOf(recordsAmountToKeepAlive)),

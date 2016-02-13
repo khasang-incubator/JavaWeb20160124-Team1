@@ -1,6 +1,5 @@
 package io.khasang.wlogs.model;
 
-import io.khasang.wlogs.service.DataSource;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.*;
 
@@ -20,6 +19,7 @@ public class LogLoader {
         try {
             BufferedReader input = new BufferedReader(new FileReader(loader.getResource("dev.log").getFile()));
             String line;
+            JdbcTemplate jdbcTemplate = new JdbcTemplate();
             while (null != (line = input.readLine())) {
                 Pattern pattern = Pattern.compile("^\\[(\\d{4}-\\d{2}-\\d{2}\\s\\d{2}:\\d{2}:\\d{2})\\]\\s([a-zA-Z0-9_]+)\\.([a-zA-Z0-9_]+):\\s(.*)");
                 Matcher matcher = pattern.matcher(line);
@@ -28,8 +28,6 @@ public class LogLoader {
                     final String errorSource = matcher.group(2);
                     final String errorLevel = matcher.group(3);
                     final String errorDescription = matcher.group(4);
-                    System.out.println(occurredAt);
-                    JdbcTemplate jdbcTemplate = new JdbcTemplate(DataSource.getInstance());
                     jdbcTemplate.execute(
                         "INSERT INTO wlogs(occurred_at, error_level, error_source, error_description) VALUES(?,?,?,?)",
                         new PreparedStatementCallback<Boolean>() {

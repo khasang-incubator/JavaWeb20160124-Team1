@@ -1,6 +1,5 @@
 package io.khasang.wlogs.model;
 
-import io.khasang.wlogs.service.DataSource;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 public class CreateLogsTable {
@@ -16,7 +15,7 @@ public class CreateLogsTable {
                 "  INDEX error_level_idx (error_level),\n" +
                 "  INDEX error_source_idx (error_source)\n" +
                 ")";
-        JdbcTemplate jdbcTemplate = new JdbcTemplate(DataSource.getInstance());
+        JdbcTemplate jdbcTemplate = new JdbcTemplate();
         jdbcTemplate.execute(sql);
     }
 }

@@ -3,9 +3,7 @@ package io.khasang.wlogs.model;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.*;
 
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
+import java.io.*;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -156,14 +154,25 @@ public class LogManager {
     public void loadFixtures() {
         try {
             ClassLoader loader = Thread.currentThread().getContextClassLoader();
-            final Stream<String> lines = new BufferedReader(new FileReader(loader.getResource("dev.log").getFile())).lines();
+            // TODO: bad idea.... how to calculate lines in the file?
+            LineNumberReader readerTmp = new LineNumberReader(new BufferedReader(new FileReader(loader.getResource("dev.log").getFile())));
+            Stream<String> linesTmp = readerTmp.lines();
+            final Integer linesCount = (int)linesTmp.count();
+            linesTmp.close();
+            readerTmp.close();
+            // -----
+            LineNumberReader reader = new LineNumberReader(new BufferedReader(new FileReader(loader.getResource("dev.log").getFile())));
+            final Stream<String> lines = reader.lines();
             final Iterator<String> linesIterator = lines.iterator();
             final Pattern pattern = Pattern.compile("^\\[(\\d{4}-\\d{2}-\\d{2}\\s\\d{2}:\\d{2}:\\d{2})\\]\\s([a-zA-Z0-9_]+)\\.([a-zA-Z0-9_]+):\\s(.*)");
             String sql = "INSERT INTO :tableName(occurred_at, error_level, error_source, error_description) VALUES(?,?,?,?)"
                             .replace(":tableName", tableName);
             jdbcTemplate.batchUpdate(sql, new BatchPreparedStatementSetter() {
+                private int size = 1;
+
                 public void setValues(PreparedStatement ps, int i) throws SQLException {
                     if (linesIterator.hasNext()) {
+                        size++;
                         String line = linesIterator.next();
                         Matcher matcher = pattern.matcher(line);
                         if (matcher.matches()) {
@@ -186,13 +195,16 @@ public class LogManager {
                 }
 
                 public int getBatchSize() {
-                    return (int)lines.count();
+                    return linesCount;
                 }
             });
             lines.close();
+            reader.close();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (NullPointerException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }

@@ -32,6 +32,9 @@ http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd http://www.springfr
     <bean id="logRecordModelBean" class="io.khasang.wlogs.model.LogModel"/>
     <bean id="logRepository" class="io.khasang.wlogs.model.LogRepository">
         <property name="jdbcTemplate" ref="jdbcTemplate"/>
+        <property name="tableName">
+            <util:constant static-field="io.khasang.wlogs.model.LogModel.tableName"/>
+        </property>
     </bean>
     <bean id="logManager" class="io.khasang.wlogs.model.LogManager">
         <property name="jdbcTemplate" ref="jdbcTemplate"/>

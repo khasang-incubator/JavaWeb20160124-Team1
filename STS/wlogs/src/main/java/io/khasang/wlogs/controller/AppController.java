@@ -27,12 +27,24 @@ public class AppController {
         this.logRepository = logRepository;
     }
 
-    @RequestMapping("/")
-    public String index(Model model) {
-        model.addAttribute("logs", logRepository.findAll(DEFAULT_LIMIT, 0));
+    @RequestMapping(value = "/", name = "home")
+    public String index(HttpServletRequest request, Model model) {
         model.addAttribute("recordsTotal", logRepository.countAll());
         model.addAttribute("recordsPerPage", DEFAULT_LIMIT.toString());
+        String offsetParam = request.getParameter("offset");
+        Integer offset = 0;
+        if (offsetParam != null) {
+            model.addAttribute("currentOffset", offset = Integer.valueOf(offsetParam));
+        } else {
+            model.addAttribute("currentOffset", 0);
+        }
+        model.addAttribute("logs", logRepository.findAll(DEFAULT_LIMIT, offset));
         return "index";
+    }
+
+    @RequestMapping("/index")
+    public String homePage() {
+        return "forward:/";
     }
 
     @RequestMapping("/delete")

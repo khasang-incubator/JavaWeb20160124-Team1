@@ -8,9 +8,11 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Title</title>
+    <title>CreateTable</title>
+
 </head>
 <body>
-
+<p>CreateTable</p>
+<h1> ${createtable} </h1>
 </body>
 </html>

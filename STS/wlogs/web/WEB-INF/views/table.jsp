@@ -4,8 +4,10 @@
 <html>
 <head>
     <title>table</title>
+    <link rel="stylesheet" type="text/css" href="css/style.css"/>
+    <meta charset="UTF-8">
 </head>
-<body>
+<body class="darkblue">
 <p>Hello!</p>
 <h1> ${table} </h1>
 <%
@@ -14,7 +16,7 @@
     if (error == null) {
         if (listTable != null) {
 %>
-<table>
+<table class="darkblue">
     <tr>
         <th>server</th>
         <th>date</th>
@@ -46,6 +48,8 @@
 <%
     }
 %>
-
+<br>
+<button type="submit" class="darkblue" value="Main Menu">Main Menu</button><br>
+<button type="submit" class="darkblue" value="Logoff">Logoff</button><br>
 </body>
 </html>

@@ -147,7 +147,8 @@ public class LogManager {
                 "  INDEX occurred_at_idx (occurred_at),\n" +
                 "  INDEX error_level_idx (error_level),\n" +
                 "  INDEX error_source_idx (error_source)\n" +
-                ")".replace(":table_name", tableName);
+                ") ENGINE=INNODB, DEFAULT CHARACTER SET=UTF8";
+        sql = sql.replace(":table_name", tableName);
         jdbcTemplate.execute(sql);
     }
 

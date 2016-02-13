@@ -40,6 +40,11 @@ public class AppController {
     @RequestMapping(value = "/delete", method = RequestMethod.POST)
     public String deleteAction(HttpServletRequest request, RedirectAttributes redirectAttributes, Model model) {
         try {
+            String userUnderstandTermsParam = request.getParameter("understand_terms");
+            Boolean userUnderstandTerms = userUnderstandTermsParam == null ? Boolean.FALSE : request.getParameter("understand_terms").equals("on");
+            if (!userUnderstandTerms) {
+                throw new RuntimeException("You have to read warning notice about this operation before proceed.");
+            }
             Integer periodCriteriaId = Integer.valueOf(request.getParameter("period_criteria_id"));
             Integer affectedRows = logManager.delete(periodCriteriaId);
             redirectAttributes.addFlashAttribute("success", "Success deleted " + affectedRows);

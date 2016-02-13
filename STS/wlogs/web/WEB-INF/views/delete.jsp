@@ -33,8 +33,8 @@
             <h4><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span> Внимание!</h4>
             Будет произведено удаление записей логов из базы данных. Данную операцию нельзя отменить и данные будут безвозвратно уничтожены.
             <p>
-                <label for="i_am_understand">
-                    <input type="checkbox" id="i_am_understand" name="i_am_understand" required="required"/>
+                <label for="understand_terms">
+                    <input type="checkbox" id="understand_terms" name="understand_terms"/>
                     <strong>Я понимаю, продолжить.</strong>
                 </label>
             </p>

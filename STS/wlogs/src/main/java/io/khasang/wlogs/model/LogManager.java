@@ -84,7 +84,7 @@ public class LogManager {
 
     public int deleteAllByDateRange(final Date limit) throws SQLException {
         return jdbcTemplate.update(
-                "DELETE FROM :tableName WHERE occured_at < ?".replace(":tableName", tableName),
+                "DELETE FROM :tableName WHERE occurred_at < ?".replace(":tableName", tableName),
                 new PreparedStatementSetter() {
                     public void setValues(PreparedStatement ps) throws SQLException {
                         ps.setDate(1, limit);

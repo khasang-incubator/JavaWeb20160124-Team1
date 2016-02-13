@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 
 @Controller
 public class AppController {
+    final public static Integer DEFAULT_LIMIT = 100;
     @Autowired
     private LogManager logManager;
     @Autowired
@@ -28,6 +29,9 @@ public class AppController {
 
     @RequestMapping("/")
     public String index(Model model) {
+        model.addAttribute("logs", logRepository.findAll(DEFAULT_LIMIT, 0));
+        model.addAttribute("recordsTotal", logRepository.countAll());
+        model.addAttribute("recordsPerPage", DEFAULT_LIMIT.toString());
         return "index";
     }
 

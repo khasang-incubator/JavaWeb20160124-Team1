@@ -77,3 +77,7 @@ div#content {
     border-radius: 2px;
     border-color: rgba(0,0,0,0.3);
 }
+
+table.logs_list tbody tr td.break_all {
+    word-break: break-all;
+}

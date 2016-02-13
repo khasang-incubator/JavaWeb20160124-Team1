@@ -23,12 +23,10 @@
         <div class="form-group">
             <label for="period_criteria_id">Выбирете период:</label>
             <select name="period_criteria_id" id="period_criteria_id" class="form-control">
-                <option value="1">Оставить только последних 1000 записей</option>
-                <option value="2">Удалить записи старше одного месяца</option>
-                <option value="3">Удалить записи старше трех месяцев</option>
-                <option value="4">Удалить записи старше шести месяцев</option>
-                <option value="5">Удалить записи старше девяти месяцев</option>
-                <option value="6">Удалить записи старше одного года</option>
+                <c:forEach items="${dateCriteriaHashMap}" var="entry">
+                    Key = ${entry.key}, value = ${entry.value}<br>
+                    <option value="${entry.key}">${entry.value}</option>
+                </c:forEach>
             </select>
         </div>
         <div class="alert alert-warning form-group" role="alert">

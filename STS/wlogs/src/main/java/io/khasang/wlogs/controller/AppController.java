@@ -33,6 +33,7 @@ public class AppController {
 
     @RequestMapping("/delete")
     public String deleteForm(Model model) {
+        model.addAttribute("dateCriteriaHashMap", logManager.getAvailableDateCriteria());
         return "delete";
     }
 

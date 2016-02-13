@@ -14,8 +14,7 @@ import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Iterator;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
@@ -29,6 +28,9 @@ public class LogManager {
     public final int DELETE_OLDER_SIX_MONTH = 4;
     public final int DELETE_OLDER_NINE_MONTH = 5;
     public final int DELETE_OLDER_ONE_YEAR = 6;
+    public final int DELETE_OLDER_ONE_WEEK = 7;
+    public final int DELETE_OLDER_TWO_WEEK = 8;
+    public final int DELETE_OLDER_THREE_WEEK = 9;
 
     private String tableName;
     private JdbcTemplate jdbcTemplate;
@@ -39,6 +41,20 @@ public class LogManager {
 
     public void setJdbcTemplate(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
+    }
+
+    public LinkedHashMap<Integer, String> getAvailableDateCriteria() {
+        LinkedHashMap<Integer, String> criteriaMap = new LinkedHashMap<Integer, String>();
+        criteriaMap.put(DELETE_ALL_EXCEPT_LAST_N, "Оставить последние 1000 записей");
+        criteriaMap.put(DELETE_OLDER_ONE_WEEK, "Удалить записи старше одной недели");
+        criteriaMap.put(DELETE_OLDER_TWO_WEEK, "Удалить записи старше двух недель");
+        criteriaMap.put(DELETE_OLDER_THREE_WEEK, "Удалить записи старше трех недель");
+        criteriaMap.put(DELETE_OLDER_ONE_MONTH, "Удалить записи старше одного месяца");
+        criteriaMap.put(DELETE_OLDER_THREE_MONTH, "Удалить записи старше трех месяцев");
+        criteriaMap.put(DELETE_OLDER_SIX_MONTH, "Удалить записи старше шести месяцев");
+        criteriaMap.put(DELETE_OLDER_NINE_MONTH, "Удалить записи старше девяти месяцев");
+        criteriaMap.put(DELETE_OLDER_ONE_YEAR, "Удалить записи старше одного года");
+        return  criteriaMap;
     }
 
     public int delete(int filterType) throws SQLException {
@@ -64,6 +80,15 @@ public class LogManager {
                 break;
             case DELETE_OLDER_ONE_YEAR:
                 calendar.add(Calendar.YEAR, -1);
+                break;
+            case DELETE_OLDER_ONE_WEEK:
+                calendar.add(Calendar.DAY_OF_MONTH, -7);
+                break;
+            case DELETE_OLDER_TWO_WEEK:
+                calendar.add(Calendar.DAY_OF_MONTH, -14);
+                break;
+            case DELETE_OLDER_THREE_WEEK:
+                calendar.add(Calendar.DAY_OF_MONTH, -21);
                 break;
             default:
                 throw new RuntimeException("Invalid filter type");

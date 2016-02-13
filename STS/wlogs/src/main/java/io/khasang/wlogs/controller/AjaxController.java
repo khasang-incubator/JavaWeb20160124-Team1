@@ -19,12 +19,26 @@ public class AjaxController {
         this.logManager = logManager;
     }
 
-    @RequestMapping(value = "/import-fixtures", produces = "application/json", method = RequestMethod.GET)
+    @RequestMapping(value = "/import-fixtures", produces = "application/json", method = RequestMethod.POST)
     @ResponseBody
     public String loadFixtures(HttpServletResponse response) {
         String responseBody = "";
         try {
             logManager.loadFixtures();
+            responseBody = "{\"status\":\"OK\"}";
+        } catch (Exception e) {
+            responseBody = "{\"status\":\"error\", \"error\":\"" + e.getMessage() + "\"}";
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+        }
+        return responseBody;
+    }
+
+    @RequestMapping(value = "/create-table", produces = "application/json", method = RequestMethod.POST)
+    @ResponseBody
+    public String createTable(HttpServletResponse response) {
+        String responseBody = "";
+        try {
+            logManager.createTable();
             responseBody = "{\"status\":\"OK\"}";
         } catch (Exception e) {
             responseBody = "{\"status\":\"error\", \"error\":\"" + e.getMessage() + "\"}";

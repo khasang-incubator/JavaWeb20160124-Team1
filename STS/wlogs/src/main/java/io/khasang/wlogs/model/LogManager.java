@@ -2,6 +2,9 @@ package io.khasang.wlogs.model;
 
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.*;
+import org.springframework.transaction.TransactionStatus;
+import org.springframework.transaction.support.TransactionCallbackWithoutResult;
+import org.springframework.transaction.support.TransactionTemplate;
 
 import java.io.*;
 import java.sql.Date;
@@ -31,6 +34,16 @@ public class LogManager {
 
     private String tableName;
     private JdbcTemplate jdbcTemplate;
+    private LogRepository logRepository;
+    private TransactionTemplate sharedTransactionTemplate;
+
+    public void setSharedTransactionTemplate(TransactionTemplate sharedTransactionTemplate) {
+        this.sharedTransactionTemplate = sharedTransactionTemplate;
+    }
+
+    public void setLogRepository(LogRepository logRepository) {
+        this.logRepository = logRepository;
+    }
 
     public void setTableName(String tableName) {
         this.tableName = tableName;
@@ -116,24 +129,24 @@ public class LogManager {
     }
 
     public int deleteAllExceptLastNRecords(int recordsAmountToKeepAlive) throws DataAccessException {
-        final Integer recordId = jdbcTemplate.query(
-                "SELECT id as recordId FROM :tableName ORDER BY id DESC LIMIT 1 OFFSET :offset"
-                        .replace(":tableName", tableName)
-                        .replace(":offset", String.valueOf(recordsAmountToKeepAlive)),
-                new ResultSetExtractor<Integer>() {
-                    public Integer extractData(ResultSet rs) throws SQLException, DataAccessException {
-                        if (rs.first()) {
-                            return rs.getInt(1);
-                        }
-                        return 0;
-                    }
-                }
-        );
-        return jdbcTemplate.update("DELETE FROM wlogs WHERE wlogs.id < ?", new PreparedStatementSetter() {
-            public void setValues(PreparedStatement ps) throws SQLException {
-                ps.setInt(1, recordId);
+        Integer logRecordsCountTotal = logRepository.countAll();
+        if (recordsAmountToKeepAlive >= logRecordsCountTotal) {
+            return 0;
+        }
+        String temporaryTableName = tableName + "_" + UUID.randomUUID().toString().replace("-", "");
+        sharedTransactionTemplate.execute(new TransactionCallbackWithoutResult() {
+            @Override
+            protected void doInTransactionWithoutResult(TransactionStatus status) {
+                jdbcTemplate.execute("CREATE TEMPORARY TABLE IF NOT EXISTS :temporaryTableName AS (SELECT * FROM :tableName ORDER BY occurred_at DESC LIMIT :limit)"
+                        .replace(":tableName", tableName).replace(":temporaryTableName", temporaryTableName)
+                        .replace(":limit", String.valueOf(recordsAmountToKeepAlive)));
+                jdbcTemplate.execute("DELETE FROM :tableName".replace(":tableName", tableName));
+                jdbcTemplate.execute("INSERT INTO :tableName SELECT * FROM :temporaryTableName"
+                        .replace(":tableName", tableName).replace(":temporaryTableName", temporaryTableName));
+                jdbcTemplate.execute("DROP TABLE :temporaryTableName".replace(":temporaryTableName", temporaryTableName));
             }
         });
+        return logRecordsCountTotal - recordsAmountToKeepAlive;
     }
 
     public void createTable() {

@@ -12,8 +12,6 @@ public class InsertDataTable {
         return sqlCheck;
     }
 
-    public static String sqlCheck;
-
     public void sqlInsert() {
         SimpleDriverDataSource dataSource = new SimpleDriverDataSource();
         dataSource.setDriverClass(com.mysql.jdbc.Driver.class);

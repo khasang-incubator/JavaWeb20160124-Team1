@@ -104,14 +104,6 @@ public class AppController {
         InsertDataTable sql = new InsertDataTable();
         model.addAttribute("createtable", sql.sqlInsertCheck());
         return "createtable";
-        model.addAttribute("backup", "Success");
-        return "backup";
-    }
-
-    @RequestMapping("/admin")
-    public String admin(Model model) {
-        model.addAttribute("admin", "You are number 1!");
-        return "admin";
     }
 
     @RequestMapping("/tableview")

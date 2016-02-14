@@ -32,18 +32,8 @@ class SelectDataFromTable{
     + selectData(String sql)
 }
 
-class OnUserFailedAuthorisation{
-    + onFailedAuthorisation()
-}
+class UserAdmin{
 
-class OnUserLogout{
-    + closeSession()
-}
-
-class OnUserSuccessAuthorisation{
-    + user
-    + onSuccessAuthorisation()
-    + startSession()
 }
 
 class User{
@@ -53,23 +43,38 @@ class User{
     + setListPermission()
 }
 
+class WLogs{
+    + readLogs()
+    + parseLogs()
+}
+
+class UserPermissions {
+    // Формируем меню для пользователей
+    + getListPermission(User user)
+}
+
+class EventListInWLogs {
+    + getEventListForUser()
+}
 
 InsertDataToTable --* DbConnector
 SelectDataFromTable --* DbConnector
 loginPage ..> Controller
 mainMenuPage ..> Controller
 
-Controller o-- OnUserFailedAuthorisation
-OnUserFailedAuthorisation o-- InsertDataToTable
-OnUserFailedAuthorisation o-- SelectDataFromTable
+Controller o-- UserAdmin
+UserAdmin o-- InsertDataToTable
+UserAdmin o-- SelectDataFromTable
 
-Controller o-- OnUserSuccessAuthorisation
-OnUserSuccessAuthorisation o-- InsertDataToTable
-OnUserSuccessAuthorisation o-- SelectDataFromTable
+Controller o-- User
+User o-- InsertDataToTable
+User o-- SelectDataFromTable
 
-Controller o-- OnUserLogout
-OnUserLogout o-- InsertDataToTable
-OnUserLogout o-- SelectDataFromTable
+Controller o-- WLogs
+Controller o-- UserPermissions
+Controller o-- EventListInWLogs
 
-User *-- OnUserSuccessAuthorisation
+WLogs o-- InsertDataToTable
+WLogs o-- SelectDataFromTable
+
 @enduml

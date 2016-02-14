@@ -1,26 +1,75 @@
 @startuml
 
-abstract class AbstractList
-abstract AbstractCollection
-interface List
-interface Collection
+class Controller{
 
-List <|-- AbstractList
-Collection <|-- AbstractCollection
-
-Collection <|- List
-AbstractCollection <|- AbstractList
-AbstractList <|-- ArrayList
-
-class ArrayList {
-Object[] elementData
-size()
 }
 
-enum TimeUnit {
-DAYS
-HOURS
-MINUTES
+interface loginPage{
+
 }
 
+interface mainMenuPage{
+
+}
+
+class DbConnector{
+    + driver
+    + host
+    + dbName
+    + dbLogin
+    + dbPassword
+
+    + getConnector()
+}
+
+class InsertDataToTable{
+    + dbConnector
+    + insertData(String sql)
+}
+
+class SelectDataFromTable{
+    + dbConnector
+    + selectData(String sql)
+}
+
+class OnUserFailedAuthorisation{
+    + onFailedAuthorisation()
+}
+
+class OnUserLogout{
+    + closeSession()
+}
+
+class OnUserSuccessAuthorisation{
+    + user
+    + onSuccessAuthorisation()
+    + startSession()
+}
+
+class User{
+    + login
+    + password
+    + getListPermission()
+    + setListPermission()
+}
+
+
+InsertDataToTable --* DbConnector
+SelectDataFromTable --* DbConnector
+loginPage ..> Controller
+mainMenuPage ..> Controller
+
+Controller o-- OnUserFailedAuthorisation
+OnUserFailedAuthorisation o-- InsertDataToTable
+OnUserFailedAuthorisation o-- SelectDataFromTable
+
+Controller o-- OnUserSuccessAuthorisation
+OnUserSuccessAuthorisation o-- InsertDataToTable
+OnUserSuccessAuthorisation o-- SelectDataFromTable
+
+Controller o-- OnUserLogout
+OnUserLogout o-- InsertDataToTable
+OnUserLogout o-- SelectDataFromTable
+
+User *-- OnUserSuccessAuthorisation
 @enduml

@@ -28,6 +28,16 @@ http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd http://www.springfr
         <property name="dataSource" ref="dataSource"/>
     </bean>
 
+    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+
+    <bean id="sharedTransactionTemplate" class="org.springframework.transaction.support.TransactionTemplate">
+        <property name="transactionManager" ref="transactionManager"/>
+        <property name="isolationLevelName" value="ISOLATION_READ_UNCOMMITTED"/>
+        <property name="timeout" value="30"/>
+    </bean>
+
     <!-- Application beans -->
     <bean id="logRecordModelBean" class="io.khasang.wlogs.model.LogModel"/>
     <bean id="logRepository" class="io.khasang.wlogs.model.LogRepository">
@@ -37,7 +47,9 @@ http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd http://www.springfr
         </property>
     </bean>
     <bean id="logManager" class="io.khasang.wlogs.model.LogManager">
+        <property name="sharedTransactionTemplate" ref="sharedTransactionTemplate"/>
         <property name="jdbcTemplate" ref="jdbcTemplate"/>
+        <property name="logRepository" ref="logRepository"/>
         <property name="tableName">
             <util:constant static-field="io.khasang.wlogs.model.LogModel.tableName"/>
         </property>

@@ -181,35 +181,37 @@ public class LogManager {
             final Pattern pattern = Pattern.compile("^\\[(\\d{4}-\\d{2}-\\d{2}\\s\\d{2}:\\d{2}:\\d{2})\\]\\s([a-zA-Z0-9_]+)\\.([a-zA-Z0-9_]+):\\s(.*)");
             String sql = "INSERT INTO :tableName(occurred_at, error_level, error_source, error_description) VALUES(?,?,?,?)"
                             .replace(":tableName", tableName);
-            jdbcTemplate.batchUpdate(sql, new BatchPreparedStatementSetter() {
-                private int size = 1;
-
-                public void setValues(PreparedStatement ps, int i) throws SQLException {
-                    if (linesIterator.hasNext()) {
-                        size++;
-                        String line = linesIterator.next();
-                        Matcher matcher = pattern.matcher(line);
-                        if (matcher.matches()) {
-                            final String occurredAt = matcher.group(1);
-                            final String errorSource = matcher.group(2);
-                            final String errorLevel = matcher.group(3);
-                            final String errorDescription = matcher.group(4);
-                            DateFormat formatter = new SimpleDateFormat("yy-MM-dd h:m:s");
-                            try {
-                                java.util.Date occurredAtDate = formatter.parse(occurredAt);
-                                ps.setDate(1, new Date(occurredAtDate.getTime()));
-                                ps.setString(2, errorLevel);
-                                ps.setString(3, errorSource);
-                                ps.setString(4, errorDescription);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
+            sharedTransactionTemplate.execute(new TransactionCallbackWithoutResult() {
+                @Override
+                protected void doInTransactionWithoutResult(TransactionStatus status) {
+                    jdbcTemplate.batchUpdate(sql, new BatchPreparedStatementSetter() {
+                        public void setValues(PreparedStatement ps, int i) throws SQLException {
+                            if (linesIterator.hasNext()) {
+                                String line = linesIterator.next();
+                                Matcher matcher = pattern.matcher(line);
+                                if (matcher.matches()) {
+                                    final String occurredAt = matcher.group(1);
+                                    final String errorSource = matcher.group(2);
+                                    final String errorLevel = matcher.group(3);
+                                    final String errorDescription = matcher.group(4);
+                                    DateFormat formatter = new SimpleDateFormat("yy-MM-dd h:m:s");
+                                    try {
+                                        java.util.Date occurredAtDate = formatter.parse(occurredAt);
+                                        ps.setDate(1, new Date(occurredAtDate.getTime()));
+                                        ps.setString(2, errorLevel);
+                                        ps.setString(3, errorSource);
+                                        ps.setString(4, errorDescription);
+                                    } catch (ParseException e) {
+                                        e.printStackTrace();
+                                    }
+                                }
                             }
                         }
-                    }
-                }
 
-                public int getBatchSize() {
-                    return linesCount;
+                        public int getBatchSize() {
+                            return linesCount;
+                        }
+                    });
                 }
             });
             lines.close();

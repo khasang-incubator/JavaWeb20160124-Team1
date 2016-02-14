@@ -1,6 +1,7 @@
 package io.khasang.wlogs.controller;
 
 import io.khasang.wlogs.model.InsertDataTable;
+import io.khasang.wlogs.model.ViewDataTable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -31,5 +32,12 @@ public class AppController {
         InsertDataTable sql = new InsertDataTable();
         model.addAttribute("createtable", sql.sqlInsertCheck());
         return "createtable";
+    }
+
+    @RequestMapping("/tableview")
+    public String tableView(Model model) {
+        ViewDataTable viewDataTable = new ViewDataTable();
+        model.addAttribute("tableview", viewDataTable.outData());
+        return "tableview";
     }
 }

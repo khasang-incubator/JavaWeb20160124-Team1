@@ -22,6 +22,7 @@ public class InsertDataTable {
             jdbcTemplate.update("INSERT INTO wlogs(ID, minute, errorLvL) VALUES(1, 1, 'red')");
             jdbcTemplate.update("INSERT INTO wlogs(ID, minute, errorLvL) VALUES(2, 3, 'yellow')");
             jdbcTemplate.update("INSERT INTO wlogs(ID, minute, errorLvL) VALUES(3, 5, 'green')");
+            jdbcTemplate.update("INSERT INTO wlogs(ID, minute, errorLvL) VALUES(4, 7, 'green')");
             sqlCheck = "db updated";
         } catch (Exception e) {
             sqlCheck = "Have error: " + e;
@@ -30,8 +31,9 @@ public class InsertDataTable {
     }
 
     public String sqlInsertCheck() {
-        InsertDataTable sql = new InsertDataTable();
-        sql.sqlInsert();
+        //InsertDataTable sql = new InsertDataTable();
+        //sql.sqlInsert();
+        sqlInsert();
         return sqlCheck;
     }
 }

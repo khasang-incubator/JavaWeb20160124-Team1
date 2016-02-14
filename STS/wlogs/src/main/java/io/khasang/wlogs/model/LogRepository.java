@@ -26,8 +26,8 @@ public class LogRepository {
         return jdbcTemplate.query(sql, new ResultSetExtractor<ArrayList<LogModel>>() {
             @Override
             public ArrayList<LogModel> extractData(ResultSet rs) throws SQLException, DataAccessException {
-                ArrayList<LogModel> logs = new ArrayList<>();
-                while(rs.next()) {
+                ArrayList<LogModel> logs = new ArrayList<LogModel>();
+                while (rs.next()) {
                     logs.add(LogModel.createFromResultSet(rs));
                 }
                 return logs;
@@ -41,7 +41,7 @@ public class LogRepository {
             @Override
             public Integer extractData(ResultSet rs) throws SQLException, DataAccessException {
                 Integer count = 0;
-                if(rs.next()) {
+                if (rs.next()) {
                     count = rs.getInt("total");
                 }
                 return count;

@@ -1,7 +1,9 @@
 package io.khasang.wlogs.model;
 
 import org.springframework.dao.DataAccessException;
-import org.springframework.jdbc.core.*;
+import org.springframework.jdbc.core.BatchPreparedStatementSetter;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.PreparedStatementSetter;
 import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.support.TransactionCallbackWithoutResult;
 import org.springframework.transaction.support.TransactionTemplate;
@@ -9,12 +11,14 @@ import org.springframework.transaction.support.TransactionTemplate;
 import java.io.*;
 import java.sql.Date;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.Calendar;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
@@ -64,7 +68,7 @@ public class LogManager {
         criteriaMap.put(DELETE_OLDER_SIX_MONTH, "Удалить записи старше шести месяцев");
         criteriaMap.put(DELETE_OLDER_NINE_MONTH, "Удалить записи старше девяти месяцев");
         criteriaMap.put(DELETE_OLDER_ONE_YEAR, "Удалить записи старше одного года");
-        return  criteriaMap;
+        return criteriaMap;
     }
 
     public int delete(int filterType) throws SQLException {
@@ -128,12 +132,12 @@ public class LogManager {
         );
     }
 
-    public int deleteAllExceptLastNRecords(int recordsAmountToKeepAlive) throws DataAccessException {
+    public int deleteAllExceptLastNRecords(final int recordsAmountToKeepAlive) throws DataAccessException {
         Integer logRecordsCountTotal = logRepository.countAll();
         if (recordsAmountToKeepAlive >= logRecordsCountTotal) {
             return 0;
         }
-        String temporaryTableName = tableName + "_" + UUID.randomUUID().toString().replace("-", "");
+        final String temporaryTableName = tableName + "_" + UUID.randomUUID().toString().replace("-", "");
         sharedTransactionTemplate.execute(new TransactionCallbackWithoutResult() {
             @Override
             protected void doInTransactionWithoutResult(TransactionStatus status) {
@@ -171,7 +175,7 @@ public class LogManager {
             // TODO: bad idea.... how to calculate lines in the file?
             LineNumberReader readerTmp = new LineNumberReader(new BufferedReader(new FileReader(loader.getResource("dev.log").getFile())));
             Stream<String> linesTmp = readerTmp.lines();
-            final Integer linesCount = (int)linesTmp.count();
+            final Integer linesCount = (int) linesTmp.count();
             linesTmp.close();
             readerTmp.close();
             // -----
@@ -179,8 +183,8 @@ public class LogManager {
             final Stream<String> lines = reader.lines();
             final Iterator<String> linesIterator = lines.iterator();
             final Pattern pattern = Pattern.compile("^\\[(\\d{4}-\\d{2}-\\d{2}\\s\\d{2}:\\d{2}:\\d{2})\\]\\s([a-zA-Z0-9_]+)\\.([a-zA-Z0-9_]+):\\s(.*)");
-            String sql = "INSERT INTO :tableName(occurred_at, error_level, error_source, error_description) VALUES(?,?,?,?)"
-                            .replace(":tableName", tableName);
+            final String sql = "INSERT INTO :tableName(occurred_at, error_level, error_source, error_description) VALUES(?,?,?,?)"
+                    .replace(":tableName", tableName);
             sharedTransactionTemplate.execute(new TransactionCallbackWithoutResult() {
                 @Override
                 protected void doInTransactionWithoutResult(TransactionStatus status) {
@@ -207,7 +211,6 @@ public class LogManager {
                                 }
                             }
                         }
-
                         public int getBatchSize() {
                             return linesCount;
                         }

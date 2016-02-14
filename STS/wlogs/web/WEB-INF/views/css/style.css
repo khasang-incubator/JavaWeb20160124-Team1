@@ -103,3 +103,31 @@ div#content {
 table.logs_list tbody tr td.break_all {
     word-break: break-all;
 }
+
+ul.dropdown li { position: relative; }
+ul.dropdown,
+ul.dropdown-inside {
+    list-style-type: none;
+    padding: 0;
+}
+
+ul.dropdown-inside {
+    position: absolute;
+    left: -9999px;
+}
+
+ul.dropdown li.dropdown-top {
+    display: inline;
+    float: left;
+    margin: 0 1px 0 0;
+}
+
+ul.dropdown li.dropdown-top a {
+    padding: 3px 10px 4px;
+    display: block;
+}
+
+ul.dropdown li.dropdown-top:hover .dropdown-inside {
+    display: block;
+    left: 0;
+}

@@ -12,6 +12,8 @@ public class InsertDataTable {
         return sqlCheck;
     }
 
+    public static String sqlCheck;
+
     public void sqlInsert() {
         SimpleDriverDataSource dataSource = new SimpleDriverDataSource();
         dataSource.setDriverClass(com.mysql.jdbc.Driver.class);
@@ -22,12 +24,13 @@ public class InsertDataTable {
         System.out.println("try to update db...");
         try {
             System.out.println("Creating tables");
-               /* jdbcTemplate.execute("DROP TABLE IF EXISTS loginfo");
-                jdbcTemplate.execute("create table wlogs(ID INT NOT NULL,"
-                + " minute INT NOT NULL, errorLvL MEDIUMTEXT NOT NULL)");*/
-            jdbcTemplate.update("INSERT INTO loginfo(ID, errorinfo, descr) VALUES(6, 'error', 'red')");
-            jdbcTemplate.update("INSERT INTO loginfo(ID, errorinfo, descr) VALUES(7, 'warn', 'yellow')");
-            jdbcTemplate.update("INSERT INTO loginfo(ID, errorinfo, descr) VALUES(8, 'ok', 'green')");
+            jdbcTemplate.execute("DROP TABLE IF EXISTS wlogs");
+            jdbcTemplate.execute("create table wlogs(ID INT NOT NULL,"
+                 + " minute INT NOT NULL, errorLvL MEDIUMTEXT NOT NULL)");
+            jdbcTemplate.update("INSERT INTO wlogs(ID, minute, errorLvL) VALUES(1, 1, 'red')");
+            jdbcTemplate.update("INSERT INTO wlogs(ID, minute, errorLvL) VALUES(2, 3, 'yellow')");
+            jdbcTemplate.update("INSERT INTO wlogs(ID, minute, errorLvL) VALUES(3, 5, 'green')");
+            jdbcTemplate.update("INSERT INTO wlogs(ID, minute, errorLvL) VALUES(4, 7, 'green')");
             sqlCheck = "db updated";
         } catch (Exception e) {
             sqlCheck = "Have error: " + e;
@@ -36,8 +39,10 @@ public class InsertDataTable {
     }
 
     public String sqlInsertCheck() {
-        InsertDataTable sql = new InsertDataTable();
-        sql.sqlInsert();
+        //InsertDataTable sql = new InsertDataTable();
+        //sql.sqlInsert();
+        sqlInsert();
         return sqlCheck;
     }
 }
+

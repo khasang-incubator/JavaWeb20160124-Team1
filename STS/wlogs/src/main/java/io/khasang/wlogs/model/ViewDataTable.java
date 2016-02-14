@@ -20,38 +20,42 @@ public class ViewDataTable {
         JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
         try {
             System.out.println("Querying data...");
-            List<LogsData> results = jdbcTemplate.query(
-                    "select * from wlogs",
-                    new RowMapper<LogsData>() {
-                        @Override
-                        public LogsData mapRow(ResultSet rs, int rowNum) throws SQLException {
-                            return new LogsData(
-                                    rs.getLong("ID"),
-                                    rs.getString("minute"),
-                                    rs.getString("errorLvL"));
-                        }
-                    });
-            StringBuilder stringBuilder = new StringBuilder();
-            //add header
-            stringBuilder.append("<table BORDER=1 CELLPADDING=0 CELLSPACING=0 WIDTH=100% >");
-            stringBuilder.append("<tr>");
-            stringBuilder.append("<th>ID</th>");
-            stringBuilder.append("<th>minute</th>");
-            stringBuilder.append("<th>errorLvL</th>");
-            stringBuilder.append("</tr>");
-            for (LogsData logsData : results) {
-                //add data
-                stringBuilder.append("<tr>");
-                stringBuilder.append("<td align='center'>" + logsData.getID() + "</td>");
-                stringBuilder.append("<td align='center'>" + logsData.getMinute() + "</td>");
-                stringBuilder.append("<td align='center'>" + logsData.getErrorLvL() + "</td>");
-                stringBuilder.append("</tr>");
-            }
-            return stringBuilder.toString();
+            return sqlLoadData(jdbcTemplate);
         } catch (Exception e) {
             sqlCheck = "Have error: " + e;
             System.err.println(sqlCheck);
         }
         return sqlCheck;
+    }
+
+    private String sqlLoadData(JdbcTemplate jdbcTemplate) {
+        List<LogsData> results = jdbcTemplate.query(
+                "select * from wlogs",
+                new RowMapper<LogsData>() {
+                    @Override
+                    public LogsData mapRow(ResultSet rs, int rowNum) throws SQLException {
+                        return new LogsData(
+                                rs.getLong("ID"),
+                                rs.getString("minute"),
+                                rs.getString("errorLvL"));
+                    }
+                });
+        StringBuilder stringBuilder = new StringBuilder();
+        //add header
+        stringBuilder.append("<table BORDER=1 CELLPADDING=0 CELLSPACING=0 WIDTH=100% >");
+        stringBuilder.append("<tr>");
+        stringBuilder.append("<th>ID</th>");
+        stringBuilder.append("<th>minute</th>");
+        stringBuilder.append("<th>errorLvL</th>");
+        stringBuilder.append("</tr>");
+        for (LogsData logsData : results) {
+            //add data
+            stringBuilder.append("<tr>");
+            stringBuilder.append("<td align='center'>" + logsData.getID() + "</td>");
+            stringBuilder.append("<td align='center'>" + logsData.getMinute() + "</td>");
+            stringBuilder.append("<td align='center'>" + logsData.getErrorLvL() + "</td>");
+            stringBuilder.append("</tr>");
+        }
+        return stringBuilder.toString();
     }
 }

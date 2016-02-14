@@ -10,8 +10,8 @@ public class InsertDataTable {
         SimpleDriverDataSource dataSource = new SimpleDriverDataSource();
         dataSource.setDriverClass(com.mysql.jdbc.Driver.class);
         dataSource.setUsername("root");
-        dataSource.setUrl("jdbc:mysql://localhost/eshop");
-        dataSource.setPassword("toor");
+        dataSource.setUrl("jdbc:mysql://localhost/wlogs");
+        dataSource.setPassword("root");
         JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
         System.out.println("try to update db...");
         try {

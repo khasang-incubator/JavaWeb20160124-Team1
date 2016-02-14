@@ -13,6 +13,14 @@ public class AppController {
         return "welcome";
     }
 
+    @RequestMapping("/anotherlogin")
+    public String welcomeHW(Model model) {
+        model.addAttribute("greeting", "Welcome to our best wLogs!");
+        model.addAttribute("status", "Does user exist?");
+        model.addAttribute("tagline", "The one and only amazing logs system!");
+        return "welcomeHW";
+    }
+
     @RequestMapping("/backup")
     public String backup(Model model) {
         model.addAttribute("backup", "Success");

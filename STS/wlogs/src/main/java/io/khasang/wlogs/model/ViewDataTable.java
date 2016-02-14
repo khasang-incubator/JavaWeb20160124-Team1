@@ -11,12 +11,12 @@ import java.util.List;
 public class ViewDataTable {
     public static String sqlCheck;
 
-    public String outData(){
+    public String outData() {
         SimpleDriverDataSource dataSource = new SimpleDriverDataSource();
         dataSource.setDriverClass(com.mysql.jdbc.Driver.class);
         dataSource.setUsername("root");
-        dataSource.setUrl("jdbc:mysql://localhost/eshop");
-        dataSource.setPassword("toor");
+        dataSource.setUrl("jdbc:mysql://localhost/wlogs");
+        dataSource.setPassword("root");
         JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
         try {
             System.out.println("Querying data...");
@@ -39,7 +39,7 @@ public class ViewDataTable {
             stringBuilder.append("<th>minute</th>");
             stringBuilder.append("<th>errorLvL</th>");
             stringBuilder.append("</tr>");
-            for (LogsData logsData: results) {
+            for (LogsData logsData : results) {
                 //add data
                 stringBuilder.append("<tr>");
                 stringBuilder.append("<td align='center'>" + logsData.getID() + "</td>");

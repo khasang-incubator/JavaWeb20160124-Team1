@@ -8,13 +8,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 public class AppController {
-    @RequestMapping("/")
-    public String welcome(Model model) {
-        model.addAttribute("greeting", "Welcome to our best webstore!");
-        model.addAttribute("tagline", "The one and only amazing webstore!");
-        return "welcome";
-    }
-
     @RequestMapping("/backup")
     public String backup(Model model) {
         model.addAttribute("backup", "Success");

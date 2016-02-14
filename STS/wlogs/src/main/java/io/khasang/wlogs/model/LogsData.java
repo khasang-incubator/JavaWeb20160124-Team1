@@ -1,8 +1,5 @@
 package io.khasang.wlogs.model;
 
-/**
- * Created by vvv on 14.02.16.
- */
 public class LogsData {
     //ID, minute, errorLvL
     private long ID;

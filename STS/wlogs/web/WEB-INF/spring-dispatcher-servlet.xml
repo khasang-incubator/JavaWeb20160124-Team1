@@ -47,7 +47,7 @@ http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd http://www.springfr
     <mvc:default-servlet-handler/>
 
     <!-- resources exclusions from servlet mapping -->
-    <mvc:resources mapping="/css/**" location="WEB-INF/views/css/"/>
-    <mvc:resources mapping="/images/**" location="WEB-INF/views/images/"/>
-    <mvc:resources mapping="/js/**" location="WEB-INF/views/js/"/>
+    <mvc:resources mapping="/css/*" location="WEB-INF/views/css/"/>
+    <mvc:resources mapping="/images/*" location="WEB-INF/views/images/"/>
+    <mvc:resources mapping="/js/*" location="WEB-INF/views/js/"/>
 </beans>

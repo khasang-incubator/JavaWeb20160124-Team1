@@ -5,9 +5,6 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-/**
- * Created by VSB on 13.02.2016.
- */
 public class DbModel {
     private Connection connection;
     private String host = "localhost";

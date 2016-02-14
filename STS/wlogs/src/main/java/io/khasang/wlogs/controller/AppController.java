@@ -13,12 +13,6 @@ import java.util.ArrayList;
 
 @Controller
 public class AppController {
-    @RequestMapping("/")
-    public String welcome(Model model) {
-        model.addAttribute("greeting", "Welcome to our best wLogs!");
-        model.addAttribute("tagline", "The one and only amazing logs system!");
-        return "welcome";
-    }
 
     @RequestMapping("/backup")
     public String backup(Model model) {

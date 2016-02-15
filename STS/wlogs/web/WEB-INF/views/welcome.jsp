@@ -8,7 +8,7 @@
 
 <body>
 <h1> ${greeting} </h1>
-<center><img alt="Enter to system!" src="images/button_enter_blue.gif"></center>
+<center><img alt="Enter to system!" src="css/button_enter_blue.gif"></center>
 <center>
     <table>
         <tr>
@@ -32,7 +32,7 @@
 
             </td>
             <td>
-                <button>Enter</button>
+                <button formaction="/tableview">Enter</button>
             </td>
         </tr>
     </table>

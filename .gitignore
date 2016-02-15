@@ -13,11 +13,21 @@ hs_err_pid*
 
 # IDEA
 .idea/*
+/idea/
 
 # MAC cache
 .DS_Store
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> origin/master
 STS/wlogs/.idea/
 STS/wlogs/out/
 STS/wlogs/target/
 STS/wlogs/*.iml
+<<<<<<< HEAD
+=======
+html
+JavaWebTask5
+>>>>>>> origin/master

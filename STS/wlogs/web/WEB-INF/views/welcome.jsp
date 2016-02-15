@@ -32,7 +32,11 @@
 
             </td>
             <td>
+<<<<<<< HEAD
                 <button>Enter</button>
+=======
+                <button formaction="/tableview">Enter</button>
+>>>>>>> origin/master
             </td>
         </tr>
     </table>

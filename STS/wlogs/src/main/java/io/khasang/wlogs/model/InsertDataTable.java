@@ -3,7 +3,6 @@ package io.khasang.wlogs.model;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.SimpleDriverDataSource;
 
-<<<<<<< HEAD
 public class InsertDataTable {
         public static String sqlCheck;
 
@@ -36,7 +35,6 @@ public class InsertDataTable {
             return sqlCheck;
         }
 }
-=======
 public class InsertDataTable implements JdbcInterface {
     private static String sqlCheck;
     private JdbcTemplate jdbcTemplate;

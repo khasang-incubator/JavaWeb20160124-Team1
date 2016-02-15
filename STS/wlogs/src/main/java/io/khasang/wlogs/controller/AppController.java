@@ -112,4 +112,10 @@ public class AppController {
         model.addAttribute("tableview", viewDataTable.outData());
         return "tableview";
     }
+
+    @RequestMapping("/insert")
+    public String insert(Model model) {
+        model.addAttribute("tip", "Choose table to insert");
+        return "insert";
+    }
 }

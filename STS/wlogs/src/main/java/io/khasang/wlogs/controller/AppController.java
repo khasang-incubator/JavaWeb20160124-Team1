@@ -18,4 +18,10 @@ public class AppController {
         model.addAttribute("backupstatus", "Backup Success");
         return "backup";
     }
+
+    @RequestMapping("/insert")
+    public String insert(Model model) {
+        model.addAttribute("tip", "Choose table to insert");
+        return "insert";
+    }
 }

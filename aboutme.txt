@@ -1,2 +1,2 @@
-Hello World!
-Hello, whatsup?
+Hello from  Alex
+I'm very glad to merge!

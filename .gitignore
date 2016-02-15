@@ -16,3 +16,10 @@ hs_err_pid*
 
 # MAC cache
 .DS_Store
+
+STS/wlogs/.idea/
+STS/wlogs/out/
+STS/wlogs/target/
+STS/wlogs/*.iml
+html
+JavaWebTask5

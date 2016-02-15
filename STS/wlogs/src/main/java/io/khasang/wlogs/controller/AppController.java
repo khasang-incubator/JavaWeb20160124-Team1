@@ -32,4 +32,9 @@ public class AppController {
         model.addAttribute("createtable", sql.sqlInsertCheck());
         return "createtable";
     }
+
+    @RequestMapping("/mainmenu")
+    public String mainMenu(Model model) {
+        return "mainmenu";
+    }
 }

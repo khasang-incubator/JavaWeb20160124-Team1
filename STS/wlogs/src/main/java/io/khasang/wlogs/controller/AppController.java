@@ -160,5 +160,10 @@ public class AppController {
     @RequestMapping("registration") //todo dalbot
     public String registration() {
         return "registration";
+
+    @RequestMapping("/insert")
+    public String insert(Model model) {
+        model.addAttribute("tip", "Choose table to insert");
+        return "insert";
     }
 }

@@ -1,60 +1,76 @@
 package io.khasang.wlogs.model;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
-/**
- * Created by VSB on 13.02.2016.
- */
 public class DbModel {
     private Connection connection;
     private String host = "localhost";
     private String portNumber = "3306";
-    private String databaseName = "dbname";
+    private String databaseName = "wlogs";
     private String url = "jdbc:mysql://" + host + ":" + portNumber + "/" + databaseName;
-    private String userName = "dbuser";
-    private String password = "dbuserpassword";
-    private String error;
-    private Statement statement;
+    private String userName = "root";
+    private String password = "root";
+    private String error = null;
 
-    public String getUrl() {
-        return url;
-    }
-
-    public Connection getConnection() {
+    private Connection getConnection() {
         connection = null;
         try {
             Class.forName("com.mysql.jdbc.Driver").newInstance();
             connection = DriverManager.getConnection(url, userName, password);
         } catch (SQLException e) {
-            //e.printStackTrace();
+            setError("Ошибка 001: " + e);
             return null;
         } catch (InstantiationException e) {
-            //e.printStackTrace();
+            setError("Ошибка 002: " + e);
             return null;
         } catch (IllegalAccessException e) {
-            //e.printStackTrace();
+            setError("Ошибка 003: " + e);
             return null;
         } catch (ClassNotFoundException e) {
-            //e.printStackTrace();
+            setError("Ошибка 004: " + e);
             return null;
         }
         return connection;
     }
 
-    public Statement getStatement() {
+    private Statement getStatement() {
         try {
             Connection connection = getConnection();
             if (connection != null)
                 return connection.createStatement();
         } catch (SQLException e) {
-            //e.printStackTrace();
+            setError("Ошибка 005: " + e);
             return null;
         } catch (Exception e) {
+            setError("Ошибка 006: " + e);
             return null;
         }
         return null;
+    }
+
+    public String getError() {
+        return error;
+    }
+
+    public void setError(String error) {
+        this.error = error;
+    }
+
+    public ResultSet getSelectResult(String sql) {
+        ResultSet resultSet = null;
+        Statement statement = new DbModel().getStatement();
+        try {
+            resultSet = statement.executeQuery(sql);
+        } catch (SQLException e) {
+            setError("Ошибка 007: " + e.toString());
+            return null;
+        }
+        catch (Exception e){
+            setError("Ошибка 008: " + e.toString());
+            return null;
+        }
+        return resultSet;
     }
 }

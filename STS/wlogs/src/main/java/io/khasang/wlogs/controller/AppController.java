@@ -13,13 +13,7 @@ import java.util.ArrayList;
 
 @Controller
 public class AppController {
-    @RequestMapping("/")
-    public String welcome(Model model) {
-        model.addAttribute("greeting", "Welcome to our best wLogs!");
-        model.addAttribute("tagline", "The one and only amazing logs system!");
-        return "welcome";
-    }
-
+    
     @RequestMapping("/backup")
     public String backup(Model model) {
         model.addAttribute("backup", "Success");
@@ -35,33 +29,15 @@ public class AppController {
     @RequestMapping("/table")
     public String table(Model model) {
         model.addAttribute("table", "You have one table!");
-        Statement statement = new DbModel().getStatement();
+        DbModel db = new DbModel();
         String sql = "select * from tableTest";
-        ResultSet resultSet = null;
-        ArrayList<TestTableModel> testTableModelArrayList = null;
-        try {
-            if (statement != null) {
-                resultSet = statement.executeQuery(sql);
-            }
-            else {
-                model.addAttribute("error", "Ошибка: нет соединения с базой");
-            }
-            if (resultSet != null) {
-                testTableModelArrayList = new ArrayList<TestTableModel>(resultSet.getFetchSize());
-                while (resultSet.next()) {
-                    TestTableModel testTableModel = new TestTableModel();
-                    testTableModel.setServer(resultSet.getString(TestTableModel.tableFiled.server.toString()));
-                    testTableModel.setComment(resultSet.getString(TestTableModel.tableFiled.comment.toString()));
-                    testTableModel.setDate(resultSet.getString(TestTableModel.tableFiled.date.toString()));
-                    testTableModel.setIssue(resultSet.getString(TestTableModel.tableFiled.issue.toString()));
-                    testTableModelArrayList.add(testTableModel);
-                }
-            }
-        } catch (SQLException e) {
-            //e.printStackTrace();
-            model.addAttribute("error", "Ошибка: " + e);
+        ArrayList<TestTableModel> testTableModelArrayList = TestTableModel.getListFromResultSet(db.getSelectResult(sql));
+        if (testTableModelArrayList != null && db.getError() == null) {
+            model.addAttribute("listTable", testTableModelArrayList);
+        } else if (!db.getError().equals("")) {
+            model.addAttribute("error", db.getError());
+            db.setError(null);
         }
-        model.addAttribute("listTable", testTableModelArrayList);
         return "table";
     }
 }

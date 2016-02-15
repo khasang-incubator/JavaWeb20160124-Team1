@@ -1,7 +1,13 @@
 package io.khasang.wlogs.model;
 
+import java.sql.ResultSet;
+import java.util.ArrayList;
+
 public class TestTableModel {
-    public enum tableFiled {server, date, issue, comment}
+    /*
+        имена полей в таблице в БД
+     */
+    public enum tableField {server, date, issue, comment}
 
     private String server;
     private String date;
@@ -38,5 +44,26 @@ public class TestTableModel {
 
     public void setComment(String comment) {
         this.comment = comment;
+    }
+
+    public static ArrayList<TestTableModel> getListFromResultSet(ResultSet resultSet) {
+        ArrayList<TestTableModel> testTableModelArrayList = null;
+        try {
+            if (resultSet != null){
+                testTableModelArrayList = new ArrayList<TestTableModel>(resultSet.getFetchSize());
+                while (resultSet.next()) {
+                    TestTableModel testTableModel = new TestTableModel();
+                    testTableModel.setServer(resultSet.getString(TestTableModel.tableField.server.toString()));
+                    testTableModel.setComment(resultSet.getString(TestTableModel.tableField.comment.toString()));
+                    testTableModel.setDate(resultSet.getString(TestTableModel.tableField.date.toString()));
+                    testTableModel.setIssue(resultSet.getString(TestTableModel.tableField.issue.toString()));
+                    testTableModelArrayList.add(testTableModel);
+                }
+            }
+        }
+        catch (Exception e){
+            return null;
+        }
+        return testTableModelArrayList;
     }
 }

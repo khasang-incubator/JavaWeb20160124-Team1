@@ -30,7 +30,7 @@ public class AppController {
     public String table(Model model) {
         model.addAttribute("table", "You have one table!");
         DbModel db = new DbModel();
-        String sql = "select * from tableTest";
+        String sql = "select * from wlogs";
         ArrayList<TestTableModel> testTableModelArrayList = TestTableModel.getListFromResultSet(db.getSelectResult(sql));
         if (testTableModelArrayList != null && db.getError() == null) {
             model.addAttribute("listTable", testTableModelArrayList);

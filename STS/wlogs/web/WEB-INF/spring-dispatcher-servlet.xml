@@ -46,10 +46,19 @@ http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd http://www.springfr
             <util:constant static-field="io.khasang.wlogs.model.LogModel.tableName"/>
         </property>
     </bean>
+
     <bean id="logManager" class="io.khasang.wlogs.model.LogManager">
         <property name="sharedTransactionTemplate" ref="sharedTransactionTemplate"/>
         <property name="jdbcTemplate" ref="jdbcTemplate"/>
         <property name="logRepository" ref="logRepository"/>
+        <property name="tableName">
+            <util:constant static-field="io.khasang.wlogs.model.LogModel.tableName"/>
+        </property>
+    </bean>
+
+    <bean id="deleteDataTable" class="io.khasang.wlogs.model.DeleteDataTable">
+        <property name="sharedTransactionTemplate" ref="sharedTransactionTemplate"/>
+        <property name="jdbcTemplate" ref="jdbcTemplate"/>
         <property name="tableName">
             <util:constant static-field="io.khasang.wlogs.model.LogModel.tableName"/>
         </property>

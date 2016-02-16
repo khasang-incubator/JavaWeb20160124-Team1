@@ -41,11 +41,11 @@ public class DeleteDataTable {
         });
     }
 
-    private void deleteOne(final LogModel log) {
+    public void deleteOne(final LogModel log) {
         deleteOne(log.getId());
     }
 
-    private void deleteOne(final Integer logRecordId) {
+    public void deleteOne(final Integer logRecordId) {
         String sql = "DELETE FROM :tableName WHERE id = ?".replace(":tableName", tableName);
         jdbcTemplate.update(sql, new PreparedStatementSetter() {
             @Override
@@ -53,5 +53,21 @@ public class DeleteDataTable {
                 ps.setInt(1, logRecordId);
             }
         });
+    }
+
+    public void createTable() {
+        String sql = "CREATE TABLE IF NOT EXISTS :table_name (\n" +
+                "  id INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,\n" +
+                "  occurred_at DATETIME NOT NULL,\n" +
+                "  error_level VARCHAR(20) NOT NULL,\n" +
+                "  error_source VARCHAR(30) NOT NULL,\n" +
+                "  error_description TEXT NOT NULL,\n" +
+                "  PRIMARY KEY (id),\n" +
+                "  INDEX occurred_at_idx (occurred_at),\n" +
+                "  INDEX error_level_idx (error_level),\n" +
+                "  INDEX error_source_idx (error_source)\n" +
+                ") ENGINE=INNODB, DEFAULT CHARACTER SET=UTF8";
+        sql = sql.replace(":table_name", tableName);
+        jdbcTemplate.execute(sql);
     }
 }

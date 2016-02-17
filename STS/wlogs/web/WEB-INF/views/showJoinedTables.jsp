@@ -39,7 +39,7 @@
 </table>
 
 
-<form action="/createtblQuestion">
+<form action="/join">
     <button type="submit">Назад</button>
 </form>
 

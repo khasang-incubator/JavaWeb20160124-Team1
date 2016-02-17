@@ -147,7 +147,8 @@ public class DataBaseHandler {
 
     public List<TypeErrorModel> joinTables(int[] tblNumber){
         if(tblNumber.length<2){
-            throw new NullPointerException("массив номеров выбранных страниц содержит <2 значений");
+            throw new NullPointerException("Вы выбрали только одну таблицу." +
+                    "Вы должны выбрать не менее двух таблиц для объединения. Вернитесь назад и сделайте выбор еще раз");
         }
         logger.info(time +" Init JdbcTemplate");
         initJdbcTemplate();

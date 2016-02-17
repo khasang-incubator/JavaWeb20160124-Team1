@@ -15,10 +15,7 @@ import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Iterator;
-import java.util.LinkedHashMap;
-import java.util.UUID;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
@@ -60,6 +57,14 @@ public class LogManager {
 
     public void setJdbcTemplate(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
+    }
+
+    public Map<String, String> getDateIntervalMap() {
+        LinkedHashMap<String, String> map = new LinkedHashMap<String, String>();
+        for (DeleteDataTable.DateIntervalType type : DeleteDataTable.DateIntervalType.values()) {
+            map.put(String.valueOf(type.ordinal()), type.name());
+        }
+        return map;
     }
 
     public LinkedHashMap<Integer, String> getAvailableDateCriteria() {

@@ -34,12 +34,21 @@ public class DeleteDataTable {
         String oldTable = tableName + "_" + UUID.randomUUID().toString().replace("-", "");
         String[] sql = {
                 "CREATE TABLE IF NOT EXISTS " + newTable + " LIKE " + tableName,
-                "LOCK TABLES " + tableName,
                 "RENAME TABLE " + tableName + " TO " + oldTable + ", " + newTable + " TO " + tableName,
-                "UNLOCK TABLES",
                 "DROP TABLE " + oldTable
         };
         jdbcTemplate.batchUpdate(sql);
+    }
+
+    public Integer deleteByDateInterval(DateIntervalType dateIntervalType, final Integer dateIntervalSize) {
+        String sql = "DELETE FROM :tableName WHERE occurred_at < DATE_SUB(CURDATE(), INTERVAL ? :dateIntervalType)"
+                .replace(":tableName", tableName).replace(":dateIntervalType", dateIntervalType.toString());
+        return jdbcTemplate.update(sql, new PreparedStatementSetter() {
+            @Override
+            public void setValues(PreparedStatement ps) throws SQLException {
+                ps.setInt(1, dateIntervalSize);
+            }
+        });
     }
 
     public Integer deleteByCriteria(final String errorSource, final String errorLevel, DateIntervalType dateIntervalType, final Integer dateIntervalSize) {

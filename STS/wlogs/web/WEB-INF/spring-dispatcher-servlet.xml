@@ -53,6 +53,7 @@ http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd http://www.springfr
         <property name="sharedTransactionTemplate" ref="sharedTransactionTemplate"/>
         <property name="jdbcTemplate" ref="jdbcTemplate"/>
         <property name="logRepository" ref="logRepository"/>
+        <property name="deleteDataTable" ref="deleteDataTable"/>
         <property name="tableName">
             <util:constant static-field="io.khasang.wlogs.model.LogModel.tableName"/>
         </property>

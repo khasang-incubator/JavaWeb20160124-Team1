@@ -40,6 +40,11 @@ public class LogManager {
     private JdbcTemplate jdbcTemplate;
     private LogRepository logRepository;
     private TransactionTemplate sharedTransactionTemplate;
+    private DeleteDataTable deleteDataTable;
+
+    public void setDeleteDataTable(DeleteDataTable deleteDataTable) {
+        this.deleteDataTable = deleteDataTable;
+    }
 
     public void setSharedTransactionTemplate(TransactionTemplate sharedTransactionTemplate) {
         this.sharedTransactionTemplate = sharedTransactionTemplate;

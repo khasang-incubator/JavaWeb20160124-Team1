@@ -3,7 +3,6 @@ package io.khasang.wlogs.model;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.PreparedStatementSetter;
 import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.support.TransactionCallbackWithoutResult;
 import org.springframework.transaction.support.TransactionTemplate;
@@ -22,16 +21,6 @@ import java.util.stream.Stream;
 
 public class LogManager {
     private static final int RECORDS_COUNT_TO_KEEP_ALIVE = 1000;
-
-    public final int DELETE_ALL_EXCEPT_LAST_N = 1;
-    public final int DELETE_OLDER_ONE_MONTH = 2;
-    public final int DELETE_OLDER_THREE_MONTH = 3;
-    public final int DELETE_OLDER_SIX_MONTH = 4;
-    public final int DELETE_OLDER_NINE_MONTH = 5;
-    public final int DELETE_OLDER_ONE_YEAR = 6;
-    public final int DELETE_OLDER_ONE_WEEK = 7;
-    public final int DELETE_OLDER_TWO_WEEK = 8;
-    public final int DELETE_OLDER_THREE_WEEK = 9;
 
     private String tableName;
     private JdbcTemplate jdbcTemplate;
@@ -62,84 +51,50 @@ public class LogManager {
     public Map<String, String> getDateIntervalMap() {
         LinkedHashMap<String, String> map = new LinkedHashMap<String, String>();
         for (DeleteDataTable.DateIntervalType type : DeleteDataTable.DateIntervalType.values()) {
-            map.put(String.valueOf(type.ordinal()), type.name());
+            map.put(type.name(), type.name());
         }
         return map;
     }
 
-    public LinkedHashMap<Integer, String> getAvailableDateCriteria() {
-        LinkedHashMap<Integer, String> criteriaMap = new LinkedHashMap<Integer, String>();
-        criteriaMap.put(DELETE_ALL_EXCEPT_LAST_N, "Оставить последние 1000 записей");
-        criteriaMap.put(DELETE_OLDER_ONE_WEEK, "Удалить записи старше одной недели");
-        criteriaMap.put(DELETE_OLDER_TWO_WEEK, "Удалить записи старше двух недель");
-        criteriaMap.put(DELETE_OLDER_THREE_WEEK, "Удалить записи старше трех недель");
-        criteriaMap.put(DELETE_OLDER_ONE_MONTH, "Удалить записи старше одного месяца");
-        criteriaMap.put(DELETE_OLDER_THREE_MONTH, "Удалить записи старше трех месяцев");
-        criteriaMap.put(DELETE_OLDER_SIX_MONTH, "Удалить записи старше шести месяцев");
-        criteriaMap.put(DELETE_OLDER_NINE_MONTH, "Удалить записи старше девяти месяцев");
-        criteriaMap.put(DELETE_OLDER_ONE_YEAR, "Удалить записи старше одного года");
-        return criteriaMap;
-    }
-
-    public int delete(int filterType) throws SQLException {
-        if (DELETE_ALL_EXCEPT_LAST_N == filterType) {
-            return deleteAllExceptLastNRecords(RECORDS_COUNT_TO_KEEP_ALIVE);
+    public int delete (Map<String, String[]> userData) throws Exception {
+        Boolean userUnderstandTerms = this.getCheckBoxValueFormHelper("understand_terms", Boolean.FALSE, userData);
+        if (!userUnderstandTerms) {
+            throw new Exception("You must read and accept terms before proceed.");
         }
-
-        java.util.Date end = new java.util.Date();
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(end);
-        switch (filterType) {
-            case DELETE_OLDER_NINE_MONTH:
-                calendar.add(Calendar.MONTH, -9);
-                break;
-            case DELETE_OLDER_ONE_MONTH:
-                calendar.add(Calendar.MONTH, -1);
-                break;
-            case DELETE_OLDER_THREE_MONTH:
-                calendar.add(Calendar.MONTH, -3);
-                break;
-            case DELETE_OLDER_SIX_MONTH:
-                calendar.add(Calendar.MONTH, -6);
-                break;
-            case DELETE_OLDER_ONE_YEAR:
-                calendar.add(Calendar.YEAR, -1);
-                break;
-            case DELETE_OLDER_ONE_WEEK:
-                calendar.add(Calendar.DAY_OF_MONTH, -7);
-                break;
-            case DELETE_OLDER_TWO_WEEK:
-                calendar.add(Calendar.DAY_OF_MONTH, -14);
-                break;
-            case DELETE_OLDER_THREE_WEEK:
-                calendar.add(Calendar.DAY_OF_MONTH, -21);
-                break;
-            default:
-                throw new RuntimeException("Invalid filter type");
+        Boolean totalAnnihilation = this.getCheckBoxValueFormHelper("total_annihilation", Boolean.FALSE, userData);
+        if (totalAnnihilation) {
+            Integer recordsTotal = this.logRepository.countAll();
+            this.deleteDataTable.deleteAll();
+            return recordsTotal;
         }
-        return deleteAllByDateRange(new Date(calendar.getTime().getTime()));
+        Integer intervalSize = Integer.valueOf(this.getInputValueFormHelper("date_interval_size", Boolean.TRUE,userData));
+        DeleteDataTable.DateIntervalType intervalType = DeleteDataTable.DateIntervalType.valueOf(
+                this.getInputValueFormHelper("date_interval_id", Boolean.TRUE, userData));
+        return this.deleteDataTable.deleteByDateInterval(intervalType, intervalSize);
     }
 
-    public boolean deleteOne(final int logModelId) {
-        return 1 == jdbcTemplate.update(
-                "DELETE FROM :tableName WHERE id = ?".replace(":tableName", tableName),
-                new PreparedStatementSetter() {
-                    public void setValues(PreparedStatement ps) throws SQLException {
-                        ps.setInt(1, logModelId);
-                    }
-                }
-        );
+    // TODO: use jstl form tag or implement FormHelperClass to handle user request data.
+    private String getInputValueFormHelper(String fieldName, Boolean required, Map<String, String[]> userData) throws Exception {
+        String value = "";
+        if (userData.containsKey(fieldName)) {
+            String[] requestParam = userData.get(fieldName);
+            value = requestParam[0];
+        } else if (required) {
+            throw new Exception("Missed required field: " + fieldName);
+        }
+        return value;
     }
 
-    public int deleteAllByDateRange(final Date limit) throws SQLException {
-        return jdbcTemplate.update(
-                "DELETE FROM :tableName WHERE occurred_at < ?".replace(":tableName", tableName),
-                new PreparedStatementSetter() {
-                    public void setValues(PreparedStatement ps) throws SQLException {
-                        ps.setDate(1, limit);
-                    }
-                }
-        );
+    // TODO: use jstl form tag or implement FormHelperClass to handle user request data.
+    private Boolean getCheckBoxValueFormHelper(String checkBoxName, Boolean required, Map<String, String[]> userData) throws Exception {
+        Boolean userUnderstandTerms = Boolean.FALSE;
+        if (userData.containsKey(checkBoxName)) {
+            String[] requestParam = userData.get(checkBoxName);
+            userUnderstandTerms = requestParam[0].equals("on") ? Boolean.TRUE : Boolean.FALSE;
+        } else if (required) {
+            throw new Exception("Missed required field: " + checkBoxName);
+        }
+        return userUnderstandTerms;
     }
 
     public int deleteAllExceptLastNRecords(final int recordsAmountToKeepAlive) throws DataAccessException {
@@ -164,21 +119,10 @@ public class LogManager {
     }
 
     public void createTable() {
-        String sql = "CREATE TABLE IF NOT EXISTS :table_name (\n" +
-                "  id INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,\n" +
-                "  occurred_at DATETIME NOT NULL,\n" +
-                "  error_level VARCHAR(20) NOT NULL,\n" +
-                "  error_source VARCHAR(30) NOT NULL,\n" +
-                "  error_description TEXT NOT NULL,\n" +
-                "  PRIMARY KEY (id),\n" +
-                "  INDEX occurred_at_idx (occurred_at),\n" +
-                "  INDEX error_level_idx (error_level),\n" +
-                "  INDEX error_source_idx (error_source)\n" +
-                ") ENGINE=INNODB, DEFAULT CHARACTER SET=UTF8";
-        sql = sql.replace(":table_name", tableName);
-        jdbcTemplate.execute(sql);
+        this.deleteDataTable.createTable();
     }
 
+    // TODO: move away from here.... where??
     public void loadFixtures() {
         try {
             ClassLoader loader = Thread.currentThread().getContextClassLoader();

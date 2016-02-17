@@ -57,21 +57,16 @@ public class AppController {
 
     @RequestMapping("/delete")
     public String deleteForm(Model model) {
-        model.addAttribute("dateCriteriaHashMap", logManager.getAvailableDateCriteria());
+        model.addAttribute("dateIntervalTypesMap", logManager.getDateIntervalMap());
+        model.addAttribute("logRecordsTotal", logRepository.countAll());
         return "delete";
     }
 
     @RequestMapping(value = "/delete", method = RequestMethod.POST)
     public String deleteAction(HttpServletRequest request, RedirectAttributes redirectAttributes, Model model) {
         try {
-            String userUnderstandTermsParam = request.getParameter("understand_terms");
-            Boolean userUnderstandTerms = userUnderstandTermsParam == null ? Boolean.FALSE : request.getParameter("understand_terms").equals("on");
-            if (!userUnderstandTerms) {
-                throw new RuntimeException("You have to read warning notice about this operation before proceed.");
-            }
-            Integer periodCriteriaId = Integer.valueOf(request.getParameter("period_criteria_id"));
-            Integer affectedRows = logManager.delete(periodCriteriaId);
-            redirectAttributes.addFlashAttribute("success", "Success deleted " + affectedRows);
+            Integer affectedRows = logManager.delete(request.getParameterMap());
+            redirectAttributes.addFlashAttribute("success", "Success! Count of deleted rows: " + affectedRows);
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("error", e.getMessage());
         }

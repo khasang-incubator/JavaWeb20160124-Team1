@@ -6,6 +6,7 @@ import org.springframework.transaction.support.TransactionTemplate;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.UUID;
 
 public class DeleteDataTable {
     private TransactionTemplate sharedTransactionTemplate;
@@ -26,6 +27,19 @@ public class DeleteDataTable {
 
     public void setTableName(String tableName) {
         this.tableName = tableName;
+    }
+
+    public void deleteAll() {
+        String newTable = tableName + "_" + UUID.randomUUID().toString().replace("-", "");
+        String oldTable = tableName + "_" + UUID.randomUUID().toString().replace("-", "");
+        String[] sql = {
+                "CREATE TABLE IF NOT EXISTS " + newTable + " LIKE " + tableName,
+                "LOCK TABLES " + tableName,
+                "RENAME TABLE " + tableName + " TO " + oldTable + ", " + newTable + " TO " + tableName,
+                "UNLOCK TABLES",
+                "DROP TABLE " + oldTable
+        };
+        jdbcTemplate.batchUpdate(sql);
     }
 
     public Integer deleteByCriteria(final String errorSource, final String errorLevel, DateIntervalType dateIntervalType, final Integer dateIntervalSize) {
@@ -56,6 +70,10 @@ public class DeleteDataTable {
     }
 
     public void createTable() {
+        jdbcTemplate.execute(this.getCreateTableSQL());
+    }
+
+    private String getCreateTableSQL() {
         String sql = "CREATE TABLE IF NOT EXISTS :table_name (\n" +
                 "  id INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,\n" +
                 "  occurred_at DATETIME NOT NULL,\n" +
@@ -67,7 +85,6 @@ public class DeleteDataTable {
                 "  INDEX error_level_idx (error_level),\n" +
                 "  INDEX error_source_idx (error_source)\n" +
                 ") ENGINE=INNODB, DEFAULT CHARACTER SET=UTF8";
-        sql = sql.replace(":table_name", tableName);
-        jdbcTemplate.execute(sql);
+        return sql.replace(":table_name", tableName);
     }
 }

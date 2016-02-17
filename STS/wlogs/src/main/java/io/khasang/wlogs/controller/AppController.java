@@ -1,6 +1,6 @@
 package io.khasang.wlogs.controller;
 
-import io.khasang.wlogs.model.InsertDataTable;
+import io.khasang.wlogs.model.DataBaseHandler;
 import io.khasang.wlogs.model.LogManager;
 import io.khasang.wlogs.model.LogRepository;
 import io.khasang.wlogs.model.ViewDataTable;
@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
@@ -123,7 +124,7 @@ public class AppController {
     @RequestMapping("/createtable")
     //todo vbaranov create table "statistic" with column "server" = id, "date", "issue" = description, "comment"
     public String crateTable(Model model) {
-        InsertDataTable sql = new InsertDataTable();
+        DataBaseHandler sql = new DataBaseHandler();
         model.addAttribute("createtable", sql.sqlInsertCheck());
         return "createtable";
     }
@@ -147,15 +148,51 @@ public class AppController {
         return "login";
     }
 
-    @RequestMapping("join") //todo sorlov
+   @RequestMapping("registration") //todo dalbot
+    public String registration() {
+        return "registration";
+    }
+
+    @RequestMapping(value = "/createtblQuestion")
+    public String createtblQuestion(Model model){
+        return "createtbl";
+    }
+
+    @RequestMapping(value = "/createtable", method = RequestMethod.GET)
+    public String createTable(Model model,@RequestParam("intgr") int cipher){
+        DataBaseHandler insertTbl = new DataBaseHandler();
+        model.addAttribute("result",insertTbl.sqlInsertCheck());
+        return "createtbl";
+    }
+
+    @RequestMapping("/join")
     public String join(Model model) {
-        model.addAttribute("join", "Login Users"); //join with error_level and return type of critical
+        DataBaseHandler dbHandler = new DataBaseHandler();
+        model.addAttribute("tblOne",dbHandler.getTableName(0));
+        model.addAttribute("tblTwo",dbHandler.getTableName(1));
         return "join";
     }
 
-    @RequestMapping("registration") //todo dalbot
-    public String registration() {
-        return "registration";
+    @RequestMapping("/showtables")
+    public String showwlogs(Model model){
+        DataBaseHandler insrtData = new DataBaseHandler();
+        model.addAttribute("wlogsContent",insrtData.getWlogsTableContent());
+        model.addAttribute("typeErrorContent", insrtData.getTypeerrorTableContent());
+
+        return "showtables";
+    }
+
+    @RequestMapping(value = "/showJoinedTables", method = RequestMethod.GET)
+    public String performJoin(Model model,
+                              @RequestParam(value = "selection",defaultValue = "-1") int[] tableNums){
+        if(tableNums[0]==-1){
+            return "/home";
+        }
+        DataBaseHandler dbHandler = new DataBaseHandler();
+        model.addAttribute("joinedTbl",dbHandler.joinTables(tableNums));
+        model.addAttribute("tableName1",dbHandler.getTableName(tableNums[0]));
+        model.addAttribute("tableName2",dbHandler.getTableName(tableNums[1]));
+        return "showJoinedTables";
     }
 
 }

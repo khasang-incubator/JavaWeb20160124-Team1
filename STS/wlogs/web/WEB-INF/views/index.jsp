@@ -90,4 +90,7 @@
             </ul>
         </nav>
     </div>
+
+<a href="/createtblQuestion">Create table(to test sorlov task)</a><br>
+<a href="/join">Join(to test sorlov task)</a>
 <jsp:directive.include file="part_footer.jsp"/>

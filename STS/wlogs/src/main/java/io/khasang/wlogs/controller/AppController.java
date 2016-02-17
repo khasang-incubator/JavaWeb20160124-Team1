@@ -1,10 +1,7 @@
 package io.khasang.wlogs.controller;
 
-import io.khasang.wlogs.model.InsertDataTable;
-import io.khasang.wlogs.model.LogManager;
-import io.khasang.wlogs.model.LogRepository;
+import io.khasang.wlogs.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import io.khasang.wlogs.model.ViewDataTable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -113,10 +110,10 @@ public class AppController {
         return "tableview";
     }
 
-    @RequestMapping("/insert")
-    public String insert(Model model) {
-        model.addAttribute("tip", "Choose table to insert");
-        return "insert";
+    @RequestMapping("/insertcomment")
+    public String insertcomment(Model model) {
+        InsertComment comment = new InsertComment();
+        return "insertcomment";
     }
 
     @RequestMapping("/insert")
@@ -124,4 +121,6 @@ public class AppController {
         model.addAttribute("tip", "Choose table to insert");
         return "insert";
     }
+
+
 }

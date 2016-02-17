@@ -64,7 +64,7 @@ public class AppController {
 
     @RequestMapping("/shrink")
     public String shrink(Model model) {
-        model.addAttribute("shrink", ""); // todo dzahar list of all tables at schema wlogs and select table to shrink
+        model.addAttribute("shrink", "Hello SQL!");  //  dzahar list of all tables at schema wlogs and select table to shrink
         return "shrink";
     }
 

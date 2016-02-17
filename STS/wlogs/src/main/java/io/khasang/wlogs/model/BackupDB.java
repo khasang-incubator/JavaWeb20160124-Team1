@@ -8,12 +8,11 @@ import java.sql.ResultSet;
 
 public class BackupDB {
 
-    public String backupDatabase(int numTable) {
+    public String backupDatabase(String numTable) {
         Process process = null;
         try {
             Runtime runtime = Runtime.getRuntime();
-            process = runtime.exec(
-                    "mysqldump -u root -proot wlogs > backup.sql");
+            process = runtime.exec("mysqldump -u root -proot wlogs " + numTable + " > backup.sql");
             int processComplete = process.waitFor();
             if (processComplete == 0) {
                 return "Backup create successful!";
@@ -35,9 +34,13 @@ public class BackupDB {
             DatabaseMetaData md = (DatabaseMetaData) connection.getMetaData ();
             ResultSet resultSet = md.getTables(null, null, "%", null);
             StringBuilder stringBuilder = new StringBuilder();
-            stringBuilder.append("List table: \n");
+            //stringBuilder.append("List table: " + "<br>");
             while (resultSet.next()) {
-                stringBuilder.append("Table: " + resultSet.getString(3)); // столбец 3 = имя таблицы
+                stringBuilder.append("<form>");
+                stringBuilder.append("<p><button formaction='/'>Backup table: ")
+                        .append(resultSet.getString(3)) // столбец 3 = имя таблицы
+                        .append("</button></p>");
+                stringBuilder.append("</form>");
             }
             resultSet.close ();
             return stringBuilder.toString();

@@ -8,10 +8,34 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>backup</title>
+    <link rel="stylesheet" type="text/css" href="css/style.css"/>
+    <title>Table View</title>
 </head>
 <body>
-<p>Backup</p>
-<h1> ${backup} </h1>
+
+<center>
+
+    <table border="0" width="70%">
+        <tr>
+            <td valign="top">
+                ${backup}
+            </td>
+            <td align="right">
+                <form>
+                    <p><button formaction="/">Logoff</button></p>
+                </form>
+                <form>
+                    <p><button formaction="/">Return</button></p>
+                </form>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">
+
+            </td>
+        </tr>
+    </table>
+
+</center>
 </body>
 </html>

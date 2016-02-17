@@ -1,10 +1,7 @@
 package io.khasang.wlogs.controller;
 
-import io.khasang.wlogs.model.InsertDataTable;
-import io.khasang.wlogs.model.LogManager;
-import io.khasang.wlogs.model.LogRepository;
+import io.khasang.wlogs.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import io.khasang.wlogs.model.ViewDataTable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,7 +13,8 @@ import javax.servlet.http.HttpServletRequest;
 public class AppController {
     @RequestMapping("/backup")
     public String backup(Model model) {
-    model.addAttribute("backup", "Success");
+        BackupDB backupDB = new BackupDB();
+        model.addAttribute("backup", backupDB.showTable());
     return "backup";
     }
 

@@ -21,6 +21,9 @@ public class AppController {
     @Autowired
     private LogRepository logRepository;
 
+    @Autowired
+    InsertDataTable insertDataTable;
+
     @RequestMapping("/backup")
     //todo vlaptev  "mysqldump wlogs -u root -proot -r \"C:\\ProgramData\\MySQL\\MySQL Server 5.7\\Uploads\\backup.sql\"");
     public String backup(Model model) { //todo - select where backup to do, select table to backup
@@ -125,8 +128,7 @@ public class AppController {
     @RequestMapping("/createtable")
     //todo vbaranov create table "statistic" with column "server" = id, "date", "issue" = description, "comment"
     public String crateTable(Model model) {
-        InsertDataTable sql = new InsertDataTable();
-        model.addAttribute("createtable", sql.sqlInsertCheck());
+        model.addAttribute("createtable", insertDataTable.sqlInsertCheck());
         return "createtable";
     }
 

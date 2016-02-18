@@ -21,9 +21,7 @@ public class Statistic implements JdbcInterface {
         dataSource.setUsername("root");
         dataSource.setUrl("jdbc:mysql://localhost/wlogs");
         dataSource.setPassword("root");
-
         this.jdbcTemplate = new JdbcTemplate(dataSource);
-
     }
 
 

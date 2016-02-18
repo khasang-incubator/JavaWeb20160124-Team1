@@ -28,7 +28,7 @@ public class ViewDataTable {
                             return new LogsData(
                                     rs.getLong("ID"),
                                     rs.getDate("minute"),
-                                    rs.getString("errorLvL"));
+                                    rs.getString("issue"));
                         }
                     });
             StringBuilder stringBuilder = new StringBuilder();
@@ -37,7 +37,7 @@ public class ViewDataTable {
             stringBuilder.append("<tr>");
             stringBuilder.append("<th>ID</th>");
             stringBuilder.append("<th>minute</th>");
-            stringBuilder.append("<th>errorLvL</th>");
+            stringBuilder.append("<th>issue</th>");
             stringBuilder.append("</tr>");
             for (LogsData logsData : results) {
                 //add data

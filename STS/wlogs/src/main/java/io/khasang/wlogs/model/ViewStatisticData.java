@@ -9,7 +9,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 public class ViewStatisticData {
-    public static String sqlCheck;
+    public static String sqlCheck=null;
 
     public String showStatisticData() {
         SimpleDriverDataSource dataSource = new SimpleDriverDataSource();
@@ -34,15 +34,17 @@ public class ViewStatisticData {
             StringBuilder stringBuilder = new StringBuilder();
             stringBuilder.append("<table BORDER=1 CELLPADDING=0 CELLSPACING=0 WIDTH=100% >");
             stringBuilder.append("<tr>");
-            stringBuilder.append("<th>ID</th>");
+            stringBuilder.append("<th>Id</th>");
             stringBuilder.append("<th>time</th>");
             stringBuilder.append("<th>issue</th>");
+            stringBuilder.append("<th>statistic</th>");
             stringBuilder.append("</tr>");
             for (StatisticData statisticData : results) {
                 stringBuilder.append("<tr>");
-                stringBuilder.append("<td align='center'>" + statisticData.getID() + "</td>");
-                stringBuilder.append("<td align='center'>" + statisticData.getMinute() + "</td>");
-                stringBuilder.append("<td align='center'>" + statisticData.getErrorLvL() + "</td>");
+                stringBuilder.append("<td align='center'>" + statisticData.getId() + "</td>");
+                stringBuilder.append("<td align='center'>" + statisticData.getTime() + "</td>");
+                stringBuilder.append("<td align='center'>" + statisticData.getIssue() + "</td>");
+                stringBuilder.append("<td align='center'>" + statisticData.getComment() + "</td>");
                 stringBuilder.append("</tr>");
             }
             return stringBuilder.toString();

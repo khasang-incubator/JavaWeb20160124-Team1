@@ -3,13 +3,24 @@ package io.khasang.wlogs.model;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.SimpleDriverDataSource;
 
-public class InsertDataTable {
+public class InsertDataTable implements JdbcInterface {
     private static String sqlCheck;
+    private JdbcTemplate jdbcTemplate;
 
     public static String getSqlCheck() {
         InsertDataTable sql = new InsertDataTable();
         sql.sqlInsert();
         return sqlCheck;
+    }
+
+    public void setJdbcTemplate(JdbcTemplate jdbcTemplate) {
+        //return;jdbcTemplate; // TODO: from bean
+    }
+
+    public void createTable() {
+        jdbcTemplate.execute("DROP TABLE IF EXISTS wlogs");
+        jdbcTemplate.execute("create table wlogs(ID INT NOT NULL,"
+                + " minute INT NOT NULL, errorLvL MEDIUMTEXT NOT NULL)");
     }
 
     public void sqlInsert() {
@@ -22,9 +33,7 @@ public class InsertDataTable {
         System.out.println("try to update db...");
         try {
             System.out.println("Creating tables");
-            jdbcTemplate.execute("DROP TABLE IF EXISTS wlogs");
-            jdbcTemplate.execute("create table wlogs(ID INT NOT NULL,"
-                 + " minute INT NOT NULL, errorLvL MEDIUMTEXT NOT NULL)");
+            createTable();
             jdbcTemplate.update("INSERT INTO wlogs(ID, minute, errorLvL) VALUES(1, 1, 'red')");
             jdbcTemplate.update("INSERT INTO wlogs(ID, minute, errorLvL) VALUES(2, 3, 'yellow')");
             jdbcTemplate.update("INSERT INTO wlogs(ID, minute, errorLvL) VALUES(3, 5, 'green')");

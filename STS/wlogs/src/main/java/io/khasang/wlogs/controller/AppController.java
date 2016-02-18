@@ -17,18 +17,27 @@ import javax.servlet.http.HttpServletRequest;
 
 @Controller
 public class AppController {
+    @Autowired
+    private LogManager logManager;
+    @Autowired
+    private LogRepository logRepository;
+    @Autowired
+    private InsertDataTable insertDataTable;
+    @Autowired
+    private InsertComment insertComment;
+    @Autowired
+    private ViewStatisticData viewStatisticData;
+    @Autowired
+    private ViewDataTable viewDataTable;
+
+    final public static Integer DEFAULT_LIMIT = 100;
+
     @RequestMapping("/backup")
     //todo vlaptev  "mysqldump wlogs -u root -proot -r \"C:\\ProgramData\\MySQL\\MySQL Server 5.7\\Uploads\\backup.sql\"");
     public String backup(Model model) { //todo - select where backup to do, select table to backup
         model.addAttribute("backup", "Success");
         return "backup";
     }
-
-    final public static Integer DEFAULT_LIMIT = 100;
-    @Autowired
-    private LogManager logManager;
-    @Autowired
-    private LogRepository logRepository;
 
     public void setLogManager(LogManager logManager) {
         this.logManager = logManager;
@@ -125,23 +134,19 @@ public class AppController {
     @RequestMapping("/createtable")
     //todo vbaranov create table "statistic" with column "server" = id, "date", "issue" = description, "comment"
     public String crateTable(Model model) {
-        InsertDataTable sql = new InsertDataTable();
-        model.addAttribute("createtable", sql.sqlInsertCheck());
+        model.addAttribute("createtable", insertDataTable.sqlInsertCheck());
         return "createtable";
     }
 
     @RequestMapping("/insertcomment")
     public String insertComment(Model model) {
-        InsertComment sql = new InsertComment();
-        ViewStatisticData viewStatisticData = new ViewStatisticData();
         model.addAttribute("showstatisticdata", viewStatisticData.showStatisticData()); //todo szador insert comment to table "statistic", select date description
-        model.addAttribute("insertcomment", sql.sqlInsertCheck());
+        model.addAttribute("insertcomment", insertComment.sqlInsertCheck());
         return "insertcomment";
     }
 
     @RequestMapping("/tableview")
     public String tableView(Model model) {
-        ViewDataTable viewDataTable = new ViewDataTable();
         model.addAttribute("tableview", viewDataTable.outData());
         return "tableview";
     }

@@ -34,6 +34,8 @@ public class AppController {
     private LogManager logManager;
     @Autowired
     private LogRepository logRepository;
+    @Autowired
+    private Statistic statistic;
 
     public void setLogManager(LogManager logManager) {
         this.logManager = logManager;
@@ -130,7 +132,6 @@ public class AppController {
     @RequestMapping("/createtable")
     //todo vbaranov create table "statistic" with column "server" = id, "date", "issue" = description, "comment"
     public String crateTable(Model model) {
-        Statistic statistic = new Statistic();
         statistic.createTable();
         statistic.clearTable();
         statistic.insertDataToTable();

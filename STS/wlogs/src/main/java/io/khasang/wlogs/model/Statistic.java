@@ -14,7 +14,7 @@ import java.util.Map;
 
 public class Statistic implements JdbcInterface {
     private JdbcTemplate jdbcTemplate;
-
+/*
     public Statistic() {
         SimpleDriverDataSource dataSource = new SimpleDriverDataSource();
         dataSource.setDriverClass(com.mysql.jdbc.Driver.class);
@@ -23,7 +23,7 @@ public class Statistic implements JdbcInterface {
         dataSource.setPassword("root");
         this.jdbcTemplate = new JdbcTemplate(dataSource);
     }
-
+*/
 
     @Override
     public void setJdbcTemplate(JdbcTemplate jdbcTemplate) {

@@ -55,6 +55,10 @@ http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd http://www.springfr
         </property>
     </bean>
 
+    <bean id="statistic" class="io.khasang.wlogs.model.Statistic">
+        <property name="jdbcTemplate" ref="jdbcTemplate"/>
+    </bean>
+
     <!-- This tag allows for mapping the dispatcher-servlet to "/" -->
     <mvc:default-servlet-handler/>
 

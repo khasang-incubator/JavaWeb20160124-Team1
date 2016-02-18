@@ -1,9 +1,6 @@
 package io.khasang.wlogs.controller;
 
-import io.khasang.wlogs.model.InsertDataTable;
-import io.khasang.wlogs.model.LogManager;
-import io.khasang.wlogs.model.LogRepository;
-import io.khasang.wlogs.model.ViewDataTable;
+import io.khasang.wlogs.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -143,6 +140,8 @@ public class AppController {
 
     @RequestMapping("login") //todo dalbot
     public String login(Model model) {
+        JdbcInterface login = new Login();
+        login.createTable();
         model.addAttribute("login", "Login Users"); //return user list from current logon name, db with id, username, role, description
         return "login";
     }

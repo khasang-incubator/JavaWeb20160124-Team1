@@ -55,6 +55,8 @@ http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd http://www.springfr
         </property>
     </bean>
 
+    <bean id="login" class="io.khasang.wlogs.model.Login"/>
+
     <!-- This tag allows for mapping the dispatcher-servlet to "/" -->
     <mvc:default-servlet-handler/>
 

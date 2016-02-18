@@ -138,9 +138,10 @@ public class AppController {
         return "tableview";
     }
 
+    @Autowired
+    JdbcInterface login;
     @RequestMapping("login") //todo dalbot
     public String login(Model model) {
-        JdbcInterface login = new Login();
         login.createTable();
         model.addAttribute("login", "Login Users"); //return user list from current logon name, db with id, username, role, description
         return "login";

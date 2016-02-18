@@ -13,9 +13,11 @@ hs_err_pid*
 
 # IDEA
 .idea/*
+/idea/
 
 # MAC cache
 .DS_Store
+
 
 STS/wlogs/.idea/
 STS/wlogs/out/

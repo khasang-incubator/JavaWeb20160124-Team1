@@ -133,7 +133,9 @@ public class AppController {
     @RequestMapping("/insertcomment")
     public String insertComment(Model model) {
         InsertComment sql = new InsertComment();
-        model.addAttribute("insertcomment", sql.sqlInsertCheck());//todo szador insert comment to table "statistic", select date description
+        ViewStatisticData viewStatisticData = new ViewStatisticData();
+        model.addAttribute("showstatisticdata", viewStatisticData.showStatisticData()); //todo szador insert comment to table "statistic", select date description
+        model.addAttribute("insertcomment", sql.sqlInsertCheck());
         return "insertcomment";
     }
 

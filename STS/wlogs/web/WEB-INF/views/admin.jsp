@@ -8,10 +8,10 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>backup</title>
+    <title>admin</title>
 </head>
 <body>
-<p>Backup</p>
-<h1> ${backup} </h1>
+<p>Hello!</p>
+<h1> ${admin} </h1>
 </body>
 </html>

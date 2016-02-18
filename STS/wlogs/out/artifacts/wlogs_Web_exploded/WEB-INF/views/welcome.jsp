@@ -32,7 +32,7 @@
 
             </td>
             <td>
-                <button formaction="/tableview">Enter</button>
+                <button>Enter</button>
             </td>
         </tr>
     </table>

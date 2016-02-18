@@ -18,9 +18,9 @@ public class Statistic implements JdbcInterface {
     public Statistic() {
         SimpleDriverDataSource dataSource = new SimpleDriverDataSource();
         dataSource.setDriverClass(com.mysql.jdbc.Driver.class);
-        dataSource.setUsername("toplinewebuser");
-        dataSource.setUrl("jdbc:mysql://192.168.19.43/toplineweb");
-        dataSource.setPassword("toplinewebpassword");
+        dataSource.setUsername("root");
+        dataSource.setUrl("jdbc:mysql://localhost/wlogs");
+        dataSource.setPassword("root");
 
         this.jdbcTemplate = new JdbcTemplate(dataSource);
 

@@ -3,7 +3,7 @@ package io.khasang.wlogs.controller;
 
 import io.khasang.wlogs.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
-=======
+
 import io.khasang.wlogs.model.DbModel;
 import io.khasang.wlogs.model.TestTableModel;
 
@@ -168,20 +168,6 @@ public class AppController {
         return "registration";
     }
 
-=======
-    
-    @RequestMapping("/backup")
-    public String backup(Model model) {
-        model.addAttribute("backup", "Success");
-        return "backup";
-    }
-
-    @RequestMapping("/admin")
-    public String admin(Model model) {
-        model.addAttribute("admin", "You are number 1!");
-        return "admin";
-    }
-
     @RequestMapping("/table")
     public String table(Model model) {
         model.addAttribute("table", "You have one table!");
@@ -196,5 +182,5 @@ public class AppController {
         }
         return "table";
     }
->>>>>>> origin/vbaran
+
 }

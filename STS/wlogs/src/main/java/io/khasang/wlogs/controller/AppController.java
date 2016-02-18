@@ -11,19 +11,20 @@ import javax.servlet.http.HttpServletRequest;
 
 @Controller
 public class AppController {
-    @RequestMapping("/backup")
-    public String backup(Model model) {
-        BackupDB backupDB = new BackupDB();
-        model.addAttribute("backup", backupDB.showTable());
-    return "backup";
-    }
-
-
     final public static Integer DEFAULT_LIMIT = 100;
     @Autowired
     private LogManager logManager;
     @Autowired
     private LogRepository logRepository;
+    @Autowired
+    private BackupDB backupDB;
+
+    @RequestMapping("/backup")
+    public String backup(Model model) {
+        //BackupDB backupDB = new BackupDB();
+        model.addAttribute("backup", backupDB.showTable());
+    return "backup";
+    }
 
     public void setLogManager(LogManager logManager) {
         this.logManager = logManager;

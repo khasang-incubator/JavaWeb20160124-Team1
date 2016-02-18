@@ -1,9 +1,15 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
 <jsp:directive.page contentType="text/html;charset=UTF-8" language="java"/>
 <jsp:directive.include file="part_header.jsp"/>
 
-    <h2>Удаление записей лога</h2>
+    <h2>
+        <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+        Удаление записей лога
+        <span class="label label-info">всего: ${logRecordsTotal}</span>
+    </h2>
+    <hr/>
     <div>
         <c:if test="${null != success}">
             <div class="alert alert-success alert-dismissible" role="alert">
@@ -18,71 +24,80 @@
             </div>
         </c:if>
     </div>
-    <h2></h2>
-    <form action="/delete" method="post" class="">
-        <div class="row">
-            <div class="col-md-12">
-                <h4>Удалить записи лога старше заданного интервала:</h4>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-3">
-                <label for="date_interval_size">Размер интервала:</label>
-                <select name="date_interval_size" id="date_interval_size" class="form-control">
-
-                </select>
-            </div>
-            <div class="col-md-4">
-                <label for="date_interval_id">Тип интервала:</label>
-                <select name="date_interval_id" id="date_interval_id" class="form-control">
-                    <c:forEach items="${dateIntervalTypesMap}" var="entry">
-                        <option value="${entry.key}">${entry.value}</option>
-                    </c:forEach>
-                </select>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-12">
-                <br/>
-                <div class="alert alert-info form-group" role="alert">
-                    <h4><span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span> Пояснение:</h4>
-                    Будут удалены все записи логи старше заданного интервала времени, например, если выбрать старше 2-х месяцев, то из БД будут удалены все записи чья дата создания находится раньше 2-х недель, если считать от текущей даты.
+    <div>
+        <form:form modelAttribute="deleteDataForm" action="delete" method="post">
+            <div class="row">
+                <div class="col-md-6">
+                    <h5>Удалить записи лога старше:</h5>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <form:select path="dateIntervalSize" cssClass="form-control">
+                                <form:option value="" disabled="true" selected="selected">Более чем ...</form:option>
+                            </form:select>
+                        </div>
+                        <div class="col-md-8">
+                            <form:select path="dateIntervalType" cssClass="form-control">
+                                <form:option value="" disabled="true" selected="selected">День/Неделя/Месяц ...</form:option>
+                                <form:options items="${deleteDataForm.getDateIntervalTypes()}"/>
+                            </form:select>
+                        </div>
+                    </div>
                 </div>
-                <div class="alert alert-warning form-group" role="alert">
-                    <h4><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span> Внимание!</h4>
-                    На данный момент в базе данных количетсво записей составляет: <strong>${logRecordsTotal}</strong>. Если количество записей большое, то при использовании фильтра по интервалу может привести к переполнению дискового пространства на сервере СУБД. В таком случае рекомендутеся полная очистка.
-                </div>
-            </div>
-        </div>
-        <hr/>
-        <div class="row">
-            <div class="col-md-12">
-                <div class="alert alert-danger col-md-12" role="alert">
-                    <h4><span class="glyphicon glyphicon-fire" aria-hidden="true"></span> Тотальное уничтожение!</h4>
-                    <p>Будет произведена полная очистка таблицы с логами. Фильтр по интервалу не учитывается.</p>
-                    <p>
-                        <label for="total_annihilation">
-                            <input type="checkbox" id="total_annihilation" name="total_annihilation"/>
-                            <strong>Снести все!</strong>
-                        </label>
-                    </p>
+                <div class="col-md-6">
+                    <h5>Атрибуты записей лога:</h5>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                            <form:select path="errorSource" cssClass="form-control">
+                                <form:option value="" disabled="true" selected="selected">Источник ошибок</form:option>
+                                <form:options items="${errorSources}"/>
+                            </form:select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                            <form:select path="errorLevel" cssClass="form-control">
+                                <form:option value="" disabled="true" selected="selected">Уровень ошибок</form:option>
+                                <form:options items="${errorLevels}"/>
+                            </form:select>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
-        <hr/>
-        <div class="alert alert-warning form-group" role="alert">
-            <h4><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span> Внимание!</h4>
-            Будет произведено удаление записей логов из базы данных. Данную операцию нельзя отменить и данные будут безвозвратно уничтожены.
-            <p>
-                <label for="understand_terms">
-                    <input type="checkbox" id="understand_terms" name="understand_terms"/>
-                    <strong>Я понимаю, продолжить.</strong>
-                </label>
-            </p>
-        </div>
-        <div class="form-group">
-            <input type="submit" value="Удалить" class="btn btn-danger btn-lg">
-        </div>
-    </form>
+            <p class="text-center font-larger">-------------------- <strong>ИЛИ</strong> --------------------</p>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="alert alert-danger col-md-12" role="alert">
+                        <h4><span class="glyphicon glyphicon-fire" aria-hidden="true"></span> Тотальное уничтожение!</h4>
+                        <p>Будет произведена полная очистка таблицы с логами. Другие фильтры игнорируются.</p>
+                        <p>
+                            <label for="deleteAllCheckbox">
+                                <form:checkbox path="deleteAll" id="deleteAllCheckbox"/>
+                                <strong>Снести все!</strong>
+                            </label>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="alert alert-warning form-group" role="alert">
+                <h4><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span> Внимание!</h4>
+                Будет произведено удаление записей логов из базы данных. Данную операцию нельзя отменить и данные будут безвозвратно уничтожены.
+                <p>
+                    <label for="agreeTermsCheckbox">
+                        <form:checkbox path="agreeTerms" id="agreeTermsCheckbox"/>
+                        <strong>Я понимаю, продолжить.</strong>
+                    </label>
+                </p>
+            </div>
+            <form:button name="sudmitDeleteDataForm" id="sumitDeleteDataFormButton" class="btn btn-danger btn-lg" type="submit">
+                <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                Удалить
+            </form:button>
+            <form:button name="resetDeleteDataForm" id="resetDeleteDataFormButton" class="btn btn-link" type="reset">
+                Я передумал, очистить форму
+            </form:button>
+        </form:form>
+    </div>
 
 <jsp:directive.include file="part_footer.jsp"/>

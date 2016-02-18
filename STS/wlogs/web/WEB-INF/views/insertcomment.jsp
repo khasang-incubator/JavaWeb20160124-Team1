@@ -6,6 +6,7 @@
 </head>
 <body>
 <h1>Hello</h1>
+<div>${showstatisticdata}</div>
 <h2>${insertcomment}</h2>
 </body>
 </html>

@@ -19,7 +19,6 @@ public class InsertComment implements JdbcInterface {
         try{
             System.out.println("getting current statistic table...");
             createTable();
-            //jdbcTemplate.update("SELECT * FROM statistic");
             System.out.println("Insert comment");
             jdbcTemplate.update("INSERT INTO statistic (comment) VALUE (?)", comment);
         }

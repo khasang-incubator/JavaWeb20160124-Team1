@@ -48,4 +48,18 @@ public class LogRepository {
             }
         });
     }
+
+    public ArrayList<String> getErrorSources() {
+        String sql = "SELECT DISTINCT error_source FROM " + tableName;
+        return jdbcTemplate.query(sql, new ResultSetExtractor<ArrayList<String>>() {
+            @Override
+            public ArrayList<String> extractData(ResultSet rs) throws SQLException, DataAccessException {
+                ArrayList<String> errorSources = new ArrayList<String>();
+                while (rs.next()) {
+                    errorSources.add(rs.getString(1));
+                }
+                return errorSources;
+            }
+        });
+    }
 }

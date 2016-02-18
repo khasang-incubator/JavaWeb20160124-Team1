@@ -50,11 +50,11 @@ public class Statistic implements JdbcInterface {
         jdbcTemplate.execute("delete from statistic");
     }
     public void insertDataToTable(){
-        jdbcTemplate.execute("insert into statistic\n" +
-                "(`server`,`date`,`issue`)\n" +
-                "select id as `server`\n" +
-                ",occurred_at as `date`\n" +
-                ",error_description as `issue`\n" +
+        jdbcTemplate.execute("insert into statistic" +
+                "(`server`,`date`,`issue`)" +
+                "select id as `server`" +
+                ",occurred_at as `date`" +
+                ",error_description as `issue`" +
                 "from wlogs");
     }
     public List<StatisticModel> getStatistic(){

@@ -1,0 +1,80 @@
+@startuml
+
+class Controller{
+
+}
+
+interface loginPage{
+
+}
+
+interface mainMenuPage{
+
+}
+
+class DbConnector{
+    + driver
+    + host
+    + dbName
+    + dbLogin
+    + dbPassword
+
+    + getConnector()
+}
+
+class InsertDataToTable{
+    + dbConnector
+    + insertData(String sql)
+}
+
+class SelectDataFromTable{
+    + dbConnector
+    + selectData(String sql)
+}
+
+class UserAdmin{
+
+}
+
+class User{
+    + login
+    + password
+    + getListPermission()
+    + setListPermission()
+}
+
+class WLogs{
+    + readLogs()
+    + parseLogs()
+}
+
+class UserPermissions {
+    // Формируем меню для пользователей
+    + getListPermission(User user)
+}
+
+class EventListInWLogs {
+    + getEventListForUser()
+}
+
+InsertDataToTable --* DbConnector
+SelectDataFromTable --* DbConnector
+loginPage ..> Controller
+mainMenuPage ..> Controller
+
+Controller o-- UserAdmin
+UserAdmin o-- InsertDataToTable
+UserAdmin o-- SelectDataFromTable
+
+Controller o-- User
+User o-- InsertDataToTable
+User o-- SelectDataFromTable
+
+Controller o-- WLogs
+Controller o-- UserPermissions
+Controller o-- EventListInWLogs
+
+WLogs o-- InsertDataToTable
+WLogs o-- SelectDataFromTable
+
+@enduml

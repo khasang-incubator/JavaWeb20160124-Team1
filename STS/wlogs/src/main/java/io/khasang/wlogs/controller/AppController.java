@@ -1,9 +1,6 @@
 package io.khasang.wlogs.controller;
 
-import io.khasang.wlogs.model.InsertDataTable;
-import io.khasang.wlogs.model.LogManager;
-import io.khasang.wlogs.model.LogRepository;
-import io.khasang.wlogs.model.ViewDataTable;
+import io.khasang.wlogs.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -123,8 +120,11 @@ public class AppController {
     @RequestMapping("/createtable")
     //todo vbaranov create table "statistic" with column "server" = id, "date", "issue" = description, "comment"
     public String crateTable(Model model) {
-        InsertDataTable sql = new InsertDataTable();
-        model.addAttribute("createtable", sql.sqlInsertCheck());
+        Statistic statistic = new Statistic();
+        statistic.createTable();
+        statistic.clearTable();
+        statistic.insertDataToTable();
+        model.addAttribute("createtable", statistic.getStatistic());
         return "createtable";
     }
 

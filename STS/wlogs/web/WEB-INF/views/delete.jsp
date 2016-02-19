@@ -66,6 +66,19 @@
             <p class="text-center font-larger">-------------------- <strong>ИЛИ</strong> --------------------</p>
             <div class="row">
                 <div class="col-md-12">
+                    <div class="form-horizontal">
+                        <div class="form-group">
+                            <label for="recordsToKeepAliveInput" class="control-label col-sm-6">Оставить в базе данных последние: </label>
+                            <div class="col-sm-3">
+                                <form:input path="recordsToKeepAliveCount" type="number" id="recordsToKeepAliveInput" cssClass="form-control"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <p class="text-center font-larger">-------------------- <strong>ИЛИ</strong> --------------------</p>
+            <div class="row">
+                <div class="col-md-12">
                     <div class="alert alert-danger col-md-12" role="alert">
                         <h4><span class="glyphicon glyphicon-fire" aria-hidden="true"></span> Тотальное уничтожение!</h4>
                         <p>Будет произведена полная очистка таблицы с логами. Другие фильтры игнорируются.</p>

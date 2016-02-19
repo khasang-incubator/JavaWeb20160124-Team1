@@ -68,10 +68,11 @@
                 <div class="col-md-12">
                     <div class="form-horizontal">
                         <div class="form-group">
-                            <label for="recordsToKeepAliveInput" class="control-label col-sm-6">Оставить в базе данных последние: </label>
+                            <label for="recordsToKeepAliveInput" class="control-label col-sm-4">Оставить в базе данных последние: </label>
                             <div class="col-sm-3">
                                 <form:input path="recordsToKeepAliveCount" type="number" id="recordsToKeepAliveInput" cssClass="form-control"/>
                             </div>
+                            <label class="control-label col-sm-1">записей</label>
                         </div>
                     </div>
                 </div>

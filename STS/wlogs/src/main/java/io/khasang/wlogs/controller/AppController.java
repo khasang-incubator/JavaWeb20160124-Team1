@@ -1,12 +1,12 @@
 package io.khasang.wlogs.controller;
 
-import io.khasang.wlogs.model.InsertDataTable;
-import io.khasang.wlogs.model.LogManager;
-import io.khasang.wlogs.model.LogRepository;
+import io.khasang.wlogs.form.DeleteDataForm;
+import io.khasang.wlogs.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import io.khasang.wlogs.model.ViewDataTable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -57,15 +57,18 @@ public class AppController {
 
     @RequestMapping("/delete")
     public String deleteForm(Model model) {
-        model.addAttribute("dateIntervalTypesMap", logManager.getDateIntervalMap());
+        model.addAttribute("errorSources", this.logRepository.getErrorSources());
+        model.addAttribute("errorLevels", this.logRepository.getErrorLevels());
+        model.addAttribute("deleteDataForm", new DeleteDataForm());
         model.addAttribute("logRecordsTotal", logRepository.countAll());
         return "delete";
     }
 
     @RequestMapping(value = "/delete", method = RequestMethod.POST)
-    public String deleteAction(HttpServletRequest request, RedirectAttributes redirectAttributes, Model model) {
+    public String deleteAction(@ModelAttribute DeleteDataForm deleteDataForm, HttpServletRequest request,
+                               RedirectAttributes redirectAttributes, Model model) {
         try {
-            Integer affectedRows = logManager.delete(request.getParameterMap());
+            Integer affectedRows = logManager.delete(deleteDataForm);
             redirectAttributes.addFlashAttribute("success", "Success! Count of deleted rows: " + affectedRows);
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("error", e.getMessage());

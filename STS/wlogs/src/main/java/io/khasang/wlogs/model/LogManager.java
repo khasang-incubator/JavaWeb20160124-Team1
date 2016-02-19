@@ -84,16 +84,17 @@ public class LogManager {
 
     // TODO: move away from here.... where??
     public void loadFixtures() {
+        String fileName = "log.sample";
         try {
             ClassLoader loader = Thread.currentThread().getContextClassLoader();
             // TODO: bad idea.... how to calculate lines in the file?
-            LineNumberReader readerTmp = new LineNumberReader(new BufferedReader(new FileReader(loader.getResource("dev.log").getFile())));
+            LineNumberReader readerTmp = new LineNumberReader(new BufferedReader(new FileReader(loader.getResource(fileName).getFile())));
             Stream<String> linesTmp = readerTmp.lines();
             final Integer linesCount = (int) linesTmp.count();
             linesTmp.close();
             readerTmp.close();
             // -----
-            LineNumberReader reader = new LineNumberReader(new BufferedReader(new FileReader(loader.getResource("dev.log").getFile())));
+            LineNumberReader reader = new LineNumberReader(new BufferedReader(new FileReader(loader.getResource(fileName).getFile())));
             final Stream<String> lines = reader.lines();
             final Iterator<String> linesIterator = lines.iterator();
             final Pattern pattern = Pattern.compile("^\\[(\\d{4}-\\d{2}-\\d{2}\\s\\d{2}:\\d{2}:\\d{2})\\]\\s([a-zA-Z0-9_]+)\\.([a-zA-Z0-9_]+):\\s(.*)");

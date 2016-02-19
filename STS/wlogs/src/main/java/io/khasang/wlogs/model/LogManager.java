@@ -64,32 +64,18 @@ public class LogManager {
         if (deleteDataForm.isCriteriaEmpty()) {
             throw new Exception("You must use one of available filters.");
         }
-        if (null != intervalType && (intervalSize == null || intervalSize < 1)) {
-            throw new Exception("Required interval size.");
-        }
-        return this.deleteDataTable.deleteByCriteria(deleteDataForm.getErrorSource(), deleteDataForm.getErrorLevel(),
-                                                     intervalType, intervalSize);
-    }
-
-    public int deleteAllExceptLastNRecords(final int recordsAmountToKeepAlive) throws DataAccessException {
-        Integer logRecordsCountTotal = logRepository.countAll();
-        if (recordsAmountToKeepAlive >= logRecordsCountTotal) {
-            return 0;
-        }
-        final String temporaryTableName = tableName + "_" + UUID.randomUUID().toString().replace("-", "");
-        sharedTransactionTemplate.execute(new TransactionCallbackWithoutResult() {
-            @Override
-            protected void doInTransactionWithoutResult(TransactionStatus status) {
-                jdbcTemplate.execute("CREATE TEMPORARY TABLE IF NOT EXISTS :temporaryTableName AS (SELECT * FROM :tableName ORDER BY occurred_at DESC LIMIT :limit)"
-                        .replace(":tableName", tableName).replace(":temporaryTableName", temporaryTableName)
-                        .replace(":limit", String.valueOf(recordsAmountToKeepAlive)));
-                jdbcTemplate.execute("DELETE FROM :tableName".replace(":tableName", tableName));
-                jdbcTemplate.execute("INSERT INTO :tableName SELECT * FROM :temporaryTableName"
-                        .replace(":tableName", tableName).replace(":temporaryTableName", temporaryTableName));
-                jdbcTemplate.execute("DROP TABLE :temporaryTableName".replace(":temporaryTableName", temporaryTableName));
+        if (null != intervalType) {
+            if (intervalSize == null || intervalSize < 1) {
+                throw new Exception("Required interval size.");
             }
-        });
-        return logRecordsCountTotal - recordsAmountToKeepAlive;
+            return this.deleteDataTable.deleteByCriteria(deleteDataForm.getErrorSource(), deleteDataForm.getErrorLevel(),
+                    intervalType, intervalSize);
+        }
+        Integer recordsToKeepAliveCount = deleteDataForm.getRecordsToKeepAliveCount();
+        if (null != recordsToKeepAliveCount) {
+            return this.deleteDataTable.deleteAllExceptLastNRecords(recordsToKeepAliveCount);
+        }
+        throw new Exception("You have to chose any type of filter.");
     }
 
     public void createTable() {

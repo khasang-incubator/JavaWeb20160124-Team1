@@ -92,6 +92,29 @@ public class DeleteDataTable {
         });
     }
 
+    public int deleteAllExceptLastNRecords(final int recordsAmountToKeepAlive) throws DataAccessException {
+        Integer logRecordsCountTotal = logRepository.countAll();
+        if (recordsAmountToKeepAlive >= logRecordsCountTotal) {
+            return 0;
+        }
+        final String temporaryTableNameNew = tableName + "_" + UUID.randomUUID().toString().replace("-", "");
+        final String temporaryTableNameOld = tableName + "_" + UUID.randomUUID().toString().replace("-", "");
+        sharedTransactionTemplate.execute(new TransactionCallbackWithoutResult() {
+            @Override
+            protected void doInTransactionWithoutResult(TransactionStatus status) {
+                Integer limit = recordsAmountToKeepAlive;
+                String[] sql = {
+                        "CREATE TABLE IF NOT EXISTS " + temporaryTableNameNew + " LIKE " + tableName,
+                        "INSERT INTO " + temporaryTableNameNew + " SELECT * FROM " + tableName + " ORDER BY occurred_at DESC LIMIT " + limit,
+                        "RENAME TABLE " + tableName + " TO " + temporaryTableNameOld + ", " + temporaryTableNameNew + " TO " + tableName,
+                        "DROP TABLE " + temporaryTableNameOld
+                };
+                jdbcTemplate.batchUpdate(sql);
+            }
+        });
+        return logRecordsCountTotal - recordsAmountToKeepAlive;
+    }
+
     public void deleteOne(final LogModel log) {
         deleteOne(log.getId());
     }

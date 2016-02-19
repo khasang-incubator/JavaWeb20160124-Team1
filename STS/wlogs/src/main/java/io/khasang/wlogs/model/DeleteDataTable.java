@@ -1,8 +1,11 @@
 package io.khasang.wlogs.model;
 
 import io.khasang.wlogs.form.DeleteDataForm;
+import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementSetter;
+import org.springframework.transaction.TransactionStatus;
+import org.springframework.transaction.support.TransactionCallbackWithoutResult;
 import org.springframework.transaction.support.TransactionTemplate;
 
 import java.sql.PreparedStatement;
@@ -15,6 +18,11 @@ public class DeleteDataTable {
     private TransactionTemplate sharedTransactionTemplate;
     private JdbcTemplate jdbcTemplate;
     private String tableName;
+    private LogRepository logRepository;
+
+    public void setLogRepository(LogRepository logRepository) {
+        this.logRepository = logRepository;
+    }
 
     public void setSharedTransactionTemplate(TransactionTemplate sharedTransactionTemplate) {
         this.sharedTransactionTemplate = sharedTransactionTemplate;

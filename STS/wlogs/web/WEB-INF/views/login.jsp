@@ -21,7 +21,8 @@
         <form action="login" method="post">
             Account <br>
             <select size="1">
-                <option>smth</option>
+                ${users}
+                <%--<option>smth</option>--%>
             </select>
             <br> Password <br>
             <input type="password" name="password" id="password"/>

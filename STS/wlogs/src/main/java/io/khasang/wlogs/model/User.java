@@ -9,6 +9,9 @@ public class User {
     private String password;
     private String description;
 
+    public User() {
+    }
+
     public User(int id, String login, String password) {
         this.id = id;
         this.login = login;
@@ -19,6 +22,38 @@ public class User {
         this.id = id;
         this.login = login;
         this.password = password;
+        this.description = description;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public String getLogin() {
+        return login;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void setLogin(String login) {
+        this.login = login;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public void setDescription(String description) {
         this.description = description;
     }
 }

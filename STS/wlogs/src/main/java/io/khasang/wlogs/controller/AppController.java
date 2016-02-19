@@ -143,6 +143,7 @@ public class AppController {
     @RequestMapping("login") //todo dalbot
     public String login(Model model) {
         String sqlAnswer = ((Login) login).sqlInsert();
+        model.addAttribute("users", ((Login)login).showUsers());
         model.addAttribute("login", sqlAnswer); //return user list from current logon name, db with id, username, role, description
         return "login";
     }

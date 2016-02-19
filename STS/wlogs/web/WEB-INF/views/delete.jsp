@@ -31,9 +31,7 @@
                     <h5>Удалить записи лога старше:</h5>
                     <div class="row">
                         <div class="col-md-4">
-                            <form:select path="dateIntervalSize" cssClass="form-control">
-                                <form:option value="" disabled="true" selected="selected">Более чем ...</form:option>
-                            </form:select>
+                            <form:input path="dateIntervalSize" cssClass="form-control" value="0" type="number"/>
                         </div>
                         <div class="col-md-8">
                             <form:select path="dateIntervalType" cssClass="form-control">

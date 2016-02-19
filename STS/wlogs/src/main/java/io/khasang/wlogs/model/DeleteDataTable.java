@@ -14,7 +14,7 @@ import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.UUID;
 
-public class DeleteDataTable {
+public class DeleteDataTable implements JdbcInterface {
     private TransactionTemplate sharedTransactionTemplate;
     private JdbcTemplate jdbcTemplate;
     private String tableName;

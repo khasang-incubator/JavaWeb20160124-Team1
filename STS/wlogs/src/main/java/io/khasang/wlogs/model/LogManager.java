@@ -1,5 +1,6 @@
 package io.khasang.wlogs.model;
 
+import io.khasang.wlogs.form.DeleteDataForm;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -48,12 +49,26 @@ public class LogManager {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    public Map<String, String> getDateIntervalMap() {
-        LinkedHashMap<String, String> map = new LinkedHashMap<String, String>();
-        for (DeleteDataTable.DateIntervalType type : DeleteDataTable.DateIntervalType.values()) {
-            map.put(type.name(), type.name());
+    public int delete(DeleteDataForm deleteDataForm) throws Exception {
+        // TODO: research validation of forms
+        if (!deleteDataForm.getAgreeTerms()) {
+            throw new Exception("You must read and accept terms before proceed.");
         }
-        return map;
+        if (deleteDataForm.getDeleteAll()) {
+            Integer recordsTotal = this.logRepository.countAll();
+            this.deleteDataTable.deleteAll();
+            return recordsTotal;
+        }
+        Integer intervalSize = deleteDataForm.getDateIntervalSize();
+        DeleteDataForm.DateIntervalType intervalType = deleteDataForm.getDateIntervalType();
+        if (deleteDataForm.isCriteriaEmpty()) {
+            throw new Exception("You must use one of available filters.");
+        }
+        if (null != intervalType && (intervalSize == null || intervalSize < 1)) {
+            throw new Exception("Required interval size.");
+        }
+        return this.deleteDataTable.deleteByCriteria(deleteDataForm.getErrorSource(), deleteDataForm.getErrorLevel(),
+                                                     intervalType, intervalSize);
     }
 
     public int delete (Map<String, String[]> userData) throws Exception {

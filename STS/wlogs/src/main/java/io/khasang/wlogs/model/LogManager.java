@@ -61,21 +61,18 @@ public class LogManager {
         }
         Integer intervalSize = deleteDataForm.getDateIntervalSize();
         DeleteDataForm.DateIntervalType intervalType = deleteDataForm.getDateIntervalType();
+        Integer recordsToKeepAliveCount = deleteDataForm.getRecordsToKeepAliveCount();
         if (deleteDataForm.isCriteriaEmpty()) {
             throw new Exception("You must use one of available filters.");
-        }
-        if (null != intervalType) {
+        } else if (null != recordsToKeepAliveCount && recordsToKeepAliveCount > 0) {
+                return this.deleteDataTable.deleteAllExceptLastNRecords(recordsToKeepAliveCount);
+        } else if (null != intervalType) {
             if (intervalSize == null || intervalSize < 1) {
                 throw new Exception("Required interval size.");
             }
-            return this.deleteDataTable.deleteByCriteria(deleteDataForm.getErrorSource(), deleteDataForm.getErrorLevel(),
-                    intervalType, intervalSize);
         }
-        Integer recordsToKeepAliveCount = deleteDataForm.getRecordsToKeepAliveCount();
-        if (null != recordsToKeepAliveCount) {
-            return this.deleteDataTable.deleteAllExceptLastNRecords(recordsToKeepAliveCount);
-        }
-        throw new Exception("You have to chose any type of filter.");
+        return this.deleteDataTable.deleteByCriteria(deleteDataForm.getErrorSource(), deleteDataForm.getErrorLevel(),
+                intervalType, intervalSize);
     }
 
     public void createTable() {

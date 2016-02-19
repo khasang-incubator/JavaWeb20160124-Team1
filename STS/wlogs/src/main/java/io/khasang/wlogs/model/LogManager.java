@@ -20,7 +20,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
 
-public class LogManager {
+public class LogManager implements JdbcInterface{
     private static final int RECORDS_COUNT_TO_KEEP_ALIVE = 1000;
 
     private String tableName;

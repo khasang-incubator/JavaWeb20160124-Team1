@@ -138,3 +138,7 @@ ul.dropdown li.dropdown-top:hover .dropdown-inside {
 .font-larger {
     font-size: larger;
 }
+
+.error .jumbotron {
+    margin-top: 25px;
+}

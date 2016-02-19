@@ -8,7 +8,8 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class Login implements JdbcInterface {
-    JdbcTemplate jdbcTemplate;
+    private JdbcTemplate jdbcTemplate;
+    private String sqlUnsver;
 
     @Override
     public void setJdbcTemplate(JdbcTemplate jdbcTemplate) {
@@ -25,12 +26,21 @@ public class Login implements JdbcInterface {
         jdbcTemplate = new JdbcTemplate(dataSource);
         jdbcTemplate.execute("DROP TABLE IF EXISTS users");
         jdbcTemplate.execute("create table users(ID INT, login VARCHAR(40), password VARCHAR(40), description VARCHAR (100));");
-        jdbcTemplate.update("INSERT INTO users (login, password) VALUES ('user1', 'pas1');");
-        jdbcTemplate.update("INSERT INTO users (login, password) VALUES ('user2', 'pas2');");
     }
 
-//    public List<User> takeUsers() {
-//        List<User> users = new LinkedList<User>();
-//        jdbcTemplate.
-//    }
+    public String sqlInsert() {
+        createTable();
+        try {
+            jdbcTemplate.update("INSERT INTO users (login, password) VALUES ('user1', 'pas1');");
+            jdbcTemplate.update("INSERT INTO users (login, password) VALUES ('user2', 'pas2');");
+            sqlUnsver = "DB updated";
+        } catch (Exception e) {
+            sqlUnsver = "DB was not updated";
+        }
+        return sqlUnsver;
+    }
+
+    public void showUsers() {
+
+    }
 }

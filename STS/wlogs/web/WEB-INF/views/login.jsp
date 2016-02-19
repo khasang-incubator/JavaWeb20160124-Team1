@@ -31,6 +31,8 @@
             <button>
                 Create table with users
             </button>
+            <br>
+            ${login}
         </form>
         <!-- <a href="registration">Regestration</a> -->
     </div>

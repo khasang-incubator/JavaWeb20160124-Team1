@@ -23,6 +23,7 @@ public class DeleteDataForm {
     private String errorLevel;
     private Integer dateIntervalSize = 0;
     private DateIntervalType dateIntervalType;
+    private Integer recordsToKeepAliveCount = 0;
 
     public LinkedHashMap<String, String> getDateIntervalTypes() {
         LinkedHashMap<String, String> types = new LinkedHashMap<String, String>();
@@ -78,6 +79,14 @@ public class DeleteDataForm {
 
     public void setErrorLevel(String errorLevel) {
         this.errorLevel = errorLevel;
+    }
+
+    public Integer getRecordsToKeepAliveCount() {
+        return recordsToKeepAliveCount;
+    }
+
+    public void setRecordsToKeepAliveCount(Integer recordsToKeepAliveCount) {
+        this.recordsToKeepAliveCount = recordsToKeepAliveCount;
     }
 
     // TODO: remove method after form validator research

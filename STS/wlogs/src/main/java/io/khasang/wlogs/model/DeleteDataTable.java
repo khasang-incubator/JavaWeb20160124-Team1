@@ -1,11 +1,14 @@
 package io.khasang.wlogs.model;
 
+import io.khasang.wlogs.form.DeleteDataForm;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementSetter;
 import org.springframework.transaction.support.TransactionTemplate;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.LinkedHashMap;
+import java.util.LinkedList;
 import java.util.UUID;
 
 public class DeleteDataTable {
@@ -51,15 +54,47 @@ public class DeleteDataTable {
         });
     }
 
-    public Integer deleteByCriteria(final String errorSource, final String errorLevel, DateIntervalType dateIntervalType, final Integer dateIntervalSize) {
-        String sql = "DELETE FROM :tableName WHERE error_source = ? AND error_level = ? AND occurred_at < DATE_SUB(CURDATE(), INTERVAL ? :dateIntervalType)"
-                .replace(":tableName", tableName).replace(":dateIntervalType", dateIntervalType.toString());
+    public Integer deleteByDateInterval(DeleteDataForm.DateIntervalType dateIntervalType, final Integer dateIntervalSize) {
+        String sql = "DELETE FROM " + tableName + " WHERE occurred_at < DATE_SUB(CURDATE(), INTERVAL ? " + dateIntervalType.toString() + ")";
         return jdbcTemplate.update(sql, new PreparedStatementSetter() {
             @Override
             public void setValues(PreparedStatement ps) throws SQLException {
-                ps.setString(1, errorSource);
-                ps.setString(2, errorLevel);
-                ps.setInt(3, dateIntervalSize);
+                ps.setInt(1, dateIntervalSize);
+            }
+        });
+    }
+
+    public Integer deleteByCriteria(final String errorSource, final String errorLevel,
+                                    final DeleteDataForm.DateIntervalType dateIntervalType, final Integer dateIntervalSize) {
+        // TODO: research java db criteria...
+        final LinkedList<String> filters = new LinkedList<String>();
+        if (null != errorSource) {
+            filters.add("error_source = ?");
+        }
+        if (null != errorLevel) {
+            filters.add("error_level = ?");
+        }
+        if (null != dateIntervalType) {
+            String filterOccurredAt = "occurred_at < DATE_SUB(CURDATE(), INTERVAL ? " + dateIntervalType.name() + ")";
+            filters.add(filterOccurredAt);
+        }
+        if (filters.size() == 0) {
+            return 0;
+        }
+        String sql = "DELETE FROM " + tableName + " WHERE " + String.join(" AND ", filters);
+        return jdbcTemplate.update(sql, new PreparedStatementSetter() {
+            @Override
+            public void setValues(PreparedStatement ps) throws SQLException {
+                Integer parameterIndex = 1;
+                if (null != errorSource) {
+                    ps.setString(parameterIndex++, errorSource);
+                }
+                if (null != errorLevel) {
+                    ps.setString(parameterIndex++, errorLevel);
+                }
+                if (null != dateIntervalType) {
+                    ps.setInt(parameterIndex, dateIntervalSize);
+                }
             }
         });
     }

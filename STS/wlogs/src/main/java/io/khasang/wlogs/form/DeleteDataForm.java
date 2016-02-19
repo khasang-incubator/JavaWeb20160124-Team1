@@ -91,6 +91,6 @@ public class DeleteDataForm {
 
     // TODO: remove method after form validator research
     public Boolean isCriteriaEmpty() {
-        return null == dateIntervalType && null == errorLevel && null == errorSource;
+        return null == dateIntervalType && null == errorLevel && null == errorSource && null == recordsToKeepAliveCount;
     }
 }

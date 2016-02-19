@@ -1,10 +1,7 @@
 package io.khasang.wlogs.controller;
 
 import io.khasang.wlogs.form.DeleteDataForm;
-import io.khasang.wlogs.model.InsertDataTable;
-import io.khasang.wlogs.model.LogManager;
-import io.khasang.wlogs.model.LogRepository;
-import io.khasang.wlogs.model.ViewDataTable;
+import io.khasang.wlogs.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -27,19 +24,14 @@ public class AppController {
     @Autowired
     InsertDataTable insertDataTable;
 
+    @Autowired
+    DeleteDataTable deleteDataTable;
+
     @RequestMapping("/backup")
     //todo vlaptev  "mysqldump wlogs -u root -proot -r \"C:\\ProgramData\\MySQL\\MySQL Server 5.7\\Uploads\\backup.sql\"");
     public String backup(Model model) { //todo - select where backup to do, select table to backup
         model.addAttribute("backup", "Success");
         return "backup";
-    }
-
-    public void setLogManager(LogManager logManager) {
-        this.logManager = logManager;
-    }
-
-    public void setLogRepository(LogRepository logRepository) {
-        this.logRepository = logRepository;
     }
 
     final public static Integer DEFAULT_LIMIT = 100;

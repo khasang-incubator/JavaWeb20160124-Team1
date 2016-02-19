@@ -16,10 +16,6 @@ public class DeleteDataTable {
     private JdbcTemplate jdbcTemplate;
     private String tableName;
 
-    enum DateIntervalType {
-        DAY, WEEK, MONTH, YEAR;
-    }
-
     public void setSharedTransactionTemplate(TransactionTemplate sharedTransactionTemplate) {
         this.sharedTransactionTemplate = sharedTransactionTemplate;
     }
@@ -41,17 +37,6 @@ public class DeleteDataTable {
                 "DROP TABLE " + oldTable
         };
         jdbcTemplate.batchUpdate(sql);
-    }
-
-    public Integer deleteByDateInterval(DateIntervalType dateIntervalType, final Integer dateIntervalSize) {
-        String sql = "DELETE FROM :tableName WHERE occurred_at < DATE_SUB(CURDATE(), INTERVAL ? :dateIntervalType)"
-                .replace(":tableName", tableName).replace(":dateIntervalType", dateIntervalType.toString());
-        return jdbcTemplate.update(sql, new PreparedStatementSetter() {
-            @Override
-            public void setValues(PreparedStatement ps) throws SQLException {
-                ps.setInt(1, dateIntervalSize);
-            }
-        });
     }
 
     public Integer deleteByDateInterval(DeleteDataForm.DateIntervalType dateIntervalType, final Integer dateIntervalSize) {

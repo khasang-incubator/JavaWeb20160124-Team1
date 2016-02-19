@@ -71,47 +71,6 @@ public class LogManager {
                                                      intervalType, intervalSize);
     }
 
-    public int delete (Map<String, String[]> userData) throws Exception {
-        Boolean userUnderstandTerms = this.getCheckBoxValueFormHelper("understand_terms", Boolean.FALSE, userData);
-        if (!userUnderstandTerms) {
-            throw new Exception("You must read and accept terms before proceed.");
-        }
-        Boolean totalAnnihilation = this.getCheckBoxValueFormHelper("total_annihilation", Boolean.FALSE, userData);
-        if (totalAnnihilation) {
-            Integer recordsTotal = this.logRepository.countAll();
-            this.deleteDataTable.deleteAll();
-            return recordsTotal;
-        }
-        Integer intervalSize = Integer.valueOf(this.getInputValueFormHelper("date_interval_size", Boolean.TRUE,userData));
-        DeleteDataTable.DateIntervalType intervalType = DeleteDataTable.DateIntervalType.valueOf(
-                this.getInputValueFormHelper("date_interval_id", Boolean.TRUE, userData));
-        return this.deleteDataTable.deleteByDateInterval(intervalType, intervalSize);
-    }
-
-    // TODO: use jstl form tag or implement FormHelperClass to handle user request data.
-    private String getInputValueFormHelper(String fieldName, Boolean required, Map<String, String[]> userData) throws Exception {
-        String value = "";
-        if (userData.containsKey(fieldName)) {
-            String[] requestParam = userData.get(fieldName);
-            value = requestParam[0];
-        } else if (required) {
-            throw new Exception("Missed required field: " + fieldName);
-        }
-        return value;
-    }
-
-    // TODO: use jstl form tag or implement FormHelperClass to handle user request data.
-    private Boolean getCheckBoxValueFormHelper(String checkBoxName, Boolean required, Map<String, String[]> userData) throws Exception {
-        Boolean userUnderstandTerms = Boolean.FALSE;
-        if (userData.containsKey(checkBoxName)) {
-            String[] requestParam = userData.get(checkBoxName);
-            userUnderstandTerms = requestParam[0].equals("on") ? Boolean.TRUE : Boolean.FALSE;
-        } else if (required) {
-            throw new Exception("Missed required field: " + checkBoxName);
-        }
-        return userUnderstandTerms;
-    }
-
     public int deleteAllExceptLastNRecords(final int recordsAmountToKeepAlive) throws DataAccessException {
         Integer logRecordsCountTotal = logRepository.countAll();
         if (recordsAmountToKeepAlive >= logRecordsCountTotal) {

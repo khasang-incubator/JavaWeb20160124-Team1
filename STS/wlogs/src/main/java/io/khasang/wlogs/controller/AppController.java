@@ -1,34 +1,19 @@
 package io.khasang.wlogs.controller;
 
 import io.khasang.wlogs.model.*;
-import io.khasang.wlogs.model.InsertDataTable;
-import io.khasang.wlogs.model.LogManager;
-import io.khasang.wlogs.model.LogRepository;
-import io.khasang.wlogs.model.ViewDataTable;
 import org.springframework.beans.factory.annotation.Autowired;
-import io.khasang.wlogs.model.DbModel;
-import io.khasang.wlogs.model.TestTableModel;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import javax.servlet.http.HttpServletRequest;
-
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 
 @Controller
 public class AppController {
-
     @Autowired
     private LogManager logManager;
-    @Autowired
-    private LogRepository logRepository;
-    @Autowired
-    InsertDataTable insertDataTable;
     @Autowired
     private LogRepository logRepository;
     @Autowired
@@ -39,15 +24,10 @@ public class AppController {
     private ViewStatisticData viewStatisticData;
     @Autowired
     private ViewDataTable viewDataTable;
-
-    final public static Integer DEFAULT_LIMIT = 100;
-
-
     @Autowired
     private Statistic statistic;
 
     final public static Integer DEFAULT_LIMIT = 100;
-
 
     public void setLogManager(LogManager logManager) {
         this.logManager = logManager;
@@ -56,8 +36,6 @@ public class AppController {
     public void setLogRepository(LogRepository logRepository) {
         this.logRepository = logRepository;
     }
-
-
 
     @RequestMapping(value = "/", name = "home")
     public String index(HttpServletRequest request, Model model) {
@@ -110,7 +88,6 @@ public class AppController {
         return "welcome";
     }
 
-
     @RequestMapping(value = "/delete", method = RequestMethod.POST)
     public String deleteAction(HttpServletRequest request, RedirectAttributes redirectAttributes, Model model) {
         try {
@@ -142,8 +119,6 @@ public class AppController {
     public String logout(Model model) {
         return "logout";
     }
-
-
 
     @RequestMapping("/showlogin") //todo ashishkin select all error description with like %user%
     public String showlogin(Model model) {
@@ -192,6 +167,7 @@ public class AppController {
     @RequestMapping("registration") //todo dalbot
     public String registration() {
         return "registration";
+    }
 
     @RequestMapping("/insert")
     public String insert(Model model) {
@@ -226,6 +202,4 @@ public class AppController {
         }
         return "table";
     }
-
-
 }

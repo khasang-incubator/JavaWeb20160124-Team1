@@ -1,5 +1,7 @@
 package io.khasang.wlogs.controller;
 
+
+import io.khasang.wlogs.model.*;
 import io.khasang.wlogs.model.InsertDataTable;
 import io.khasang.wlogs.model.LogManager;
 import io.khasang.wlogs.model.LogRepository;
@@ -17,12 +19,23 @@ import javax.servlet.http.HttpServletRequest;
 public class AppController {
     @Autowired
     private LogManager logManager;
-
     @Autowired
     private LogRepository logRepository;
-
     @Autowired
     InsertDataTable insertDataTable;
+    @Autowired
+    private LogRepository logRepository;
+    @Autowired
+    private InsertDataTable insertDataTable;
+    @Autowired
+    private InsertComment insertComment;
+    @Autowired
+    private ViewStatisticData viewStatisticData;
+    @Autowired
+    private ViewDataTable viewDataTable;
+
+    final public static Integer DEFAULT_LIMIT = 100;
+
 
     @RequestMapping("/backup")
     //todo vlaptev  "mysqldump wlogs -u root -proot -r \"C:\\ProgramData\\MySQL\\MySQL Server 5.7\\Uploads\\backup.sql\"");
@@ -144,14 +157,14 @@ public class AppController {
     }
 
     @RequestMapping("/insertcomment")
-    public String insertcomment(Model model) {
-        model.addAttribute("insertcomment", ""); //todo szador insert comment to table "statistic", select date description
+    public String insertComment(Model model) {
+        model.addAttribute("showstatisticdata", viewStatisticData.showStatisticData()); //todo szador insert comment to table "statistic", select date description
+        model.addAttribute("insertcomment", insertComment.sqlInsertCheck());
         return "insertcomment";
     }
 
     @RequestMapping("/tableview")
     public String tableView(Model model) {
-        ViewDataTable viewDataTable = new ViewDataTable();
         model.addAttribute("tableview", viewDataTable.outData());
         return "tableview";
     }
@@ -171,5 +184,10 @@ public class AppController {
     @RequestMapping("registration") //todo dalbot
     public String registration() {
         return "registration";
+
+    @RequestMapping("/insert")
+    public String insert(Model model) {
+        model.addAttribute("tip", "Choose table to insert");
+        return "insert";
     }
 }

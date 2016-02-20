@@ -46,6 +46,12 @@
                             Выход
                         </a>
                     </li>
+                    <li>
+                        <a href="/createtable" title="Statistic">
+                            <span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span>
+                            Statistic
+                        </a>
+                    </li>
                 </ul>
                 </div>
         </div>

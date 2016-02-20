@@ -1,26 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xmlns="http://maven.apache.org/POM/4.0.0"
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>wlogs</groupId>
-    <artifactId>wlogs</artifactId>
+    <artifactId>artifact</artifactId>
     <version>1.0-SNAPSHOT</version>
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <configuration>
-                    <source>1.6</source>
-                    <target>1.6</target>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
+
     <properties>
-        <spring.version>4.2.4.RELEASE</spring.version>
+        <spring.version>4.2.3.RELEASE</spring.version>
         <jdk.version>1.8</jdk.version>
     </properties>
 
@@ -68,5 +57,4 @@
             <version>${spring.version}</version>
         </dependency>
     </dependencies>
-
 </project>

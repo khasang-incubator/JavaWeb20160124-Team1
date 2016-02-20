@@ -35,6 +35,8 @@ public class AppController {
         this.logRepository = logRepository;
     }
 
+    final public static Integer DEFAULT_LIMIT = 100;
+
     @RequestMapping(value = "/", name = "home")
     public String index(HttpServletRequest request, Model model) {
         model.addAttribute("recordsTotal", logRepository.countAll());
@@ -122,8 +124,7 @@ public class AppController {
     @RequestMapping("/createtable")
     //todo vbaranov create table "statistic" with column "server" = id, "date", "issue" = description, "comment"
     public String crateTable(Model model) {
-        InsertDataTable sql = new InsertDataTable();
-        model.addAttribute("createtable", sql.sqlInsertCheck());
+        model.addAttribute("createtable", insertDataTable.sqlInsertCheck());
         return "createtable";
     }
 
@@ -158,5 +159,4 @@ public class AppController {
     public String registration() {
         return "registration";
     }
-
 }

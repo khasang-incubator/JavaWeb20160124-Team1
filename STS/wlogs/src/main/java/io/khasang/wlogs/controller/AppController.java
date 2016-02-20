@@ -75,7 +75,7 @@ public class AppController {
 
     @RequestMapping("/welcome")
     public String welcome(Model model) {
-        model.addAttribute("welcome", ""); // todo main menu
+        model.addAttribute("welcome", ""); // todo main menu aushar
         // todo add 8 button(6 blank, 1 with link to http://localhost:8080/, 2 with select like %event%
         return "welcome";
     }

@@ -1,35 +1,33 @@
 package io.khasang.wlogs.controller;
 
-import io.khasang.wlogs.model.InsertDataTable;
-import io.khasang.wlogs.model.LogManager;
-import io.khasang.wlogs.model.LogRepository;
-import io.khasang.wlogs.model.ViewDataTable;
+import io.khasang.wlogs.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
 
 @Controller
 public class AppController {
     @Autowired
     private LogManager logManager;
-
     @Autowired
     private LogRepository logRepository;
-
     @Autowired
-    InsertDataTable insertDataTable;
+    private InsertDataTable insertDataTable;
+    @Autowired
+    private InsertComment insertComment;
+    @Autowired
+    private ViewStatisticData viewStatisticData;
+    @Autowired
+    private ViewDataTable viewDataTable;
+    @Autowired
+    private Statistic statistic;
 
-    @RequestMapping("/backup")
-    //todo vlaptev  "mysqldump wlogs -u root -proot -r \"C:\\ProgramData\\MySQL\\MySQL Server 5.7\\Uploads\\backup.sql\"");
-    public String backup(Model model) { //todo - select where backup to do, select table to backup
-        model.addAttribute("backup", "Success");
-        return "backup";
-    }
+    final public static Integer DEFAULT_LIMIT = 100;
 
     public void setLogManager(LogManager logManager) {
         this.logManager = logManager;
@@ -38,8 +36,6 @@ public class AppController {
     public void setLogRepository(LogRepository logRepository) {
         this.logRepository = logRepository;
     }
-
-    final public static Integer DEFAULT_LIMIT = 100;
 
     @RequestMapping(value = "/", name = "home")
     public String index(HttpServletRequest request, Model model) {
@@ -86,11 +82,11 @@ public class AppController {
 
     @RequestMapping("/welcome")
     public String welcome(Model model) {
-        model.addAttribute("welcome", ""); // todo main menu
+        model.addAttribute("welcome", ""); // todo main menu aushar
         // todo add 8 button(6 blank, 1 with link to http://localhost:8080/, 2 with select like %event%
+        // todo view import export delete shink admin createtable help logout insertcomment join
         return "welcome";
     }
-
 
     @RequestMapping(value = "/delete", method = RequestMethod.POST)
     public String deleteAction(HttpServletRequest request, RedirectAttributes redirectAttributes, Model model) {
@@ -124,13 +120,7 @@ public class AppController {
         return "logout";
     }
 
-    @RequestMapping("/admin")
-    public String admin(Model model) {
-        model.addAttribute("admin", "You are number 1!");
-        return "admin";
-    }
-
-    @RequestMapping("/showlogin") //todo ashishkin  select all error description with like %user%
+    @RequestMapping("/showlogin") //todo ashishkin select all error description with like %user%
     public String showlogin(Model model) {
         model.addAttribute("showlogin", "You are number 1!");
         return "showlogin";
@@ -139,19 +129,25 @@ public class AppController {
     @RequestMapping("/createtable")
     //todo vbaranov create table "statistic" with column "server" = id, "date", "issue" = description, "comment"
     public String crateTable(Model model) {
-        model.addAttribute("createtable", insertDataTable.sqlInsertCheck());
+
+        //Statistic statistic = new Statistic();
+        statistic.createTable();
+        statistic.clearTable();
+        statistic.insertDataToTable();
+        model.addAttribute("createtable", statistic.getStatistic());
+
         return "createtable";
     }
 
     @RequestMapping("/insertcomment")
-    public String insertcomment(Model model) {
-        model.addAttribute("insertcomment", ""); //todo szador insert comment to table "statistic", select date description
+    public String insertComment(Model model) {
+        model.addAttribute("showstatisticdata", viewStatisticData.showStatisticData()); //todo szador insert comment to table "statistic", select date description
+        model.addAttribute("insertcomment", insertComment.sqlInsertCheck());
         return "insertcomment";
     }
 
     @RequestMapping("/tableview")
     public String tableView(Model model) {
-        ViewDataTable viewDataTable = new ViewDataTable();
         model.addAttribute("tableview", viewDataTable.outData());
         return "tableview";
     }
@@ -171,5 +167,39 @@ public class AppController {
     @RequestMapping("registration") //todo dalbot
     public String registration() {
         return "registration";
+    }
+
+    @RequestMapping("/insert")
+    public String insert(Model model) {
+        model.addAttribute("tip", "Choose table to insert");
+        return "insert";
+    }
+
+    @RequestMapping("/backup")
+    //todo vlaptev  "mysqldump wlogs -u root -proot -r \"C:\\ProgramData\\MySQL\\MySQL Server 5.7\\Uploads\\backup.sql\"");
+    public String backup(Model model) { //todo - select where backup to do, select table to backup
+        model.addAttribute("backup", "Success");
+        return "backup";
+    }
+
+    @RequestMapping("/admin")
+    public String admin(Model model) {
+        model.addAttribute("admin", "You are number 1!");
+        return "admin";
+    }
+
+    @RequestMapping("/table")
+    public String table(Model model) {
+        model.addAttribute("table", "You have one table!");
+        DbModel db = new DbModel();
+        String sql = "select * from wlogs";
+        ArrayList<TestTableModel> testTableModelArrayList = TestTableModel.getListFromResultSet(db.getSelectResult(sql));
+        if (testTableModelArrayList != null && db.getError() == null) {
+            model.addAttribute("listTable", testTableModelArrayList);
+        } else if (!db.getError().equals("")) {
+            model.addAttribute("error", db.getError());
+            db.setError(null);
+        }
+        return "table";
     }
 }

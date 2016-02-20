@@ -19,7 +19,7 @@ http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd http://www.springfr
 
     <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
         <property name="driverClassName" value="com.mysql.jdbc.Driver" />
-        <property name="url" value="jdbc:mysql://localhost/wlogs" />
+        <property name="url" value="jdbc:mysql://locahost/wlogs" />
         <property name="username" value="root" />
         <property name="password" value="root" />
     </bean>
@@ -31,8 +31,6 @@ http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd http://www.springfr
     <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
         <property name="dataSource" ref="dataSource"/>
     </bean>
-
-    <bean id="insertDataTable" class="io.khasang.wlogs.model.InsertDataTable"/>
 
     <bean id="sharedTransactionTemplate" class="org.springframework.transaction.support.TransactionTemplate">
         <property name="transactionManager" ref="transactionManager"/>
@@ -56,6 +54,16 @@ http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd http://www.springfr
             <util:constant static-field="io.khasang.wlogs.model.LogModel.tableName"/>
         </property>
     </bean>
+
+    <bean id="statistic" class="io.khasang.wlogs.model.Statistic">
+        <property name="jdbcTemplate" ref="jdbcTemplate"/>
+    </bean>
+
+    <bean id="insertDataTable" class="io.khasang.wlogs.model.InsertDataTable"/>
+    <bean id="insertComment" class="io.khasang.wlogs.model.InsertComment"/>
+    <bean id="viewStatisticData" class="io.khasang.wlogs.model.ViewStatisticData"/>
+    <bean id="viewDataTable" class="io.khasang.wlogs.model.ViewDataTable"/>
+
 
     <!-- This tag allows for mapping the dispatcher-servlet to "/" -->
     <mvc:default-servlet-handler/>

@@ -1,3 +1,4 @@
+
 /* Total reset */
 
 html, body {
@@ -130,4 +131,9 @@ ul.dropdown li.dropdown-top a {
 ul.dropdown li.dropdown-top:hover .dropdown-inside {
     display: block;
     left: 0;
+}
+.darkblue {
+    color: darkblue ;
+    font-family: Calibri;
+    font-size: 14px;
 }

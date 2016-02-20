@@ -48,9 +48,20 @@ public class AppController {
         String offsetParam = request.getParameter("offset");
         Integer offset = 0;
         if (offsetParam != null) {
-            model.addAttribute("currentOffset", offset = Integer.valueOf(offsetParam));
+            try {
+                offset = Integer.valueOf(offsetParam);
+            } catch (NumberFormatException e) {
+                offset = 0;
+            }
+            model.addAttribute("currentOffset", offset);
         } else {
             model.addAttribute("currentOffset", 0);
+        }
+        String filterParam = request.getParameter("filter");
+        if (filterParam != null) {
+            model.addAttribute("currentFilter", filterParam);
+        } else {
+            model.addAttribute("currentFilter", "");
         }
         model.addAttribute("logs", logRepository.findAll(DEFAULT_LIMIT, offset));
         return "index";

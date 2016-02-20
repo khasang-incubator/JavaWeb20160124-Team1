@@ -119,7 +119,7 @@ public class AppController {
         return "admin";
     }
 
-    @RequestMapping("/showlogin") //todo ashishkin  select all error description with like %user%
+    @RequestMapping("/showlogin") //todo ashishkin select all error description with like %user%
     public String showlogin(Model model) {
         model.addAttribute("showlogin", "You are number 1!");
         return "showlogin";

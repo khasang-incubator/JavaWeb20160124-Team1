@@ -12,18 +12,20 @@ import javax.servlet.http.HttpServletRequest;
 
 @Controller
 public class AppController {
+    @Autowired
+    JdbcInterface login;
+    final public static Integer DEFAULT_LIMIT = 100;
+    @Autowired
+    private LogManager logManager;
+    @Autowired
+    private LogRepository logRepository;
+
     @RequestMapping("/backup")
     //todo vlaptev  "mysqldump wlogs -u root -proot -r \"C:\\ProgramData\\MySQL\\MySQL Server 5.7\\Uploads\\backup.sql\"");
     public String backup(Model model) { //todo - select where backup to do, select table to backup
         model.addAttribute("backup", "Success");
         return "backup";
     }
-
-    final public static Integer DEFAULT_LIMIT = 100;
-    @Autowired
-    private LogManager logManager;
-    @Autowired
-    private LogRepository logRepository;
 
     public void setLogManager(LogManager logManager) {
         this.logManager = logManager;
@@ -138,8 +140,6 @@ public class AppController {
         return "tableview";
     }
 
-    @Autowired
-    JdbcInterface login;
     @RequestMapping("login") //todo dalbot
     public String login(Model model) {
         String sqlAnswer = ((Login) login).sqlInsert();

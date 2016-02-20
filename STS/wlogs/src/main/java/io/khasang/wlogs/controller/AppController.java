@@ -1,18 +1,18 @@
 package io.khasang.wlogs.controller;
 
-
 import io.khasang.wlogs.model.*;
+import io.khasang.wlogs.model.InsertDataTable;
+import io.khasang.wlogs.model.LogManager;
+import io.khasang.wlogs.model.LogRepository;
+import io.khasang.wlogs.model.ViewDataTable;
 import org.springframework.beans.factory.annotation.Autowired;
-
 import io.khasang.wlogs.model.DbModel;
 import io.khasang.wlogs.model.TestTableModel;
-
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
 import javax.servlet.http.HttpServletRequest;
 
 import java.sql.ResultSet;
@@ -25,12 +25,23 @@ public class AppController {
 
     @Autowired
     private LogManager logManager;
-
     @Autowired
     private LogRepository logRepository;
-
     @Autowired
     InsertDataTable insertDataTable;
+    @Autowired
+    private LogRepository logRepository;
+    @Autowired
+    private InsertDataTable insertDataTable;
+    @Autowired
+    private InsertComment insertComment;
+    @Autowired
+    private ViewStatisticData viewStatisticData;
+    @Autowired
+    private ViewDataTable viewDataTable;
+
+    final public static Integer DEFAULT_LIMIT = 100;
+
 
     @Autowired
     private Statistic statistic;
@@ -55,9 +66,20 @@ public class AppController {
         String offsetParam = request.getParameter("offset");
         Integer offset = 0;
         if (offsetParam != null) {
-            model.addAttribute("currentOffset", offset = Integer.valueOf(offsetParam));
+            try {
+                offset = Integer.valueOf(offsetParam);
+            } catch (NumberFormatException e) {
+                offset = 0;
+            }
+            model.addAttribute("currentOffset", offset);
         } else {
             model.addAttribute("currentOffset", 0);
+        }
+        String filterParam = request.getParameter("filter");
+        if (filterParam != null) {
+            model.addAttribute("currentFilter", filterParam);
+        } else {
+            model.addAttribute("currentFilter", "");
         }
         model.addAttribute("logs", logRepository.findAll(DEFAULT_LIMIT, offset));
         return "index";
@@ -82,8 +104,9 @@ public class AppController {
 
     @RequestMapping("/welcome")
     public String welcome(Model model) {
-        model.addAttribute("welcome", ""); // todo main menu
+        model.addAttribute("welcome", ""); // todo main menu aushar
         // todo add 8 button(6 blank, 1 with link to http://localhost:8080/, 2 with select like %event%
+        // todo view import export delete shink admin createtable help logout insertcomment join
         return "welcome";
     }
 
@@ -142,14 +165,14 @@ public class AppController {
     }
 
     @RequestMapping("/insertcomment")
-    public String insertcomment(Model model) {
-        model.addAttribute("insertcomment", ""); //todo szador insert comment to table "statistic", select date description
+    public String insertComment(Model model) {
+        model.addAttribute("showstatisticdata", viewStatisticData.showStatisticData()); //todo szador insert comment to table "statistic", select date description
+        model.addAttribute("insertcomment", insertComment.sqlInsertCheck());
         return "insertcomment";
     }
 
     @RequestMapping("/tableview")
     public String tableView(Model model) {
-        ViewDataTable viewDataTable = new ViewDataTable();
         model.addAttribute("tableview", viewDataTable.outData());
         return "tableview";
     }
@@ -169,6 +192,11 @@ public class AppController {
     @RequestMapping("registration") //todo dalbot
     public String registration() {
         return "registration";
+
+    @RequestMapping("/insert")
+    public String insert(Model model) {
+        model.addAttribute("tip", "Choose table to insert");
+        return "insert";
     }
 
     @RequestMapping("/backup")

@@ -47,4 +47,27 @@ public class LogRepository {
             }
         });
     }
+
+    public ArrayList<String> getErrorSources() {
+        String sql = "SELECT DISTINCT error_source FROM " + tableName;
+        return getDistinctColumnStrings(sql);
+    }
+
+    public ArrayList<String> getErrorLevels() {
+        String sql = "SELECT DISTINCT error_level FROM " + tableName;
+        return getDistinctColumnStrings(sql);
+    }
+
+    private ArrayList<String> getDistinctColumnStrings(String sql) {
+        return jdbcTemplate.query(sql, new ResultSetExtractor<ArrayList<String>>() {
+            @Override
+            public ArrayList<String> extractData(ResultSet rs) throws SQLException, DataAccessException {
+                ArrayList<String> errorSources = new ArrayList<String>();
+                while (rs.next()) {
+                    errorSources.add(rs.getString(1));
+                }
+                return errorSources;
+            }
+        });
+    }
 }

@@ -23,12 +23,6 @@
                         </a>
                     </li>
                     <li>
-                        <a href="/delete" title="Удаление">
-                            <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
-                            Удаление
-                        </a>
-                    </li>
-                    <li>
                         <a href="/import" title="Импорт">
                             <span class="glyphicon glyphicon-import" aria-hidden="true"></span>
                             Импорт
@@ -38,6 +32,18 @@
                         <a href="/export" title="Экспорт">
                             <span class="glyphicon glyphicon-export" aria-hidden="true"></span>
                             Экспорт
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/delete" title="Удаление">
+                            <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                            Удаление
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/shrink" title="Шринк">
+                            <span class="glyphicon glyphicon glyphicon-resize-small" aria-hidden="true"></span>
+                            Шринк
                         </a>
                     </li>
                     <li>

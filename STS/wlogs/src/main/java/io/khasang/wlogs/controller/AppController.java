@@ -1,9 +1,12 @@
 package io.khasang.wlogs.controller;
 
+import io.khasang.wlogs.form.DeleteDataForm;
 import io.khasang.wlogs.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -26,6 +29,8 @@ public class AppController {
     private ViewDataTable viewDataTable;
     @Autowired
     private Statistic statistic;
+    @Autowired
+    DeleteDataTable deleteDataTable;
 
     final public static Integer DEFAULT_LIMIT = 100;
 
@@ -68,12 +73,6 @@ public class AppController {
         return "forward:/";
     }
 
-    @RequestMapping("/delete")
-    public String deleteForm(Model model) {
-        model.addAttribute("dateCriteriaHashMap", logManager.getAvailableDateCriteria());
-        return "delete";
-    }
-
     @RequestMapping("/shrink")
     public String shrink(Model model) {
         model.addAttribute("shrink", ""); // todo dzahar list of all tables at schema wlogs and select table to shrink
@@ -88,17 +87,21 @@ public class AppController {
         return "welcome";
     }
 
+    @RequestMapping("/delete")
+    public String deleteForm(Model model) {
+        model.addAttribute("errorSources", this.logRepository.getErrorSources());
+        model.addAttribute("errorLevels", this.logRepository.getErrorLevels());
+        model.addAttribute("deleteDataForm", new DeleteDataForm());
+        model.addAttribute("logRecordsTotal", logRepository.countAll());
+        return "delete";
+    }
+
     @RequestMapping(value = "/delete", method = RequestMethod.POST)
-    public String deleteAction(HttpServletRequest request, RedirectAttributes redirectAttributes, Model model) {
+    public String deleteAction(@ModelAttribute DeleteDataForm deleteDataForm, HttpServletRequest request,
+                               RedirectAttributes redirectAttributes, Model model) {
         try {
-            String userUnderstandTermsParam = request.getParameter("understand_terms");
-            Boolean userUnderstandTerms = userUnderstandTermsParam == null ? Boolean.FALSE : request.getParameter("understand_terms").equals("on");
-            if (!userUnderstandTerms) {
-                throw new RuntimeException("You have to read warning notice about this operation before proceed.");
-            }
-            Integer periodCriteriaId = Integer.valueOf(request.getParameter("period_criteria_id"));
-            Integer affectedRows = logManager.delete(periodCriteriaId);
-            redirectAttributes.addFlashAttribute("success", "Success deleted " + affectedRows);
+            Integer affectedRows = logManager.delete(deleteDataForm);
+            redirectAttributes.addFlashAttribute("success", "Success! Count of deleted rows: " + affectedRows);
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("error", e.getMessage());
         }

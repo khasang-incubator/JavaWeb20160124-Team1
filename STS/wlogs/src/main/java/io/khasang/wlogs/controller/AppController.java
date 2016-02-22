@@ -59,12 +59,15 @@ public class AppController {
             model.addAttribute("currentOffset", 0);
         }
         String filterParam = request.getParameter("filter");
+        String sqlFilter;
         if (filterParam != null) {
             model.addAttribute("currentFilter", filterParam);
+            sqlFilter = " and error_description like '%" + filterParam + "%'";
         } else {
             model.addAttribute("currentFilter", "");
+            sqlFilter = "";
         }
-        model.addAttribute("logs", logRepository.findAll(DEFAULT_LIMIT, offset));
+        model.addAttribute("logs", logRepository.findAll(DEFAULT_LIMIT, offset, sqlFilter));
         return "index";
     }
 

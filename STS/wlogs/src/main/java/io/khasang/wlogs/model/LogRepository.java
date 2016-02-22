@@ -20,9 +20,10 @@ public class LogRepository {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    public ArrayList<LogModel> findAll(Integer limit, Integer offset) {
-        String sql = "SELECT * FROM :tableName ORDER BY occurred_at DESC LIMIT :limit OFFSET :offset"
-                .replace(":tableName", tableName).replace(":limit", limit.toString()).replace(":offset", offset.toString());
+    public ArrayList<LogModel> findAll(Integer limit, Integer offset, String filterString) {
+        String sql = "SELECT * FROM :tableName WHERE 1=1 :filter ORDER BY occurred_at DESC LIMIT :limit OFFSET :offset"
+                .replace(":tableName", tableName).replace(":limit", limit.toString()).replace(":offset", offset.toString())
+                .replace(":filter", filterString);
         return jdbcTemplate.query(sql, new ResultSetExtractor<ArrayList<LogModel>>() {
             public ArrayList<LogModel> extractData(ResultSet rs) throws SQLException, DataAccessException {
                 ArrayList<LogModel> logs = new ArrayList<LogModel>();

@@ -19,10 +19,12 @@ http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd http://www.springfr
 
     <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
         <property name="driverClassName" value="com.mysql.jdbc.Driver" />
-        <property name="url" value="jdbc:mysql://localhost:3306/wlogs" />
-        <property name="username" value="root" />
-        <property name="password" value="root" />
+        <property name="url" value="jdbc:mysql://${jdbc.host}:${jdbc.port}/${jdbc.db_name}" />
+        <property name="username" value="${jdbc.user}" />
+        <property name="password" value="${jdbc.password}" />
     </bean>
+
+    <context:property-placeholder location="classpath:jdbc.properties"/>
 
     <bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
         <property name="dataSource" ref="dataSource"/>
@@ -39,7 +41,6 @@ http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd http://www.springfr
     </bean>
 
     <!-- Application beans -->
-    <bean id="logRecordModelBean" class="io.khasang.wlogs.model.LogModel"/>
     <bean id="logRepository" class="io.khasang.wlogs.model.LogRepository">
         <property name="jdbcTemplate" ref="jdbcTemplate"/>
         <property name="tableName">

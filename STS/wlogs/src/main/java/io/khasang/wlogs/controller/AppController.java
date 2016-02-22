@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
 
 @Controller
 public class AppController {
@@ -193,7 +192,7 @@ public class AppController {
         return "admin";
     }
 
-    @RequestMapping("/table")
+    /*@RequestMapping("/table")
     public String table(Model model) {
         model.addAttribute("table", "You have one table!");
         DbModel db = new DbModel();
@@ -206,7 +205,7 @@ public class AppController {
             db.setError(null);
         }
         return "table";
-    }
+    }*/
 
 
     /*sorlov work*/

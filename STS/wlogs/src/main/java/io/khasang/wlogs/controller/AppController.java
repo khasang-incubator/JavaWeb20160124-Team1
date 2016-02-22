@@ -30,7 +30,7 @@ public class AppController {
     @Autowired
     private Statistic statistic;
     @Autowired
-    DeleteDataTable deleteDataTable;
+    private DeleteDataTable deleteDataTable;
 
     final public static Integer DEFAULT_LIMIT = 100;
 

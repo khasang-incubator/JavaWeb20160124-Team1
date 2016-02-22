@@ -9,7 +9,7 @@
 <h2>${result}</h2>
 
 <form action="/createtable">
-    <button type="submit" name="intgr" value="3">Да</button>
+    <button type="submit">Да</button>
     <button formaction="/showtables">Показать таблицы</button>
     <button formaction="/">Назад</button>
 </form>

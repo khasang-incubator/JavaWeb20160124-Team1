@@ -15,7 +15,7 @@ import java.util.List;
 /**
  * @author Sergey Orlov
  * @version 21.02.2016
- *          This class helps to work with data base, to create and retrieve different information from DB
+ *          This class helps to work with data base, to create and retrieve different information from DB (see methods)
  */
 @Component
 public class DataBaseHandler {

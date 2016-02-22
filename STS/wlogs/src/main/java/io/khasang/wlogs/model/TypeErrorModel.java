@@ -3,6 +3,10 @@ package io.khasang.wlogs.model;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+/** @author Sergey Orlov
+ * @version 16.02.2016
+ * This class provides model for structuring data of typeerror table*/
+
 public class TypeErrorModel extends LogModel {
     private int id;
     private String error_level;

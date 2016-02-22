@@ -28,6 +28,8 @@ public class AppController {
     private LogManager logManager;
     @Autowired
     private LogRepository logRepository;
+    @Autowired
+    private DataBaseHandler dbHandler;
 
     public void setLogManager(LogManager logManager) {
         this.logManager = logManager;
@@ -124,8 +126,7 @@ public class AppController {
     @RequestMapping("/createtable")
     //todo vbaranov create table "statistic" with column "server" = id, "date", "issue" = description, "comment"
     public String crateTable(Model model) {
-        DataBaseHandler sql = new DataBaseHandler();
-        model.addAttribute("createtable", sql.sqlInsertCheck());
+        model.addAttribute("createtable", dbHandler.sqlInsertCheck());
         return "createtable";
     }
 
@@ -160,14 +161,14 @@ public class AppController {
 
     @RequestMapping(value = "/createtable", method = RequestMethod.GET)
     public String createTable(Model model,@RequestParam("intgr") int cipher){
-        DataBaseHandler insertTbl = new DataBaseHandler();
-        model.addAttribute("result",insertTbl.sqlInsertCheck());
+
+        model.addAttribute("result",dbHandler.sqlInsertCheck());
         return "createtbl";
     }
 
     @RequestMapping("/join")
     public String join(Model model) {
-        DataBaseHandler dbHandler = new DataBaseHandler();
+
         model.addAttribute("tblOne",dbHandler.getTableName(0));
         model.addAttribute("tblTwo",dbHandler.getTableName(1));
         return "join";
@@ -175,9 +176,9 @@ public class AppController {
 
     @RequestMapping("/showtables")
     public String showwlogs(Model model){
-        DataBaseHandler insrtData = new DataBaseHandler();
-        model.addAttribute("wlogsContent",insrtData.getWlogsTableContent());
-        model.addAttribute("typeErrorContent", insrtData.getTypeerrorTableContent());
+
+        model.addAttribute("wlogsContent",dbHandler.getWlogsTableContent());
+        model.addAttribute("typeErrorContent", dbHandler.getTypeerrorTableContent());
 
         return "showtables";
     }
@@ -188,7 +189,7 @@ public class AppController {
         if(tableNums[0]==-1){
             return "/home";
         }
-        DataBaseHandler dbHandler = new DataBaseHandler();
+
         model.addAttribute("joinedTbl",dbHandler.joinTables(tableNums));
         model.addAttribute("tableName1",dbHandler.getTableName(tableNums[0]));
         model.addAttribute("tableName2",dbHandler.getTableName(tableNums[1]));

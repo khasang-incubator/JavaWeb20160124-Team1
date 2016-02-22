@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 @RequestMapping("/ajax")
 @Controller
 public class AjaxController {
-    @Autowired
+
     private LogManager logManager;
 
     public void setLogManager(LogManager logManager) {

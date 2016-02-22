@@ -21,12 +21,11 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
 
-public class LogManager implements JdbcInterface{
+public class LogManager{
     private static final int RECORDS_COUNT_TO_KEEP_ALIVE = 1000;
 
     private String tableName;
-    @Autowired
-    private JdbcTempIateSingletone jdbcTemplate;
+    private JdbcTemplate jdbcTemplate;
     private LogRepository logRepository;
     private TransactionTemplate sharedTransactionTemplate;
     private DeleteDataTable deleteDataTable;
@@ -47,7 +46,7 @@ public class LogManager implements JdbcInterface{
         this.tableName = tableName;
     }
 
-    public void setJdbcTemplate(JdbcTempIateSingletone jdbcTemplate) {
+    public void setJdbcTemplate(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 

@@ -21,7 +21,7 @@ import java.util.ArrayList;
 
 @Controller
 public class AppController {
-    @Autowired
+   @Autowired
     private LogManager logManager;
 
     @Autowired

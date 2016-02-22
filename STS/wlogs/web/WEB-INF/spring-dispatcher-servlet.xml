@@ -13,9 +13,12 @@ http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd http://www.springfr
     <context:component-scan base-package="io.khasang.wlogs.controller"/>
 
     <!--sorlov work-->
-    <bean id="template" class="io.khasang.wlogs.model.JdbcTempIateSingletone" factory-method="getInstance"></bean>
+    <bean id="template" class="io.khasang.wlogs.model.JdbcTempIateSingletone" factory-method="getInstance">
 
-    <bean id="dbHandler" class="io.khasang.wlogs.model.DataBaseHandler" autowire="byType"></bean>
+    </bean>
+
+    <bean id="dbHandler" class="io.khasang.wlogs.model.DataBaseHandler" autowire="byType">
+    </bean>
     <!--end sorlov work-->
 
 

@@ -12,10 +12,18 @@ http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd http://www.springfr
     <mvc:annotation-driven/>
     <context:component-scan base-package="io.khasang.wlogs.controller"/>
 
+    <!--sorlov work-->
+    <bean id="template" class="io.khasang.wlogs.model.JdbcTempIateSingletone" factory-method="getInstance"></bean>
+
+    <bean id="dbHandler" class="io.khasang.wlogs.model.DataBaseHandler" autowire="byType"></bean>
+    <!--end sorlov work-->
+
+
     <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
         <property name="prefix" value="/WEB-INF/views/"/>
         <property name="suffix" value=".jsp"/>
     </bean>
+
 
     <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
         <property name="driverClassName" value="com.mysql.jdbc.Driver" />
@@ -71,7 +79,8 @@ http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd http://www.springfr
         <property name="jdbcTemplate" ref="jdbcTemplate"/>
     </bean>
 
-    <bean id="insertDataTable" class="io.khasang.wlogs.model.InsertDataTable"/>
+    <!-- deleted, was replaced by DataBasehandler
+    <bean id="insertDataTable" class="io.khasang.wlogs.model.InsertDataTable"/>-->
     <bean id="insertComment" class="io.khasang.wlogs.model.InsertComment"/>
     <bean id="viewStatisticData" class="io.khasang.wlogs.model.ViewStatisticData"/>
     <bean id="viewDataTable" class="io.khasang.wlogs.model.ViewDataTable"/>

@@ -34,14 +34,6 @@ public class AppController {
 
     final public static Integer DEFAULT_LIMIT = 100;
 
-    public void setLogManager(LogManager logManager) {
-        this.logManager = logManager;
-    }
-
-    public void setLogRepository(LogRepository logRepository) {
-        this.logRepository = logRepository;
-    }
-
     @RequestMapping(value = "/", name = "home")
     public String index(HttpServletRequest request, Model model) {
         model.addAttribute("recordsTotal", logRepository.countAll());

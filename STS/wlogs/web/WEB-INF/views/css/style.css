@@ -1,3 +1,4 @@
+
 /* Total reset */
 
 html, body {
@@ -10,7 +11,6 @@ html, body {
 button {
     color: gray;
     font-size:14px;
-    font-family:Calibri;
 }
 
 body {
@@ -130,4 +130,22 @@ ul.dropdown li.dropdown-top a {
 ul.dropdown li.dropdown-top:hover .dropdown-inside {
     display: block;
     left: 0;
+}
+
+.darkblue {
+    color: darkblue;
+    font-family: Calibri;
+    font-size: 14px;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.font-larger {
+    font-size: larger;
+}
+
+.error .jumbotron {
+    margin-top: 25px;
 }

@@ -1,14 +1,16 @@
 package io.khasang.wlogs.model;
 
+import java.sql.Date;
+
 public class LogsData {
     //ID, minute, errorLvL
     private long ID;
-    private String minute;
+    private Date minute;
     private String errorLvL;
 
     public LogsData() {};
 
-    public LogsData(long ID, String minute, String errorLvL) {
+    public LogsData(long ID, Date minute, String errorLvL) {
         this.ID = ID;
         this.minute = minute;
         this.errorLvL = errorLvL;
@@ -22,11 +24,11 @@ public class LogsData {
         this.ID = ID;
     }
 
-    public String getMinute() {
+    public Date getMinute() {
         return minute;
     }
 
-    public void setMinute(String minute) {
+    public void setMinute(Date minute) {
         this.minute = minute;
     }
 

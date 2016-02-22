@@ -24,8 +24,16 @@
         <processorPath useClasspath="true" />
         <module name="wlogs" />
       </profile>
+      <profile default="false" name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="true" />
+        <module name="artifact" />
+      </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="artifact" target="1.5" />
       <module name="wlogs" target="1.6" />
     </bytecodeTargetLevel>
   </component>

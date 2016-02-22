@@ -17,7 +17,7 @@ import java.util.ArrayList;
 public class AppController {
     @Autowired
     JdbcInterface login;
-    final public static Integer DEFAULT_LIMIT = 100;
+//    final public static Integer DEFAULT_LIMIT = 100;
     @Autowired
     private LogManager logManager;
     @Autowired

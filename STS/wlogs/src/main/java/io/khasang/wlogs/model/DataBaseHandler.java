@@ -125,7 +125,7 @@ public class DataBaseHandler {
     }
 
     /**
-     * @return list of table name exist in data base 'wlogs'*/
+     * @return list of table names exist in data base 'wlogs'*/
     private List<String> makeTableNamesArr() {
         logger.info(time + " Init JdbcTemplate");
 

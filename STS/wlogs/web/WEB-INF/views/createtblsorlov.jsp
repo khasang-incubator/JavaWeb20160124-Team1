@@ -8,7 +8,7 @@
 <h1>Вы хотите создать таблицу?</h1>
 <h2>${result}</h2>
 
-<form action="/createtable">
+<form action="/createtablesorlov">
     <button type="submit">Да</button>
     <button formaction="/showtables">Показать таблицы</button>
     <button formaction="/">Назад</button>

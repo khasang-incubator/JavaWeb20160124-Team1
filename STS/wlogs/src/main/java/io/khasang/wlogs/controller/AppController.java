@@ -3,15 +3,15 @@ package io.khasang.wlogs.controller;
 import io.khasang.wlogs.form.DeleteDataForm;
 import io.khasang.wlogs.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
 import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
 
 @Controller
 public class AppController {
@@ -19,8 +19,8 @@ public class AppController {
     private LogManager logManager;
     @Autowired
     private LogRepository logRepository;
-    @Autowired
-    private InsertDataTable insertDataTable;
+    /*@Autowired
+    private DataBaseHandler dbHandler;*/
     @Autowired
     private InsertComment insertComment;
     @Autowired
@@ -30,17 +30,15 @@ public class AppController {
     @Autowired
     private Statistic statistic;
     @Autowired
-    DeleteDataTable deleteDataTable;
+    private DeleteDataTable deleteDataTable;
+    @Autowired
+    ViewDataFromTable viewDataFromTable;
+    @Autowired
+    @Qualifier("productorder")
+    TableObjectInterface tableObjectInterface;
+
 
     final public static Integer DEFAULT_LIMIT = 100;
-
-    public void setLogManager(LogManager logManager) {
-        this.logManager = logManager;
-    }
-
-    public void setLogRepository(LogRepository logRepository) {
-        this.logRepository = logRepository;
-    }
 
     @RequestMapping(value = "/", name = "home")
     public String index(HttpServletRequest request, Model model) {
@@ -141,9 +139,9 @@ public class AppController {
         statistic.clearTable();
         statistic.insertDataToTable();
         model.addAttribute("createtable", statistic.getStatistic());
-
         return "createtable";
     }
+
 
     @RequestMapping("/insertcomment")
     public String insertComment(Model model) {
@@ -164,16 +162,19 @@ public class AppController {
         return "login";
     }
 
-    @RequestMapping("join") //todo sorlov
-    public String join(Model model) {
-        model.addAttribute("join", "Login Users"); //join with error_level and return type of critical
-        return "join";
-    }
-
     @RequestMapping("registration") //todo dalbot
     public String registration() {
         return "registration";
     }
+
+
+    /*@RequestMapping("/join")
+    public String join(Model model) {
+        model.addAttribute("tblOne", dbHandler.getTableName(0));
+        model.addAttribute("tblTwo", dbHandler.getTableName(1));
+        return "join";
+    }*/
+
 
     @RequestMapping("/insert")
     public String insert(Model model) {
@@ -194,7 +195,7 @@ public class AppController {
         return "admin";
     }
 
-    @RequestMapping("/table")
+    /*@RequestMapping("/table")
     public String table(Model model) {
         model.addAttribute("table", "You have one table!");
         DbModel db = new DbModel();
@@ -207,5 +208,46 @@ public class AppController {
             db.setError(null);
         }
         return "table";
+    }*/
+
+
+    /*sorlov work*/
+   /* @RequestMapping(value = "/showJoinedTables", method = RequestMethod.GET)
+    public String performJoin(Model model,
+                              @RequestParam(value = "selection", defaultValue = "-1") int[] tableNums) {
+        if (tableNums[0] == -1) {
+            return "/home";
+        }
+        model.addAttribute("joinedTbl", dbHandler.joinTables(tableNums));
+        model.addAttribute("tableName1", dbHandler.getTableName(tableNums[0]));
+        model.addAttribute("tableName2", dbHandler.getTableName(tableNums[1]));
+        return "showJoinedTables";
+    }*/
+
+    /*@RequestMapping("/showtables")
+    public String showwlogs(Model model) {
+        model.addAttribute("wlogsContent", dbHandler.getWlogsTableContent());
+        model.addAttribute("typeErrorContent", dbHandler.getTypeerrorTableContent());
+        return "showtables";
+    }*/
+
+    @RequestMapping(value = "/createtblQuestion")
+    public String createtblQuestion(Model model) {
+        return "createtblsorlov";
+    }
+
+
+    /*@RequestMapping(value = "/createtablesorlov", method = RequestMethod.GET)
+    public String createTable(Model model) {
+        model.addAttribute("result", dbHandler.sqlInsertCheck());
+        return "createtblsorlov";
+    }
+    /*end sorlov work**/
+
+
+    @RequestMapping("/tempselect")
+    public String selectData(Model model) {
+        model.addAttribute("items", viewDataFromTable.selectWholeTable(tableObjectInterface));
+        return "select";
     }
 }

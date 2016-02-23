@@ -25,6 +25,8 @@ public class LogRepository {
                 .replace(":tableName", tableName).replace(":limit", limit.toString()).replace(":offset", offset.toString())
                 .replace(":filter", filterString);
         return jdbcTemplate.query(sql, new ResultSetExtractor<ArrayList<LogModel>>() {
+
+            @Override
             public ArrayList<LogModel> extractData(ResultSet rs) throws SQLException, DataAccessException {
                 ArrayList<LogModel> logs = new ArrayList<LogModel>();
                 while (rs.next()) {

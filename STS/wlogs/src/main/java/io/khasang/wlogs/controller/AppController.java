@@ -130,8 +130,6 @@ public class AppController {
     @RequestMapping("/createtable")
     //todo vbaranov create table "statistic" with column "server" = id, "date", "issue" = description, "comment"
     public String crateTable(Model model) {
-
-        //Statistic statistic = new Statistic();
         statistic.createTable();
         statistic.clearTable();
         statistic.insertDataToTable();
@@ -191,23 +189,6 @@ public class AppController {
         model.addAttribute("admin", "You are number 1!");
         return "admin";
     }
-
-    /*@RequestMapping("/table")
-    public String table(Model model) {
-        model.addAttribute("table", "You have one table!");
-        DbModel db = new DbModel();
-        String sql = "select * from wlogs";
-        ArrayList<TestTableModel> testTableModelArrayList = TestTableModel.getListFromResultSet(db.getSelectResult(sql));
-        if (testTableModelArrayList != null && db.getError() == null) {
-            model.addAttribute("listTable", testTableModelArrayList);
-        } else if (!db.getError().equals("")) {
-            model.addAttribute("error", db.getError());
-            db.setError(null);
-        }
-        return "table";
-    }*/
-
-
     /*sorlov work*/
    /* @RequestMapping(value = "/showJoinedTables", method = RequestMethod.GET)
     public String performJoin(Model model,

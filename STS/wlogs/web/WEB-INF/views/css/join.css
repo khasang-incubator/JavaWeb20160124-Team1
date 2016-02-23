@@ -1,0 +1,84 @@
+body {
+
+   background-image: url(img/carpet.jpg);
+
+}
+
+table {
+    margin: 10% auto;
+
+}
+
+legend, .button, .tables, option {
+    font-family: Calibri, "Calibri", bold;
+    color: darkblue;
+    font-size: 14px;
+}
+
+option {
+    font-size: medium;
+    padding-left: 20%;
+    padding-top: 10%;
+    border-radius: 30%;
+
+}
+
+option:hover {
+    background-color: #A0522D;
+
+}
+
+legend {
+    font-size: large;
+}
+
+select {
+    background-image: url("img/tables.jpg");
+    width: 100px;
+    height: 100px;
+    color: darkblue;
+}
+
+fieldset {
+    width: 300px;
+    text-shadow: 1px 1px 1px #00BFFF;
+}
+
+form.logoff {
+    padding-top: 3%;
+}
+
+/*form.home{
+    padding-bottom: 1.3%;
+    padding-left: 45%;
+}*/
+
+input.buttons {
+    background-image: url("img/button1.jpg");
+    color: #fff;
+    border-radius: 10%;
+
+}
+
+.buttons[name="menu"] {
+    margin: 0 30%;
+}
+
+button.join_tables {
+    background-image: url("img/tables.jpg");
+    padding-left: 0.5%;
+    padding-right: 0.5%;
+    border-radius: 5%;
+}
+
+button.join_tables:active {
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: 2px 2px 3px darkgoldenrod inset;
+}
+
+
+#main {
+    height: 210px;
+
+}

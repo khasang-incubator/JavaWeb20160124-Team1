@@ -13,10 +13,15 @@ http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd http://www.springfr
     <context:component-scan base-package="io.khasang.wlogs.controller"/>
 
     <!--sorlov work-->
-    <!-- <bean id="template" class="io.khasang.wlogs.model.JdbcTempIateSingletone" factory-method="getInstance"/>-->
 
-    <!-- <bean id="dbHandler" class="io.khasang.wlogs.model.DataBaseHandler" />-->
- <!--end sorlov work-->
+       <bean id="dbHandler" class="io.khasang.wlogs.model.DataBaseHandler" autowire="byType">
+           <property name="lg" ref="loggerDataBaseHandler"/>
+    </bean>
+
+    <bean id="loggerDataBaseHandler" class="io.khasang.wlogs.model.SelfLoggerService">
+        <property name="msg" value="DataBaseHandler"/>
+    </bean>
+    <!--end sorlov work-->
 
 
     <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
@@ -33,11 +38,11 @@ http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd http://www.springfr
 
     <context:property-placeholder location="classpath:jdbc.properties"/>
 
-    <bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
-        <property name="dataSource" ref="dataSource"/>
+    <bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate" scope="singleton">
+        <constructor-arg ref="dataSource"/>
     </bean>
 
-    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager" scope="singleton">
         <property name="dataSource" ref="dataSource"/>
     </bean>
 
@@ -78,8 +83,7 @@ http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd http://www.springfr
         <property name="jdbcTemplate" ref="jdbcTemplate"/>
     </bean>
 
-    <!-- deleted, was replaced by DataBasehandler
-    <bean id="insertDataTable" class="io.khasang.wlogs.model.InsertDataTable"/>-->
+
     <bean id="insertComment" class="io.khasang.wlogs.model.InsertComment"/>
     <bean id="viewStatisticData" class="io.khasang.wlogs.model.ViewStatisticData"/>
     <bean id="viewDataTable" class="io.khasang.wlogs.model.ViewDataTable"/>

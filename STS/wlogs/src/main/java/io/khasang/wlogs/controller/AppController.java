@@ -9,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
@@ -19,8 +20,8 @@ public class AppController {
     private LogManager logManager;
     @Autowired
     private LogRepository logRepository;
-    /*@Autowired
-    private DataBaseHandler dbHandler;*/
+    @Autowired
+    private DataBaseHandler dbHandler;
     @Autowired
     private InsertComment insertComment;
     @Autowired
@@ -163,12 +164,7 @@ public class AppController {
     }
 
 
-    /*@RequestMapping("/join")
-    public String join(Model model) {
-        model.addAttribute("tblOne", dbHandler.getTableName(0));
-        model.addAttribute("tblTwo", dbHandler.getTableName(1));
-        return "join";
-    }*/
+
 
 
     @RequestMapping("/insert")
@@ -190,7 +186,7 @@ public class AppController {
         return "admin";
     }
     /*sorlov work*/
-   /* @RequestMapping(value = "/showJoinedTables", method = RequestMethod.GET)
+   @RequestMapping(value = "/showJoinedTables", method = RequestMethod.GET)
     public String performJoin(Model model,
                               @RequestParam(value = "selection", defaultValue = "-1") int[] tableNums) {
         if (tableNums[0] == -1) {
@@ -200,14 +196,14 @@ public class AppController {
         model.addAttribute("tableName1", dbHandler.getTableName(tableNums[0]));
         model.addAttribute("tableName2", dbHandler.getTableName(tableNums[1]));
         return "showJoinedTables";
-    }*/
+    }
 
-    /*@RequestMapping("/showtables")
+    @RequestMapping("/showtables")
     public String showwlogs(Model model) {
         model.addAttribute("wlogsContent", dbHandler.getWlogsTableContent());
         model.addAttribute("typeErrorContent", dbHandler.getTypeerrorTableContent());
         return "showtables";
-    }*/
+    }
 
     @RequestMapping(value = "/createtblQuestion")
     public String createtblQuestion(Model model) {
@@ -215,12 +211,18 @@ public class AppController {
     }
 
 
-    /*@RequestMapping(value = "/createtablesorlov", method = RequestMethod.GET)
+    @RequestMapping(value = "/createtablesorlov", method = RequestMethod.GET)
     public String createTable(Model model) {
         model.addAttribute("result", dbHandler.sqlInsertCheck());
         return "createtblsorlov";
     }
-    /*end sorlov work**/
+     @RequestMapping("/join")
+    public String join(Model model) {
+        model.addAttribute("tblOne", dbHandler.getTableName(0));
+        model.addAttribute("tblTwo", dbHandler.getTableName(1));
+        return "join";
+    }
+    /*end sorlov work*/
 
 
     @RequestMapping("/tempselect")

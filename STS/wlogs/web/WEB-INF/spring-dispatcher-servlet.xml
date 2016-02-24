@@ -92,7 +92,7 @@ http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd http://www.springfr
         <property name="url" value="jdbc:mysql://localhost/logs"/>
     </bean>
 
-    <bean id="productorder" class="io.khasang.wlogs.model.ProductOrder" scope="prototype">
+    <bean id="allusers" class="io.khasang.wlogs.model.AllUsers" scope="prototype">
         <constructor-arg ref="source"/>
         <constructor-arg ref="jdbc"/>
     </bean>

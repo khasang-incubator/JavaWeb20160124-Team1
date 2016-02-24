@@ -34,7 +34,7 @@ public class AppController {
     @Autowired
     ViewDataFromTable viewDataFromTable;
     @Autowired
-    @Qualifier("productorder")
+    @Qualifier("allusers")
     TableObjectInterface tableObjectInterface;
 
 
@@ -121,10 +121,16 @@ public class AppController {
         return "logout";
     }
 
-    @RequestMapping("/showlogin") //todo ashishkin select all error description with like %user%
+    @RequestMapping("/showlogin") //from for users searching
     public String showlogin(Model model) {
         model.addAttribute("showlogin", "You are number 1!");
         return "showlogin";
+    }
+
+    @RequestMapping("/showlogin/allusers") //result for "Show all users" request
+    public String allusers (Model model) {
+        model.addAttribute("allusers", viewDataFromTable.selectWholeTable(tableObjectInterface));
+        return "allusers";
     }
 
     @RequestMapping("/createtable")

@@ -11,34 +11,33 @@
 <body>
 <div id="body">
     <legend>
+        <center>
     <h2>Поиск по пользователям</h2>
+        </center>
     </legend>
     <fieldset>
     <legend>
-    <form method="post" action="">
-        <label for="nick_name">Никнейм для поиска:</label>
-        <br/>
-        <legend>
-        <input type="text" name="nick_name" size="30">
-        <br/>
-        </legend>
-    <button id="submit" type="submit" class="btn btn-primary btn-lg">
-        Найти
-    </button>
+        <form role="form" class="form-inline">
+            <div class="form-group">
+                <input name="username" type="text" value="${username}" class="form-control" placeholder="Поиск"/>
+            </div>
+            <div class="form-group">
+                <input type="submit" class="btn btn-primary btn-lg" value="Найти" />
+            </div>
+        </form>
     </legend>
     <br/>
-    </form>
-</div>
 </fieldset>
+</div>
 <fieldset>
     <legend>
-    <form method="post" action="">
+    <form action="/showlogin/allusers">
     <button id="submit" type="submit" class="btn btn-primary btn-lg">
         Показать всех пользователей
     </button>
+    </form>
     </legend>
     <br/>
-    </form>
 </fieldset>
 </body>
 </html>

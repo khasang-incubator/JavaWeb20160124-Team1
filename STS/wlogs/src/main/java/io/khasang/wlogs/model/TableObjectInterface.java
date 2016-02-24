@@ -13,11 +13,13 @@ public interface TableObjectInterface {
 
     List selectWholeTable() throws SQLException;
 
-    String getUrl();
-
-    String getUser();
-
     int getId();
 
-    int getTimespent();
+    String getOccurredAt();
+
+    String getErrorLevel();
+
+    String getErrorSource();
+
+    String getErrorDescription();
 }

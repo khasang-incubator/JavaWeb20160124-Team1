@@ -1,3 +1,4 @@
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <jsp:directive.page contentType="text/html;charset=UTF-8" language="java"/>
 <html>
     <head>
@@ -41,7 +42,11 @@
                         </a>
                     </li>
                     <li>
-                        <a href="/logout" title="Выход">
+                        <!-- Разлогиниться можно POST запросом. Это рекомендация из оф доки. Подробнее тут:
+                         http://docs.spring.io/spring-security/site/docs/current/reference/htmlsingle/#csrf-logout
+                         -->
+                        <form:form action="logout" method="post" id="logoutFormId" cssStyle="display:none;"></form:form>
+                        <a href="javascript:document.getElementById('logoutFormId').submit()" title="Выход">
                             <span class="glyphicon glyphicon-log-out" aria-hidden="true"></span>
                             Выход
                         </a>

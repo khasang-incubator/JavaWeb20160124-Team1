@@ -1,0 +1,151 @@
+
+/* Total reset */
+
+html, body {
+    padding: 0;
+    margin: 0;
+}
+
+/* Main menu style */
+
+button {
+    color: gray;
+    font-size:14px;
+}
+
+body {
+    background-color: #F5F5F5;
+    padding: 0px;
+    margin: 0px;
+    color: #045757;
+}
+
+h1 {
+    padding: 0px;
+    margin: 0px;
+    font-size: 24px;
+    border-bottom: 2px solid #045757;
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+div#main_menu {
+    width: 100%;
+    height: 50px;
+    background-color: #006064;
+    box-shadow: 0 1px 6px rgba(0,0,0,0.4);
+    border-bottom-color: rgba(0,0,0,0.3);
+}
+
+div#menu_wrapper {
+    width: 960px;
+    margin: 0 auto;
+    padding: 0;
+    display: table;
+}
+
+div#logo {
+    display: table;
+    margin: 0;
+    padding: 0;
+    width: auto;
+    height: 50px;
+    float: left;
+}
+
+div#logo span {
+    display: table-cell;
+    vertical-align: middle;
+    height: 50px;
+    font-size: xx-large;
+    color: white;
+}
+
+ul#menu_items {
+    display: table-cell;
+    vertical-align: middle;
+    margin: 0;
+    padding: 0;
+}
+
+ul#menu_items li {
+    margin: 0 15px 0;
+    padding: 0;
+    float: left;
+    display: inline-block;
+    font-size: larger;
+}
+
+ul#menu_items li a {
+    text-decoration: none;
+    color: white;
+    display: inline-block;
+}
+
+ul#menu_items li a:visited {
+    color: #ECEFF1;
+}
+
+ul#menu_items li a:hover {
+    text-decoration: none;
+    border-bottom: 3px white;
+}
+
+div#content {
+    width: 960px;
+    margin: 20px auto;
+    padding: 1px 25px;
+    box-shadow: 0 0 6px rgba(0,0,0,0.4);
+    border-radius: 2px;
+    border-color: rgba(0,0,0,0.3);
+}
+
+table.logs_list tbody tr td.break_all {
+    word-break: break-all;
+}
+
+ul.dropdown li { position: relative; }
+ul.dropdown,
+ul.dropdown-inside {
+    list-style-type: none;
+    padding: 0;
+}
+
+ul.dropdown-inside {
+    position: absolute;
+    left: -9999px;
+}
+
+ul.dropdown li.dropdown-top {
+    display: inline;
+    float: left;
+    margin: 0 1px 0 0;
+}
+
+ul.dropdown li.dropdown-top a {
+    padding: 3px 10px 4px;
+    display: block;
+}
+
+ul.dropdown li.dropdown-top:hover .dropdown-inside {
+    display: block;
+    left: 0;
+}
+
+.darkblue {
+    color: darkblue;
+    font-family: Calibri;
+    font-size: 14px;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.font-larger {
+    font-size: larger;
+}
+
+.error .jumbotron {
+    margin-top: 25px;
+}

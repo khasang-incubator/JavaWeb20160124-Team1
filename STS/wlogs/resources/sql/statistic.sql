@@ -1,7 +1,0 @@
-CREATE TABLE `wlogs`.`statictic` (
-  `ID` INT NOT NULL,
-  `time` DATETIME NOT NULL,
-  `issue` MEDIUMTEXT NOT NULL,
-  `comment` LONGTEXT NULL,
-  PRIMARY KEY (`ID`),
-  UNIQUE INDEX `ID_UNIQUE` (`ID` ASC));

@@ -24,7 +24,6 @@ public class LogRepository {
         String sql = "SELECT * FROM :tableName ORDER BY occurred_at DESC LIMIT :limit OFFSET :offset"
                 .replace(":tableName", tableName).replace(":limit", limit.toString()).replace(":offset", offset.toString());
         return jdbcTemplate.query(sql, new ResultSetExtractor<ArrayList<LogModel>>() {
-
             @Override
             public ArrayList<LogModel> extractData(ResultSet rs) throws SQLException, DataAccessException {
                 ArrayList<LogModel> logs = new ArrayList<LogModel>();
@@ -46,29 +45,6 @@ public class LogRepository {
                     count = rs.getInt("total");
                 }
                 return count;
-            }
-        });
-    }
-
-    public ArrayList<String> getErrorSources() {
-        String sql = "SELECT DISTINCT error_source FROM " + tableName;
-        return getDistinctColumnStrings(sql);
-    }
-
-    public ArrayList<String> getErrorLevels() {
-        String sql = "SELECT DISTINCT error_level FROM " + tableName;
-        return getDistinctColumnStrings(sql);
-    }
-
-    private ArrayList<String> getDistinctColumnStrings(String sql) {
-        return jdbcTemplate.query(sql, new ResultSetExtractor<ArrayList<String>>() {
-            @Override
-            public ArrayList<String> extractData(ResultSet rs) throws SQLException, DataAccessException {
-                ArrayList<String> errorSources = new ArrayList<String>();
-                while (rs.next()) {
-                    errorSources.add(rs.getString(1));
-                }
-                return errorSources;
             }
         });
     }

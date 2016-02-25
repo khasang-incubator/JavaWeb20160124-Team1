@@ -13,7 +13,7 @@ import java.sql.SQLException;
 import java.util.LinkedList;
 import java.util.UUID;
 
-public class DeleteDataTable  {
+public class DeleteDataTable {
     private TransactionTemplate sharedTransactionTemplate;
     private JdbcTemplate jdbcTemplate;
     private String tableName;

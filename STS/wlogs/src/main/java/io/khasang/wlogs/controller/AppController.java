@@ -124,18 +124,7 @@ public class AppController {
         return "export";
     }
 
-    @RequestMapping("/logout")
-    public String logout(Model model) {
-        return "logout";
-    }
-
-    @RequestMapping("/admin")
-    public String admin(Model model) {
-        model.addAttribute("admin", "You are number 1!");
-        return "admin";
-    }
-
-    @RequestMapping("/showlogin") //todo ashishkin  select all error description with like %user%
+    @RequestMapping("/showlogin") //todo ashishkin select all error description with like %user%
     public String showlogin(Model model) {
         model.addAttribute("showlogin", "You are number 1!");
         return "showlogin";

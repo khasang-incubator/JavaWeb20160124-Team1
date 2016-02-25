@@ -1,6 +1,7 @@
 package io.khasang.wlogs.model;
 
 import io.khasang.wlogs.form.DeleteDataForm;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -20,7 +21,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
 
-public class LogManager implements JdbcInterface{
+public class LogManager{
     private static final int RECORDS_COUNT_TO_KEEP_ALIVE = 1000;
 
     private String tableName;

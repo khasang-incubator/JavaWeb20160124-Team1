@@ -31,7 +31,7 @@ http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd http://www.springfr
 
     <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
         <property name="driverClassName" value="com.mysql.jdbc.Driver" />
-        <property name="url" value="jdbc:mysql://${jdbc.host}:${jdbc.port}/${jdbc.db_name}" />
+        <property name="url" value="jdbc:mysql://${jdbc.host}/${jdbc.db_name}" />
         <property name="username" value="${jdbc.user}" />
         <property name="password" value="${jdbc.password}" />
     </bean>

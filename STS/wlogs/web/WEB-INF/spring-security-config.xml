@@ -8,8 +8,12 @@
         http://www.springframework.org/schema/security/spring-security.xsd">
 
     <http>
+        <intercept-url pattern="/auth/login" access="isAnonymous()"/>
+        <intercept-url pattern="/css/**" access="isAnonymous()"/>
+        <intercept-url pattern="/js/**" access="isAnonymous()"/>
+        <intercept-url pattern="/images/**" access="isAnonymous()"/>
         <intercept-url pattern="/**" access="hasRole('USER')"/>
-        <form-login />
+        <form-login login-page="/auth/login"/>
         <logout />
     </http>
 

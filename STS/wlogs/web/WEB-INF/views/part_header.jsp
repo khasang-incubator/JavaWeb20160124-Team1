@@ -45,7 +45,7 @@
                         <!-- Разлогиниться можно POST запросом. Это рекомендация из оф доки. Подробнее тут:
                          http://docs.spring.io/spring-security/site/docs/current/reference/htmlsingle/#csrf-logout
                          -->
-                        <form:form action="logout" method="post" id="logoutFormId" cssStyle="display:none;"></form:form>
+                        <form:form action="/logout" method="post" id="logoutFormId" cssStyle="display:none;" />
                         <a href="javascript:document.getElementById('logoutFormId').submit()" title="Выход">
                             <span class="glyphicon glyphicon-log-out" aria-hidden="true"></span>
                             Выход

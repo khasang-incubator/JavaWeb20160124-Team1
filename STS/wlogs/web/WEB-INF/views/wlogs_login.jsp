@@ -10,7 +10,7 @@
         <div class="col-md-4 col-md-offset-4">
             <h2 class="center-block">Аутентификация</h2>
             <br/>
-            <form:form commandName="login" id="loginFormId" name="loginForm" method="post">
+            <form:form action="/login" id="loginFormId" name="loginForm" method="post">
                 <div class="form-group form-group-lg">
                     <label for="usernameTextField" class="control-label input-lg">
                         <span class="glyphicon glyphicon-user"></span>

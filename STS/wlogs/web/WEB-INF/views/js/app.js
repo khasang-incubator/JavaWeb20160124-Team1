@@ -1,5 +1,10 @@
 /* Import page, AJAX loading of fixtures */
 $(document).ready(function() {
+    var csrfHeader = $("meta[name='_csrf_header']").attr("content");
+    var csrfToken = $("meta[name='_csrf']").attr("content");
+    var headers = {};
+    headers[csrfHeader] = csrfToken;
+
     var createTableBtn = $('#createTableBtn');
     createTableBtn.children('img').hide();
     createTableBtn.click(function() {
@@ -9,6 +14,7 @@ $(document).ready(function() {
             type: "POST",
             url: "/ajax/create-table",
             dataType: "json",
+            headers: headers,
             success: function(data, textStatus, jqXHR) {
                 alert("Таблица успешно создана!");
             },
@@ -43,6 +49,7 @@ $(document).ready(function() {
             type: "POST",
             url: "/ajax/import-fixtures",
             dataType: "json",
+            headers: headers,
             success: function(data, textStatus, jqXHR) {
                 alert("Данные успешно импортированы!");
             },

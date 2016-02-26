@@ -41,9 +41,15 @@
                             </a>
                         </li>
                         <li>
-                            <a href="/export" title="Экспорт">
-                                <span class="glyphicon glyphicon-export" aria-hidden="true"></span>
-                                Экспорт
+                            <a href="/createtable" title="Statistic">
+                                <span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span>
+                                Statistic
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/profile">
+                                <span class="glyphicon glyphicon-user"></span>
+                                <sec:authentication property="principal.username" />
                             </a>
                         </li>
                         <li>
@@ -54,12 +60,6 @@
                             <a href="javascript:document.getElementById('logoutFormId').submit()" title="Выход">
                                 <span class="glyphicon glyphicon-log-out" aria-hidden="true"></span>
                                 Выход
-                            </a>
-                        </li>
-                        <li>
-                            <a href="/createtable" title="Statistic">
-                                <span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span>
-                                Statistic
                             </a>
                         </li>
                     </ul>

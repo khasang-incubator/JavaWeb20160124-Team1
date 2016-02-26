@@ -119,11 +119,6 @@ public class AppController {
         return "import";
     }
 
-    @RequestMapping("/export")
-    public String exportLogs(Model model) {
-        return "export";
-    }
-
     @RequestMapping("/showlogin") //todo ashishkin select all error description with like %user%
     public String showlogin(Model model) {
         model.addAttribute("showlogin", "You are number 1!");

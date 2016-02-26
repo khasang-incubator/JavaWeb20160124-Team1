@@ -9,11 +9,11 @@
 
     <http>
         <intercept-url pattern="/auth/login" access="isAnonymous()"/>
-        <intercept-url pattern="/css/**" access="isAnonymous()"/>
-        <intercept-url pattern="/js/**" access="isAnonymous()"/>
-        <intercept-url pattern="/images/**" access="isAnonymous()"/>
+        <intercept-url pattern="/css/**" access="permitAll()"/>
+        <intercept-url pattern="/js/**" access="permitAll()"/>
+        <intercept-url pattern="/images/**" access="permitAll()"/>
         <intercept-url pattern="/**" access="hasRole('USER')"/>
-        <form-login login-page="/auth/login"/>
+        <form-login login-page="/auth/login" default-target-url="/"/>
         <logout />
     </http>
 

@@ -14,7 +14,7 @@
     <title>wlogs project</title>
 </head>
 <body>
-<%@ include file="/WEB-INF/views/header.jsp" %>
+<%--<%@ include file="/WEB-INF/views/header.jsp" %>--%>
 <div class="container">
     <div class="content" align="center" style="width: 780px;">
         <h1>Login page</h1>
@@ -29,11 +29,10 @@
             <br>
             <input type="submit" value="Log in"/>
             <br>
-            <button>
-                Create table with users
-            </button>
+            <%--<form action="/smth">--%>
+                <%--<button type="submit" name="submit" class="btn btn-primary">????????? ?????????????</button>--%>
+            <%--</form>--%>
             <br>
-            ${login}
         </form>
         <!-- <a href="registration">Regestration</a> -->
     </div>

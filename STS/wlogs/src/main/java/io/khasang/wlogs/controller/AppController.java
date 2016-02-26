@@ -140,11 +140,10 @@ public class AppController {
         return "tableview";
     }
 
-    @RequestMapping("login") //todo dalbot
+    @RequestMapping("login") //todo dalbot return user list from current logon name, db with id, username, role, description
     public String login(Model model) {
-        String sqlAnswer = ((Login) login).sqlInsert();
-        model.addAttribute("users", ((Login)login).showUsers());
-        model.addAttribute("login", sqlAnswer); //return user list from current logon name, db with id, username, role, description
+        Login login = new Login();
+        model.addAttribute("users", login.showUsers());
         return "login";
     }
 
@@ -154,9 +153,23 @@ public class AppController {
         return "join";
     }
 
-    @RequestMapping("registration") //todo dalbot
+    @RequestMapping("/registration") //todo dalbot
     public String registration() {
         return "registration";
     }
 
+    @RequestMapping(value = "/registration", method = RequestMethod.POST)
+    public String addUserAction(HttpServletRequest request, RedirectAttributes redirectAttributes, Model model) {
+        Registration registration = new Registration();
+        String sqlAnswer = null;
+        try {
+            String username = request.getParameter("username");
+            String password = request.getParameter("password");
+            sqlAnswer = registration.sqlInsert(username, password);
+        } catch (Exception e) {
+            sqlAnswer = "smth wrong";
+        }
+        model.addAttribute("formAnswer", sqlAnswer);
+        return "registration";
+    }
 }

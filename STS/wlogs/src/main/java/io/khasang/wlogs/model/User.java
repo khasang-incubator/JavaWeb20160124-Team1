@@ -1,7 +1,7 @@
 package io.khasang.wlogs.model;
 
 /**
- * Created by Андрей on 18.02.2016.
+ * @author Albot D.
  */
 public class User {
     private int id;

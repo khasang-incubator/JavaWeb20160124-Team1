@@ -8,16 +8,18 @@
 <title>wlogs</title>
 </head>
 <body>
-	<%@ include file="/WEB-INF/views/header.jsp"%>
-	<div class="container">
-		<div class="content" align="center">
-			<h1>Regestration page</h1>
-			<form action="registration" method="post">
-				Account:<input type="text" name="username" id="username"/>
-				Password:<input type="password" name="password" id="password"/>
-				<input type="submit" value="Done"/>
-			</form>
-		</div>
+<%@ include file="/WEB-INF/views/header.jsp"%>
+<div class="container">
+	<div class="content" align="center">
+		<h1>Regestration page</h1>
+		<form action="registration" method="post">
+			Account:<input type="text" name="username" id="username"/>
+			Password:<input type="password" name="password" id="password"/>
+			<input type="submit" value="Done"/>
+		</form>
+		<br>
+		${formAnswer}
 	</div>
+</div>
 </body>
 </html>

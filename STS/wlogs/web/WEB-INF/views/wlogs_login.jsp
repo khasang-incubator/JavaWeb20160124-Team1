@@ -10,6 +10,12 @@
         <div class="col-md-4 col-md-offset-4">
             <h2 class="center-block">Аутентификация</h2>
             <br/>
+            <c:if test="${not empty SPRING_SECURITY_LAST_EXCEPTION}">
+                <div class="alert alert-danger alert-dismissible" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <p>${SPRING_SECURITY_LAST_EXCEPTION.message}</p>
+                </div>
+            </c:if>
             <c:if test="${param.logout != null}">
                 <div class="alert alert-success alert-dismissible" role="alert">
                     <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>

@@ -3,7 +3,7 @@ package io.khasang.wlogs.model;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.SimpleDriverDataSource;
 
-public class InsertComment implements JdbcInterface {
+public class InsertComment {
     private static String sqlCheck;
     private JdbcTemplate jdbcTemplate;
 
@@ -16,13 +16,12 @@ public class InsertComment implements JdbcInterface {
         dataSource.setPassword("root");
         JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
         System.out.println("checking connection...");
-        try{
+        try {
             System.out.println("getting current statistic table...");
             createTable();
             System.out.println("Insert comment");
             jdbcTemplate.update("INSERT INTO statistic (comment) VALUE (?)", comment);
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             sqlCheck = "Have error " + e;
             System.err.println(sqlCheck);
         }
@@ -34,7 +33,6 @@ public class InsertComment implements JdbcInterface {
     }
 
     public void setJdbcTemplate(JdbcTemplate jdbcTemplate) {
-
     }
 
     public void createTable() {

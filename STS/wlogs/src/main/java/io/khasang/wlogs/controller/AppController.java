@@ -31,13 +31,10 @@ public class AppController {
     @Autowired
     private Statistic statistic;
     @Autowired
-    private DeleteDataTable deleteDataTable;
-    @Autowired
     ViewDataFromTable viewDataFromTable;
     @Autowired
     @Qualifier("productorder")
     TableObjectInterface tableObjectInterface;
-
 
     final public static Integer DEFAULT_LIMIT = 100;
 
@@ -138,7 +135,6 @@ public class AppController {
         return "createtable";
     }
 
-
     @RequestMapping("/insertcomment")
     public String insertComment(Model model) {
         model.addAttribute("showstatisticdata", viewStatisticData.showStatisticData()); //todo szador insert comment to table "statistic", select date description
@@ -163,10 +159,6 @@ public class AppController {
         return "registration";
     }
 
-
-
-
-
     @RequestMapping("/insert")
     public String insert(Model model) {
         model.addAttribute("tip", "Choose table to insert");
@@ -185,8 +177,8 @@ public class AppController {
         model.addAttribute("admin", "You are number 1!");
         return "admin";
     }
-    /*sorlov work*/
-   @RequestMapping(value = "/showJoinedTables", method = RequestMethod.GET)
+
+    @RequestMapping(value = "/showJoinedTables", method = RequestMethod.GET)
     public String performJoin(Model model,
                               @RequestParam(value = "selection", defaultValue = "-1") int[] tableNums) {
         if (tableNums[0] == -1) {
@@ -216,14 +208,13 @@ public class AppController {
         model.addAttribute("result", dbHandler.sqlInsertCheck());
         return "createtblsorlov";
     }
-     @RequestMapping("/join")
+
+    @RequestMapping("/join")
     public String join(Model model) {
         model.addAttribute("tblOne", dbHandler.getTableName(0));
         model.addAttribute("tblTwo", dbHandler.getTableName(1));
         return "join";
     }
-    /*end sorlov work*/
-
 
     @RequestMapping("/tempselect")
     public String selectData(Model model) {

@@ -1,7 +1,6 @@
 package io.khasang.wlogs.controller;
 
 import io.khasang.wlogs.model.LogManager;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -12,7 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 @RequestMapping("/ajax")
 @Controller
 public class AjaxController {
-    @Autowired
+
     private LogManager logManager;
 
     public void setLogManager(LogManager logManager) {
@@ -22,7 +21,7 @@ public class AjaxController {
     @RequestMapping(value = "/import-fixtures", produces = "application/json", method = RequestMethod.POST)
     @ResponseBody
     public String loadFixtures(HttpServletResponse response) {
-        String responseBody = "";
+        String responseBody;
         try {
             logManager.loadFixtures();
             responseBody = "{\"status\":\"OK\"}";
@@ -36,7 +35,7 @@ public class AjaxController {
     @RequestMapping(value = "/create-table", produces = "application/json", method = RequestMethod.POST)
     @ResponseBody
     public String createTable(HttpServletResponse response) {
-        String responseBody = "";
+        String responseBody;
         try {
             logManager.createTable();
             responseBody = "{\"status\":\"OK\"}";

@@ -2,7 +2,6 @@ package io.khasang.wlogs.model;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.*;
-import org.springframework.jdbc.datasource.SimpleDriverDataSource;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -19,7 +18,7 @@ public class Registration {
     }
 
     public void createTable() {
-        jdbcTemplate.execute("CREATE TABLE IF NOT EXISTS users(ID INT, login VARCHAR(40), password VARCHAR(40), email VARCHAR (100));");
+        jdbcTemplate.execute("CREATE TABLE IF NOT EXISTS users(ID INT, login VARCHAR(40), password VARCHAR(40), email VARCHAR (100), active TINYINT(1), role VARCHAR (100));");
     }
 
     public String sqlInsert(final String username, final String password) {

@@ -1,8 +1,8 @@
 package io.khasang.wlogs.model;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
-import org.springframework.jdbc.datasource.SimpleDriverDataSource;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -12,6 +12,7 @@ import java.util.List;
  * @author Albot D.
  */
 public class Login {
+    @Autowired
     JdbcTemplate jdbcTemplate;
     private String sqlAnswer;
 
@@ -20,12 +21,6 @@ public class Login {
     }
 
     public Login() {
-        SimpleDriverDataSource dataSource = new SimpleDriverDataSource();
-        dataSource.setDriverClass(com.mysql.jdbc.Driver.class);
-        dataSource.setUsername("root");
-        dataSource.setUrl("jdbc:mysql://localhost/wlogs");
-        dataSource.setPassword("root");
-        jdbcTemplate = new JdbcTemplate(dataSource);
     }
 
     private List<User> takeUsers() {

@@ -13,7 +13,9 @@ import javax.servlet.http.HttpServletRequest;
 @Controller
 public class AppController {
     @Autowired
-    JdbcInterface login;
+    Login login;
+    @Autowired
+    Registration registration;
     final public static Integer DEFAULT_LIMIT = 100;
     @Autowired
     private LogManager logManager;
@@ -140,9 +142,9 @@ public class AppController {
         return "tableview";
     }
 
-    @RequestMapping("login") //todo dalbot return user list from current logon name, db with id, username, role, description
+    @RequestMapping("login")
+    //todo dalbot return user list from current logon name, db with id, username, role, description
     public String login(Model model) {
-        Login login = new Login();
         model.addAttribute("users", login.showUsers());
         return "login";
     }
@@ -160,7 +162,6 @@ public class AppController {
 
     @RequestMapping(value = "/registration", method = RequestMethod.POST)
     public String addUserAction(HttpServletRequest request, RedirectAttributes redirectAttributes, Model model) {
-        Registration registration = new Registration();
         String sqlAnswer = null;
         try {
             String username = request.getParameter("username");

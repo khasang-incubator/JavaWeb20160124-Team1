@@ -1,5 +1,6 @@
 package io.khasang.wlogs.model;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.*;
 import org.springframework.jdbc.datasource.SimpleDriverDataSource;
 
@@ -10,20 +11,15 @@ import java.sql.SQLException;
  * @author Albot D.
  */
 public class Registration {
+    @Autowired
     JdbcTemplate jdbcTemplate;
     private String sqlAnswer;
 
     public Registration() {
-        SimpleDriverDataSource dataSource = new SimpleDriverDataSource();
-        dataSource.setDriverClass(com.mysql.jdbc.Driver.class);
-        dataSource.setUsername("root");
-        dataSource.setUrl("jdbc:mysql://localhost/wlogs");
-        dataSource.setPassword("root");
-        jdbcTemplate = new JdbcTemplate(dataSource);
     }
 
     public void createTable() {
-        jdbcTemplate.execute("CREATE TABLE IF NOT EXISTS users(ID INT, login VARCHAR(40), password VARCHAR(40), description VARCHAR (100));");
+        jdbcTemplate.execute("CREATE TABLE IF NOT EXISTS users(ID INT, login VARCHAR(40), password VARCHAR(40), email VARCHAR (100));");
     }
 
     public String sqlInsert(final String username, final String password) {

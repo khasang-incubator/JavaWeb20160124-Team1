@@ -131,3 +131,32 @@ ul.dropdown li.dropdown-top:hover .dropdown-inside {
     display: block;
     left: 0;
 }
+
+.darkblue {
+    color: darkblue;
+    font-family: Calibri;
+    font-size: 14px;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.font-larger {
+    font-size: larger;
+}
+
+.error .jumbotron {
+    margin-top: 25px;
+}
+
+div#login-form {
+    min-height: 90%;
+    display: table;
+    width: 100%;
+}
+
+div#login-form div.login-wrapper {
+    display: table-cell;
+    vertical-align: middle;
+}

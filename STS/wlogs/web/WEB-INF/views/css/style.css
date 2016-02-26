@@ -48,17 +48,22 @@ div#logo {
     display: table;
     margin: 0;
     padding: 0;
-    width: auto;
     height: 50px;
     float: left;
 }
 
-div#logo span {
-    display: table-cell;
-    vertical-align: middle;
+div#logo img {
     height: 50px;
-    font-size: xx-large;
+    width: auto;
+}
+
+div#logo a {
     color: white;
+    font-size: x-large;
+}
+
+div#logo a:hover {
+    text-decoration: none;
 }
 
 ul#menu_items {

@@ -10,6 +10,15 @@
         <div class="col-md-4 col-md-offset-4">
             <h2 class="center-block">Аутентификация</h2>
             <br/>
+            <c:if test="${param.logout != null}">
+                <div class="alert alert-success alert-dismissible" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <p>
+                        <span class="glyphicon glyphicon-ok"></span>
+                        Вы успешно вышли из системы!
+                    </p>
+                </div>
+            </c:if>
             <form:form action="/login" id="loginFormId" name="loginForm" method="post">
                 <div class="form-group form-group-lg">
                     <label for="usernameTextField" class="control-label input-lg">

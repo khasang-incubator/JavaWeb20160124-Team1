@@ -17,7 +17,9 @@
     <body>
         <div id="main_menu">
             <div id="menu_wrapper">
-                <div id="logo"><span class="glyphicon glyphicon-tasks" aria-hidden="true"></span></div>
+                <div id="logo">
+                    <a href="/"><img src="/images/khasang-logo.png" alt="">&nbsp;WLOGS</a>
+                </div>
                 <ul id="menu_items">
                     <li>
                         <a href="/" title="Просмотр">

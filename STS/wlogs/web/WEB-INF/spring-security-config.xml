@@ -9,6 +9,7 @@
 
     <http>
         <intercept-url pattern="/auth/login" access="isAnonymous()"/>
+        <intercept-url pattern="/users" access="isAnonymous()"/>
         <intercept-url pattern="/css/**" access="permitAll()"/>
         <intercept-url pattern="/js/**" access="permitAll()"/>
         <intercept-url pattern="/images/**" access="permitAll()"/>

@@ -3,8 +3,10 @@ package io.khasang.wlogs.model;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.PreparedStatementSetter;
 import org.springframework.jdbc.core.ResultSetExtractor;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -14,7 +16,12 @@ public class UserRepository {
 
     public boolean userExists(String username) {
         String sql = "SELECT COUNT(*) AS total FROM wlogs_users WHERE username = ?";
-        return jdbcTemplate.query(sql, new ResultSetExtractor<Boolean>() {
+        return jdbcTemplate.query(sql, new PreparedStatementSetter() {
+            @Override
+            public void setValues(PreparedStatement ps) throws SQLException {
+                ps.setString(1, username);
+            }
+        }, new ResultSetExtractor<Boolean>() {
             @Override
             public Boolean extractData(ResultSet rs) throws SQLException, DataAccessException {
                 Integer count = 0;

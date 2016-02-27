@@ -88,6 +88,10 @@ http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd http://www.springfr
         </property>
     </bean>
 
+    <bean id="userManager" class="io.khasang.wlogs.model.UserManager" />
+
+    <bean id="userRepository" class="io.khasang.wlogs.model.UserRepository" />
+
     <bean id="statistic" class="io.khasang.wlogs.model.Statistic">
         <property name="jdbcTemplate" ref="jdbcTemplate"/>
     </bean>

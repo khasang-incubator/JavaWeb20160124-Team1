@@ -26,7 +26,7 @@ public class UserController {
     @RequestMapping(method = RequestMethod.POST)
     public String createHandler(@Valid UserRegistrationForm userRegistrationForm, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
-            return "redirect:users";
+            return "wlogs_user_registration";
         }
         try {
             this.userManager.create(userRegistrationForm);

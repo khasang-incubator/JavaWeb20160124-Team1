@@ -24,18 +24,21 @@ public class UserManager {
 
     public void create(UserRegistrationForm userRegistrationForm) throws Exception {
         if (this.inMemoryUserDetailsManager.userExists(userRegistrationForm.getUsername()) ||
-            this.userRepository.userExists(userRegistrationForm.getUsername())) {
-            throw new Exception("User with such name already exists. Try another one.");
+            this.userRepository.userExists(userRegistrationForm.getUsername()) ||
+            this.userRepository.userExists(userRegistrationForm.getEmail())) {
+            throw new Exception("User with such name or email already exists. Try another one.");
         }
-        this.createUser(userRegistrationForm.getUsername(), passwordEncoder.encode(userRegistrationForm.getPassword()));
+        this.createUser(userRegistrationForm.getUsername(), passwordEncoder.encode(userRegistrationForm.getPassword()),
+                        userRegistrationForm.getEmail());
     }
 
-    private void createUser(String username, String password) {
-        this.jdbcTemplate.update("INSERT INTO wlogs_users(username, password) VALUES(?, ?)", new PreparedStatementSetter() {
+    private void createUser(String username, String password, String email) {
+        this.jdbcTemplate.update("INSERT INTO wlogs_users(username, password, email) VALUES(?, ?, ?)", new PreparedStatementSetter() {
             @Override
             public void setValues(PreparedStatement ps) throws SQLException {
                 ps.setString(1, username);
                 ps.setString(2, password);
+                ps.setString(3, email);
             }
         });
         this.jdbcTemplate.update("INSERT INTO wlogs_user_roles(username, role) VALUES(?, 'ROLE_USER')", new PreparedStatementSetter() {

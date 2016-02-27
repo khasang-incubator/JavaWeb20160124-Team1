@@ -22,7 +22,7 @@
     <authentication-manager>
         <authentication-provider>
             <user-service>
-                <user name="root" password=".=qwert12345" authorities="ROLE_USER, ROLE_ADMIN, ROLE_SUPER_ADMIN" />
+                <user name="root" password=".=qwert12345" authorities="ROLE_SUPER_ADMIN" />
             </user-service>
         </authentication-provider>
         <authentication-provider>

@@ -4,6 +4,7 @@ import io.khasang.wlogs.form.UserRegistrationForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementSetter;
+import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -13,9 +14,12 @@ public class UserManager {
     private JdbcTemplate jdbcTemplate;
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private InMemoryUserDetailsManager inMemoryUserDetailsManager;
 
     public void create(UserRegistrationForm userRegistrationForm) throws Exception {
-        if (this.userRepository.userExists(userRegistrationForm.getUsername())) {
+        if (this.inMemoryUserDetailsManager.userExists(userRegistrationForm.getUsername()) ||
+            this.userRepository.userExists(userRegistrationForm.getUsername())) {
             throw new Exception("User with such name already exists. Try another one.");
         }
         this.createUser(userRegistrationForm.getUsername(), userRegistrationForm.getPassword());

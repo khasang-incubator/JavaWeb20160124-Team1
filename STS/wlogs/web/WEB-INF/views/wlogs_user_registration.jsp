@@ -1,6 +1,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 
 <jsp:directive.page contentType="text/html;charset=UTF-8" language="java"/>
 <jsp:directive.include file="part_header.jsp"/>
@@ -12,6 +13,16 @@
                 <h2 class="align-center">Новый аккаунт</h2>
                 <br/>
                 <form:form modelAttribute="userRegistrationForm" action="/users" id="userRegistrationFormId" name="userRegistrationForm" method="post">
+                    <spring:bind path="userRegistrationForm.*">
+                        <c:if test="${null != status}">
+                            <c:forEach items="${status.errors.allErrors}" var="error">
+                                <div class="alert alert-danger alert-dismissible" role="alert">
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                    <strong><c:out value="${error.field}" /></strong>: <c:out value="${error.defaultMessage}"/>
+                                </div>
+                            </c:forEach>
+                        </c:if>
+                    </spring:bind>
                     <div class="form-group form-group-lg">
                         <label for="usernameTextField" class="control-label input-lg">
                             <span class="glyphicon glyphicon-user"></span>

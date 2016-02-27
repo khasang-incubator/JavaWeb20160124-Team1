@@ -1,19 +1,22 @@
 package io.khasang.wlogs.form;
 
-import javax.validation.constraints.NotNull;
+import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.NotBlank;
+
+import javax.validation.constraints.AssertTrue;
 import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
 
 public class UserRegistrationForm {
-    @NotNull
-    @Size(min=3, max=50)
+    @NotBlank
+    @Length(min=3, max=50)
     @Pattern(regexp = "^[a-zA-Z0-9_]*$")
     private String username;
-    @NotNull
-    @Size(min=6, max=20)
+    @NotBlank
+    @Length(min=6, max=20)
     private String password;
-    @NotNull
-    @Size(min=6, max=20)
+    @NotBlank
+    @Length(min=6, max=20)
+
     private String confirmPassword;
 
     public String getUsername() {
@@ -40,6 +43,7 @@ public class UserRegistrationForm {
         this.confirmPassword = confirmPassword;
     }
 
+    @AssertTrue(message = "Password should be equals with verify field password.")
     public boolean isPasswordConfirmedValid() {
         return password.equals(confirmPassword);
     }

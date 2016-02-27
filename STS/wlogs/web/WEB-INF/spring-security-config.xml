@@ -14,9 +14,10 @@
         <intercept-url pattern="/css/**" access="permitAll()"/>
         <intercept-url pattern="/js/**" access="permitAll()"/>
         <intercept-url pattern="/images/**" access="permitAll()"/>
-        <intercept-url pattern="/**" access="hasRole('USER')"/>
+        <intercept-url pattern="/**" access="isFullyAuthenticated()"/>
         <form-login login-page="/auth/login" default-target-url="/"/>
         <logout />
+        <expression-handler ref="defaultWebSecurityExpressionHandler" />
     </http>
 
     <authentication-manager>
@@ -47,5 +48,23 @@
                 ROLE_USER > ROLE_GUEST
             </beans:value>
         </beans:property>
+    </beans:bean>
+
+    <!-- To enable check role hierarchy in the JSP pages -->
+    <beans:bean id="defaultWebSecurityExpressionHandler"
+          class="org.springframework.security.web.access.expression.DefaultWebSecurityExpressionHandler">
+        <beans:property name="roleHierarchy" ref="roleHierarchy"/>
+    </beans:bean>
+
+    <beans:bean id="accessDecisionManager" class="org.springframework.security.access.vote.AffirmativeBased">
+        <beans:constructor-arg>
+            <beans:list>
+                <beans:ref bean="roleVoter" />
+                <beans:bean class="org.springframework.security.web.access.expression.WebExpressionVoter">
+                    <beans:property name="expressionHandler" ref="defaultWebSecurityExpressionHandler"/>
+                </beans:bean>
+                <beans:bean class="org.springframework.security.access.vote.AuthenticatedVoter"/>
+            </beans:list>
+        </beans:constructor-arg>
     </beans:bean>
 </beans:beans>

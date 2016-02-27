@@ -27,7 +27,7 @@
         <authentication-provider>
             <password-encoder ref="bcryptPasswordEncoder"/>
             <user-service>
-                <user name="root" password=".=qwert12345" authorities="ROLE_SUPER_ADMIN" />
+                <user name="root" password="$2a$10$mf.PoIoy3rL5rbnMyjrL2.JrybwIV6VRduXcJVg1wUCL89MWlwdd." authorities="ROLE_SUPER_ADMIN" />
             </user-service>
         </authentication-provider>
         <authentication-provider>

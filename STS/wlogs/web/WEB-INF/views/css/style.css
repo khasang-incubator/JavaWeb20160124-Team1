@@ -165,3 +165,7 @@ div#login-form div.login-wrapper {
     display: table-cell;
     vertical-align: middle;
 }
+
+.align-center {
+    text-align: center;
+}

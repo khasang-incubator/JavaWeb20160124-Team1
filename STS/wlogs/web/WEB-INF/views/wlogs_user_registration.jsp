@@ -34,6 +34,13 @@
                         <form:input path="username" type="text" id="usernameTextField" name="username" class="form-control"/>
                     </div>
                     <div class="form-group form-group-lg">
+                        <label for="usernameTextField" class="control-label input-lg">
+                            <span class="glyphicon glyphicon-envelope"></span>
+                            Адрес email
+                        </label>
+                        <form:input path="email" type="text" id="usernameTextField" name="username" class="form-control"/>
+                    </div>
+                    <div class="form-group form-group-lg">
                         <label for="passwordTextField" class="control-label  input-lg">
                             <span class="glyphicon glyphicon-lock"></span>
                             Пароль

@@ -24,5 +24,12 @@
                 <user name="user2" password=".=qwert12345" authorities="ROLE_USER" />
             </user-service>
         </authentication-provider>
+        <authentication-provider>
+            <jdbc-user-service
+                    data-source-ref="dataSource"
+                    users-by-username-query="SELECT username, password, enabled FROM wlogs_users WHERE username = ?"
+                    authorities-by-username-query="SELECT username, role FROM wlogs_user_roles WHERE username=?"
+            />
+        </authentication-provider>
     </authentication-manager>
 </beans:beans>

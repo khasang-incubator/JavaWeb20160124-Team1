@@ -15,11 +15,12 @@ public class UserRepository {
     private JdbcTemplate jdbcTemplate;
 
     public boolean userExists(String username) {
-        String sql = "SELECT COUNT(*) AS total FROM wlogs_users WHERE username = ?";
+        String sql = "SELECT COUNT(*) AS total FROM wlogs_users WHERE username = ? or email = ?";
         return jdbcTemplate.query(sql, new PreparedStatementSetter() {
             @Override
             public void setValues(PreparedStatement ps) throws SQLException {
                 ps.setString(1, username);
+                ps.setString(2, username);
             }
         }, new ResultSetExtractor<Boolean>() {
             @Override

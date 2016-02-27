@@ -8,6 +8,9 @@
         http://www.springframework.org/schema/security
         http://www.springframework.org/schema/security/spring-security.xsd http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd">
 
+    <beans:bean name="bcryptPasswordEncoder"
+                class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"/>
+
     <http>
         <intercept-url pattern="/auth/login" access="isAnonymous()"/>
         <intercept-url pattern="/users" access="isAnonymous()"/>
@@ -22,11 +25,13 @@
 
     <authentication-manager>
         <authentication-provider>
+            <password-encoder ref="bcryptPasswordEncoder"/>
             <user-service>
                 <user name="root" password=".=qwert12345" authorities="ROLE_SUPER_ADMIN" />
             </user-service>
         </authentication-provider>
         <authentication-provider>
+            <password-encoder ref="bcryptPasswordEncoder"/>
             <jdbc-user-service
                     data-source-ref="dataSource"
                     users-by-username-query="SELECT username, password, enabled FROM wlogs_users WHERE username = ?"

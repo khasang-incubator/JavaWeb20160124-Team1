@@ -8,7 +8,7 @@
     <div class="login-wrapper">
     <div class="row">
         <div class="col-md-4 col-md-offset-4">
-            <h2 class="center-block">Аутентификация</h2>
+            <h2 class="align-center">Аутентификация</h2>
             <br/>
             <c:if test="${not empty SPRING_SECURITY_LAST_EXCEPTION}">
                 <div class="alert alert-danger alert-dismissible" role="alert">
@@ -47,6 +47,9 @@
                     </button>
                 </div>
             </form:form>
+            <p class="align-center">
+                <a href="/users">Создать аккаунт</a>
+            </p>
         </div>
     </div>
     </div>

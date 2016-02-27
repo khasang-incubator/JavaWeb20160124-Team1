@@ -34,6 +34,6 @@ public class UserController {
             bindingResult.addError(new ObjectError("userRegistrationForm", e.getMessage()));
             return "wlogs_user_registration";
         }
-        return "redirect:auth/login";
+        return "redirect:auth/login?user_created";
     }
 }

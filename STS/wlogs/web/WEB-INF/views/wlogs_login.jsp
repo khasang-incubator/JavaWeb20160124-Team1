@@ -16,6 +16,15 @@
                     <p>${SPRING_SECURITY_LAST_EXCEPTION.message}</p>
                 </div>
             </c:if>
+            <c:if test="${param.user_created != null}">
+                <div class="alert alert-success alert-dismissible" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <p>
+                        <span class="glyphicon glyphicon-ok"></span>
+                        <strong>Аккаунт успешно создан!</strong> Введите ваш новый логин и пароль для входа в систему.
+                    </p>
+                </div>
+            </c:if>
             <c:if test="${param.logout != null}">
                 <div class="alert alert-success alert-dismissible" role="alert">
                     <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>

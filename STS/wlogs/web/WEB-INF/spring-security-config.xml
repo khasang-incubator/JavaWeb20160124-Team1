@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans:beans xmlns:beans="http://www.springframework.org/schema/beans"
-       xmlns="http://www.springframework.org/schema/security"
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans
+             xmlns="http://www.springframework.org/schema/security"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xmlns:bean="http://www.springframework.org/schema/mvc"
+             xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
         http://www.springframework.org/schema/security
-        http://www.springframework.org/schema/security/spring-security.xsd">
+        http://www.springframework.org/schema/security/spring-security.xsd http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd">
 
     <http>
         <intercept-url pattern="/auth/login" access="isAnonymous()"/>
@@ -21,8 +22,7 @@
     <authentication-manager>
         <authentication-provider>
             <user-service>
-                <user name="root" password=".=qwert12345" authorities="ROLE_USER, ROLE_ADMIN" />
-                <user name="user2" password=".=qwert12345" authorities="ROLE_USER" />
+                <user name="root" password=".=qwert12345" authorities="ROLE_USER, ROLE_ADMIN, ROLE_SUPER_ADMIN" />
             </user-service>
         </authentication-provider>
         <authentication-provider>
@@ -33,4 +33,19 @@
             />
         </authentication-provider>
     </authentication-manager>
+
+    <!-- Roles hierarchical, see here http://docs.spring.io/spring-security/site/docs/4.0.4.RELEASE/reference/htmlsingle/#authz-hierarchical-roles -->
+    <beans:bean id="roleVoter" class="org.springframework.security.access.vote.RoleHierarchyVoter">
+        <beans:constructor-arg ref="roleHierarchy" />
+    </beans:bean>
+
+    <beans:bean id="roleHierarchy" class="org.springframework.security.access.hierarchicalroles.RoleHierarchyImpl">
+        <beans:property name="hierarchy">
+            <beans:value>
+                ROLE_SUPER_ADMIN > ROLE_ADMIN
+                ROLE_ADMIN > ROLE_USER
+                ROLE_USER > ROLE_GUEST
+            </beans:value>
+        </beans:property>
+    </beans:bean>
 </beans:beans>

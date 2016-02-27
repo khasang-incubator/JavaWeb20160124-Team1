@@ -34,7 +34,7 @@
             <password-encoder ref="bcryptPasswordEncoder"/>
             <jdbc-user-service
                     data-source-ref="dataSource"
-                    users-by-username-query="SELECT username, password, enabled FROM wlogs_users WHERE username = ?"
+                    users-by-username-query="SELECT username, password, enabled FROM wlogs_users WHERE ? IN (username, email)"
                     authorities-by-username-query="SELECT username, role FROM wlogs_user_roles WHERE username=?"
             />
         </authentication-provider>

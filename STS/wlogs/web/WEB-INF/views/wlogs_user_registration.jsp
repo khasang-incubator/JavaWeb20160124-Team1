@@ -14,11 +14,14 @@
                 <br/>
                 <form:form modelAttribute="userRegistrationForm" action="/users" id="userRegistrationFormId" name="userRegistrationForm" method="post">
                     <spring:bind path="userRegistrationForm.*">
-                        <c:if test="${null != status}">
+                        <c:if test="${not empty status}">
                             <c:forEach items="${status.errors.allErrors}" var="error">
                                 <div class="alert alert-danger alert-dismissible" role="alert">
                                     <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                    <strong><c:out value="${error.field}" /></strong>: <c:out value="${error.defaultMessage}"/>
+                                    <c:catch var="exception">
+                                        <strong><c:out value="${error.field}" /></strong>:
+                                    </c:catch>
+                                    <c:out value="${error.defaultMessage}"/>
                                 </div>
                             </c:forEach>
                         </c:if>

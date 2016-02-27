@@ -9,7 +9,7 @@
     <div class="login-wrapper">
         <div class="row">
             <div class="col-md-4 col-md-offset-4">
-                <h2 class="align-center">Регистрация</h2>
+                <h2 class="align-center">Новый аккаунт</h2>
                 <br/>
                 <form:form modelAttribute="userRegistrationForm" action="/users" id="userRegistrationFormId" name="userRegistrationForm" method="post">
                     <div class="form-group form-group-lg">

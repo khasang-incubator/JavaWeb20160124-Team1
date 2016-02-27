@@ -10,11 +10,10 @@ import org.springframework.transaction.support.TransactionTemplate;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.UUID;
 
-public class DeleteDataTable implements JdbcInterface {
+public class DeleteDataTable  {
     private TransactionTemplate sharedTransactionTemplate;
     private JdbcTemplate jdbcTemplate;
     private String tableName;
@@ -50,7 +49,6 @@ public class DeleteDataTable implements JdbcInterface {
     public Integer deleteByDateInterval(DeleteDataForm.DateIntervalType dateIntervalType, final Integer dateIntervalSize) {
         String sql = "DELETE FROM " + tableName + " WHERE occurred_at < DATE_SUB(CURDATE(), INTERVAL ? " + dateIntervalType.toString() + ")";
         return jdbcTemplate.update(sql, new PreparedStatementSetter() {
-            @Override
             public void setValues(PreparedStatement ps) throws SQLException {
                 ps.setInt(1, dateIntervalSize);
             }
@@ -76,7 +74,6 @@ public class DeleteDataTable implements JdbcInterface {
         }
         String sql = "DELETE FROM " + tableName + " WHERE " + String.join(" AND ", filters);
         return jdbcTemplate.update(sql, new PreparedStatementSetter() {
-            @Override
             public void setValues(PreparedStatement ps) throws SQLException {
                 Integer parameterIndex = 1;
                 if (null != errorSource) {
@@ -122,7 +119,6 @@ public class DeleteDataTable implements JdbcInterface {
     public void deleteOne(final Integer logRecordId) {
         String sql = "DELETE FROM :tableName WHERE id = ?".replace(":tableName", tableName);
         jdbcTemplate.update(sql, new PreparedStatementSetter() {
-            @Override
             public void setValues(PreparedStatement ps) throws SQLException {
                 ps.setInt(1, logRecordId);
             }

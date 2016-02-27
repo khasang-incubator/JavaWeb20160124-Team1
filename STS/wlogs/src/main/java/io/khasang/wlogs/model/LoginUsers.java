@@ -1,4 +1,4 @@
 package io.khasang.wlogs.model;
 
-abstract public class LoginUsers implements JdbcInterface {
+abstract public class LoginUsers {
 }

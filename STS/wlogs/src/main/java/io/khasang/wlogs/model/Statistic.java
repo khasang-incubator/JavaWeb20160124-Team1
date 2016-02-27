@@ -1,24 +1,20 @@
 package io.khasang.wlogs.model;
 
-import com.sun.javafx.collections.MappingChange;
-import org.springframework.core.env.SystemEnvironmentPropertySource;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.datasource.SimpleDriverDataSource;
-import org.w3c.dom.Text;
 
-import javax.sql.DataSource;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class Statistic implements JdbcInterface {
+public class Statistic {
+    @Autowired
     private JdbcTemplate jdbcTemplate;
 
     public void setJdbcTemplate(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
-
 
     public void createTable() {
         jdbcTemplate.execute("CREATE TABLE IF not EXISTS statistic" +
@@ -29,14 +25,16 @@ public class Statistic implements JdbcInterface {
                 "`comment` TEXT NULL," +
                 "PRIMARY KEY (`id`)," +
                 "UNIQUE INDEX `id_UNIQUE` (`id` ASC))" +
-                "ENGINE = InnoDB" +
+                "ENGINE = InnoDB " +
                 "DEFAULT CHARACTER SET = utf8;"
         );
     }
+
     public void clearTable() {
         jdbcTemplate.execute("delete from statistic");
     }
-    public void insertDataToTable(){
+
+    public void insertDataToTable() {
         jdbcTemplate.execute("insert into statistic\n" +
                 "(`server`,`date`,`issue`)\n" +
                 "select id as `server`\n" +
@@ -44,16 +42,15 @@ public class Statistic implements JdbcInterface {
                 ",error_description as `issue`\n" +
                 "from wlogs");
     }
-    public List<StatisticModel> getStatistic(){
 
+    public List<StatisticModel> getStatistic() {
         String sql = "SELECT * FROM statistic";
         List<StatisticModel> statisticModelList = new ArrayList<StatisticModel>();
-        List<Map<String,Object>> rows =  jdbcTemplate.queryForList(sql);
-
+        List<Map<String, Object>> rows = jdbcTemplate.queryForList(sql);
         for (Map row : rows) {
             StatisticModel statisticModel = new StatisticModel();
-            statisticModel.setServer((String)(row.get("server")));
-            statisticModel.setDate((Timestamp)row.get("date"));
+            statisticModel.setServer((String) (row.get("server")));
+            statisticModel.setDate((Timestamp) row.get("date"));
             statisticModel.setIssue((String) row.get("issue"));
             statisticModelList.add(statisticModel);
         }

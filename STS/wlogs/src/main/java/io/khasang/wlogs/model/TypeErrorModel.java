@@ -1,5 +1,8 @@
 package io.khasang.wlogs.model;
 
+import org.slf4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -15,29 +18,25 @@ public class TypeErrorModel extends LogModel {
     public String getCritical() {
         return critical;
     }
-
     public String getError_level() {
         return error_level;
     }
-
     public int getId() {
         return id;
     }
-
     public void setCritical(String critical) {
         this.critical = critical;
     }
-
     public void setError_level(String error_level) {
         this.error_level = error_level;
     }
-
     public void setId(int id) {
         this.id = id;
     }
 
+    /*Create model of one row from the table 'typeerror'*/
     public static TypeErrorModel createFromResultSet(ResultSet resultSet) throws SQLException{
-        TypeErrorModel typeErrorModel = new TypeErrorModel();
+           TypeErrorModel typeErrorModel = new TypeErrorModel();
             typeErrorModel.setId(resultSet.getInt("id"));
             typeErrorModel.setError_level(resultSet.getString("error_level"));
             typeErrorModel.setCritical(resultSet.getString("critical"));

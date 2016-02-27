@@ -3,6 +3,10 @@ package io.khasang.wlogs.model;
 import io.khasang.wlogs.form.UserRegistrationForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.PreparedStatementSetter;
+
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 
 public class UserManager {
     @Autowired
@@ -18,10 +22,18 @@ public class UserManager {
     }
 
     private void createUser(String username, String password) {
-        String[] sql = {
-                "INSERT INTO wlogs_users(username, password) VALUES(?, ?)",
-                "INSERT INTO wlogs_user_roles(username, role) VALUES(?, 'ROLE_USER')"
-        };
-        jdbcTemplate.batchUpdate(sql);
+        this.jdbcTemplate.update("INSERT INTO wlogs_users(username, password) VALUES(?, ?)", new PreparedStatementSetter() {
+            @Override
+            public void setValues(PreparedStatement ps) throws SQLException {
+                ps.setString(1, username);
+                ps.setString(2, password);
+            }
+        });
+        this.jdbcTemplate.update("INSERT INTO wlogs_user_roles(username, role) VALUES(?, 'ROLE_USER')", new PreparedStatementSetter() {
+            @Override
+            public void setValues(PreparedStatement ps) throws SQLException {
+                ps.setString(1, username);
+            }
+        });
     }
 }

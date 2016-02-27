@@ -1,5 +1,6 @@
 package io.khasang.wlogs.form;
 
+import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotBlank;
 
@@ -16,8 +17,10 @@ public class UserRegistrationForm {
     private String password;
     @NotBlank
     @Length(min=6, max=20)
-
     private String confirmPassword;
+    @NotBlank
+    @Email
+    private String email;
 
     public String getUsername() {
         return username;
@@ -41,6 +44,14 @@ public class UserRegistrationForm {
 
     public void setConfirmPassword(String confirmPassword) {
         this.confirmPassword = confirmPassword;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     @AssertTrue(message = "Password should be equals with verify field password.")

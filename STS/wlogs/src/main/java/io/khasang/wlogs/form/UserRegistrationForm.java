@@ -16,7 +16,6 @@ public class UserRegistrationForm {
     @Length(min=6, max=20)
     private String password;
     @NotBlank
-    @Length(min=6, max=20)
     private String confirmPassword;
     @NotBlank
     @Email

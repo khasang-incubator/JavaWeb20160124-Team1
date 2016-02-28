@@ -2,6 +2,7 @@ package io.khasang.wlogs.controller;
 
 import io.khasang.wlogs.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,14 +27,13 @@ public class AppController {
     private Statistic statistic;
     @Autowired
     ViewDataFromTable viewDataFromTable;
->>>>>>> development
     @Autowired
     private LogRepository logRepository;
     @Autowired
     private DataBaseHandler dbHandler;
-        @Autowired
+    @Autowired
     private InsertComment insertComment;
-        final public static Integer DEFAULT_LIMIT = 100;
+    final public static Integer DEFAULT_LIMIT = 100;
     @Autowired
     @Qualifier("productorder")
     TableObjectInterface tableObjectInterface;
@@ -144,7 +144,7 @@ public class AppController {
         return "showlogin";
     }
 
-        @RequestMapping("/createtable")
+    @RequestMapping("/createtable")
     //todo vbaranov create table "statistic" with column "server" = id, "date", "issue" = description, "comment"
     public String crateTable(Model model) {
         statistic.createTable();
@@ -230,7 +230,8 @@ public class AppController {
         model.addAttribute("tblTwo", dbHandler.getTableName(1));
         return "join";
     }
-<<<<<<< HEAD
+
+    <<<<<<<HEAD
 
     @RequestMapping("/registration") //todo dalbot
     public String registration() {
@@ -250,6 +251,7 @@ public class AppController {
         model.addAttribute("formAnswer", sqlAnswer);
         return "registration";
     }
+
     @RequestMapping("/tempselect")
     public String selectData(Model model) {
         model.addAttribute("items", viewDataFromTable.selectWholeTable(tableObjectInterface));

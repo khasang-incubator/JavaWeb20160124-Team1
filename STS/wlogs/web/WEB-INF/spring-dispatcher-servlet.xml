@@ -2,7 +2,8 @@
 <beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:context="http://www.springframework.org/schema/context"
        xmlns:mvc="http://www.springframework.org/schema/mvc"
-       xmlns="http://www.springframework.org/schema/beans" xmlns:util="http://www.springframework.org/schema/util"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xmlns="http://www.springframework.org/schema/beans"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
 http://www.springframework.org/schema/beans/spring-beans.xsd
 http://www.springframework.org/schema/context
@@ -12,7 +13,7 @@ http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd http://www.springfr
     <mvc:annotation-driven/>
     <context:component-scan base-package="io.khasang.wlogs.controller"/>
 
-    <!--sorlov work-->
+
 
        <bean id="dbHandler" class="io.khasang.wlogs.model.DataBaseHandler" autowire="byType">
            <property name="lg" ref="loggerDataBaseHandler"/>
@@ -21,7 +22,7 @@ http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd http://www.springfr
     <bean id="loggerDataBaseHandler" class="io.khasang.wlogs.model.SelfLoggerService">
         <property name="msg" value="DataBaseHandler"/>
     </bean>
-    <!--end sorlov work-->
+
 
 
     <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
@@ -29,11 +30,12 @@ http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd http://www.springfr
         <property name="suffix" value=".jsp"/>
     </bean>
 
+
     <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
         <property name="driverClassName" value="com.mysql.jdbc.Driver" />
-        <property name="url" value="jdbc:${jdbc.protocol}://${jdbc.host}/${jdbc.db_name}" />
-        <property name="username" value="${jdbc.user}" />
-        <property name="password" value="${jdbc.password}" />
+        <property name="url" value="jdbc:${jdbc_protocol}://${jdbc_host}/${jdbc_db_name}" />
+        <property name="username" value="${jdbc_user}" />
+        <property name="password" value="${jdbc_password}" />
     </bean>
 
     <context:property-placeholder location="classpath:jdbc.properties"/>

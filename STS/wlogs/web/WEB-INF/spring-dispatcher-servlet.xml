@@ -12,6 +12,18 @@ http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd http://www.springfr
     <mvc:annotation-driven/>
     <context:component-scan base-package="io.khasang.wlogs.controller"/>
 
+    <!--sorlov work-->
+
+       <bean id="dbHandler" class="io.khasang.wlogs.model.DataBaseHandler" autowire="byType">
+           <property name="lg" ref="loggerDataBaseHandler"/>
+    </bean>
+
+    <bean id="loggerDataBaseHandler" class="io.khasang.wlogs.model.SelfLoggerService">
+        <property name="msg" value="DataBaseHandler"/>
+    </bean>
+    <!--end sorlov work-->
+
+
     <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
         <property name="prefix" value="/WEB-INF/views/"/>
         <property name="suffix" value=".jsp"/>
@@ -19,13 +31,15 @@ http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd http://www.springfr
 
     <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
         <property name="driverClassName" value="com.mysql.jdbc.Driver" />
-        <property name="url" value="jdbc:mysql://localhost/wlogs" />
-        <property name="username" value="root" />
-        <property name="password" value="root" />
+        <property name="url" value="jdbc:mysql://${jdbc.host}:3306/${jdbc.db_name}" />
+        <property name="username" value="${jdbc.user}" />
+        <property name="password" value="${jdbc.password}" />
     </bean>
 
+    <context:property-placeholder location="classpath:jdbc.properties"/>
+
     <bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
-        <property name="dataSource" ref="dataSource"/>
+        <constructor-arg ref="dataSource"/>
     </bean>
 
     <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
@@ -39,14 +53,27 @@ http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd http://www.springfr
     </bean>
 
     <!-- Application beans -->
-    <bean id="logRecordModelBean" class="io.khasang.wlogs.model.LogModel"/>
     <bean id="logRepository" class="io.khasang.wlogs.model.LogRepository">
         <property name="jdbcTemplate" ref="jdbcTemplate"/>
         <property name="tableName">
             <util:constant static-field="io.khasang.wlogs.model.LogModel.tableName"/>
         </property>
     </bean>
+
     <bean id="logManager" class="io.khasang.wlogs.model.LogManager">
+        <property name="sharedTransactionTemplate" ref="sharedTransactionTemplate"/>
+        <property name="jdbcTemplate" ref="jdbcTemplate"/>
+        <property name="logRepository" ref="logRepository"/>
+        <property name="deleteDataTable" ref="deleteDataTable"/>
+        <property name="tableName">
+            <util:constant static-field="io.khasang.wlogs.model.LogModel.tableName"/>
+        </property>
+    </bean>
+
+    <bean id="login" class="io.khasang.wlogs.model.Login"/>
+    <bean id="registration" class="io.khasang.wlogs.model.Registration"/>
+
+    <bean id="deleteDataTable" class="io.khasang.wlogs.model.DeleteDataTable">
         <property name="sharedTransactionTemplate" ref="sharedTransactionTemplate"/>
         <property name="jdbcTemplate" ref="jdbcTemplate"/>
         <property name="logRepository" ref="logRepository"/>
@@ -55,8 +82,32 @@ http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd http://www.springfr
         </property>
     </bean>
 
-    <bean id="login" class="io.khasang.wlogs.model.Login"/>
-    <bean id="registration" class="io.khasang.wlogs.model.Registration"/>
+    <bean id="statistic" class="io.khasang.wlogs.model.Statistic">
+        <property name="jdbcTemplate" ref="jdbcTemplate"/>
+    </bean>
+
+
+    <bean id="insertComment" class="io.khasang.wlogs.model.InsertComment"/>
+    <bean id="viewStatisticData" class="io.khasang.wlogs.model.ViewStatisticData"/>
+    <bean id="viewDataTable" class="io.khasang.wlogs.model.ViewDataTable"/>
+
+    <bean id = "source" class="org.springframework.jdbc.datasource.SimpleDriverDataSource">
+        <property name="driverClass" value="com.mysql.jdbc.Driver"/>
+        <property name="username" value="root"/>
+        <property name="password" value="root"/>
+        <property name="url" value="jdbc:mysql://localhost/logs"/>
+    </bean>
+
+    <bean id="productorder" class="io.khasang.wlogs.model.ProductOrder" scope="prototype">
+        <constructor-arg ref="source"/>
+        <constructor-arg ref="jdbc"/>
+    </bean>
+
+    <bean id = "jdbc" class="org.springframework.jdbc.core.JdbcTemplate">
+        <constructor-arg ref="dataSource"/>
+    </bean>
+
+    <bean id="viewDataFromTable" class="io.khasang.wlogs.model.ViewDataFromTable"/>
 
     <!-- This tag allows for mapping the dispatcher-servlet to "/" -->
     <mvc:default-servlet-handler/>

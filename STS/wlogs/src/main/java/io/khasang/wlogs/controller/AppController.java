@@ -16,11 +16,27 @@ public class AppController {
     Login login;
     @Autowired
     Registration registration;
-    final public static Integer DEFAULT_LIMIT = 100;
     @Autowired
     private LogManager logManager;
     @Autowired
+    private ViewStatisticData viewStatisticData;
+    @Autowired
+    private ViewDataTable viewDataTable;
+    @Autowired
+    private Statistic statistic;
+    @Autowired
+    ViewDataFromTable viewDataFromTable;
+>>>>>>> development
+    @Autowired
     private LogRepository logRepository;
+    @Autowired
+    private DataBaseHandler dbHandler;
+        @Autowired
+    private InsertComment insertComment;
+        final public static Integer DEFAULT_LIMIT = 100;
+    @Autowired
+    @Qualifier("productorder")
+    TableObjectInterface tableObjectInterface;
 
     @RequestMapping("/backup")
     //todo vlaptev  "mysqldump wlogs -u root -proot -r \"C:\\ProgramData\\MySQL\\MySQL Server 5.7\\Uploads\\backup.sql\"");
@@ -29,13 +45,6 @@ public class AppController {
         return "backup";
     }
 
-    public void setLogManager(LogManager logManager) {
-        this.logManager = logManager;
-    }
-
-    public void setLogRepository(LogRepository logRepository) {
-        this.logRepository = logRepository;
-    }
 
     @RequestMapping(value = "/", name = "home")
     public String index(HttpServletRequest request, Model model) {
@@ -44,9 +53,20 @@ public class AppController {
         String offsetParam = request.getParameter("offset");
         Integer offset = 0;
         if (offsetParam != null) {
-            model.addAttribute("currentOffset", offset = Integer.valueOf(offsetParam));
+            try {
+                offset = Integer.valueOf(offsetParam);
+            } catch (NumberFormatException e) {
+                offset = 0;
+            }
+            model.addAttribute("currentOffset", offset);
         } else {
             model.addAttribute("currentOffset", 0);
+        }
+        String filterParam = request.getParameter("filter");
+        if (filterParam != null) {
+            model.addAttribute("currentFilter", filterParam);
+        } else {
+            model.addAttribute("currentFilter", "");
         }
         model.addAttribute("logs", logRepository.findAll(DEFAULT_LIMIT, offset));
         return "index";
@@ -55,12 +75,6 @@ public class AppController {
     @RequestMapping("/index")
     public String homePage() {
         return "forward:/";
-    }
-
-    @RequestMapping("/delete")
-    public String deleteForm(Model model) {
-        model.addAttribute("dateCriteriaHashMap", logManager.getAvailableDateCriteria());
-        return "delete";
     }
 
     @RequestMapping("/shrink")
@@ -74,6 +88,15 @@ public class AppController {
         model.addAttribute("welcome", ""); // todo main menu
         // todo add 8 button(6 blank, 1 with link to http://localhost:8080/, 2 with select like %event%
         return "welcome";
+    }
+
+    @RequestMapping("/delete")
+    public String deleteForm(Model model) {
+        model.addAttribute("errorSources", this.logRepository.getErrorSources());
+        model.addAttribute("errorLevels", this.logRepository.getErrorLevels());
+        model.addAttribute("deleteDataForm", new DeleteDataForm());
+        model.addAttribute("logRecordsTotal", logRepository.countAll());
+        return "delete";
     }
 
 
@@ -121,23 +144,25 @@ public class AppController {
         return "showlogin";
     }
 
-    @RequestMapping("/createtable")
+        @RequestMapping("/createtable")
     //todo vbaranov create table "statistic" with column "server" = id, "date", "issue" = description, "comment"
     public String crateTable(Model model) {
-        InsertDataTable sql = new InsertDataTable();
-        model.addAttribute("createtable", sql.sqlInsertCheck());
+        statistic.createTable();
+        statistic.clearTable();
+        statistic.insertDataToTable();
+        model.addAttribute("createtable", statistic.getStatistic());
         return "createtable";
     }
 
     @RequestMapping("/insertcomment")
-    public String insertcomment(Model model) {
-        model.addAttribute("insertcomment", ""); //todo szador insert comment to table "statistic", select date description
+    public String insertComment(Model model) {
+        model.addAttribute("showstatisticdata", viewStatisticData.showStatisticData()); //todo szador insert comment to table "statistic", select date description
+        model.addAttribute("insertcomment", insertComment.sqlInsertCheck());
         return "insertcomment";
     }
 
     @RequestMapping("/tableview")
     public String tableView(Model model) {
-        ViewDataTable viewDataTable = new ViewDataTable();
         model.addAttribute("tableview", viewDataTable.outData());
         return "tableview";
     }
@@ -149,11 +174,63 @@ public class AppController {
         return "login";
     }
 
-    @RequestMapping("join") //todo sorlov
+    @RequestMapping("/insert")
+    public String insert(Model model) {
+        model.addAttribute("tip", "Choose table to insert");
+        return "insert";
+    }
+
+    @RequestMapping("/backup")
+    //todo vlaptev  "mysqldump wlogs -u root -proot -r \"C:\\ProgramData\\MySQL\\MySQL Server 5.7\\Uploads\\backup.sql\"");
+    public String backup(Model model) { //todo - select where backup to do, select table to backup
+        model.addAttribute("backup", "Success");
+        return "backup";
+    }
+
+    @RequestMapping("/admin")
+    public String admin(Model model) {
+        model.addAttribute("admin", "You are number 1!");
+        return "admin";
+    }
+
+    @RequestMapping(value = "/showJoinedTables", method = RequestMethod.GET)
+    public String performJoin(Model model,
+                              @RequestParam(value = "selection", defaultValue = "-1") int[] tableNums) {
+        if (tableNums[0] == -1) {
+            return "/home";
+        }
+        model.addAttribute("joinedTbl", dbHandler.joinTables(tableNums));
+        model.addAttribute("tableName1", dbHandler.getTableName(tableNums[0]));
+        model.addAttribute("tableName2", dbHandler.getTableName(tableNums[1]));
+        return "showJoinedTables";
+    }
+
+    @RequestMapping("/showtables")
+    public String showwlogs(Model model) {
+        model.addAttribute("wlogsContent", dbHandler.getWlogsTableContent());
+        model.addAttribute("typeErrorContent", dbHandler.getTypeerrorTableContent());
+        return "showtables";
+    }
+
+    @RequestMapping(value = "/createtblQuestion")
+    public String createtblQuestion(Model model) {
+        return "createtblsorlov";
+    }
+
+
+    @RequestMapping(value = "/createtablesorlov", method = RequestMethod.GET)
+    public String createTable(Model model) {
+        model.addAttribute("result", dbHandler.sqlInsertCheck());
+        return "createtblsorlov";
+    }
+
+    @RequestMapping("/join")
     public String join(Model model) {
-        model.addAttribute("join", "Login Users"); //join with error_level and return type of critical
+        model.addAttribute("tblOne", dbHandler.getTableName(0));
+        model.addAttribute("tblTwo", dbHandler.getTableName(1));
         return "join";
     }
+<<<<<<< HEAD
 
     @RequestMapping("/registration") //todo dalbot
     public String registration() {
@@ -172,5 +249,10 @@ public class AppController {
         }
         model.addAttribute("formAnswer", sqlAnswer);
         return "registration";
+    }
+    @RequestMapping("/tempselect")
+    public String selectData(Model model) {
+        model.addAttribute("items", viewDataFromTable.selectWholeTable(tableObjectInterface));
+        return "select";
     }
 }

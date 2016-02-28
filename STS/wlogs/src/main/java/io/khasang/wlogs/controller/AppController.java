@@ -1,10 +1,12 @@
 package io.khasang.wlogs.controller;
 
+import io.khasang.wlogs.form.DeleteDataForm;
 import io.khasang.wlogs.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -98,19 +100,13 @@ public class AppController {
         model.addAttribute("logRecordsTotal", logRepository.countAll());
         return "delete";
     }
-
-
+    
     @RequestMapping(value = "/delete", method = RequestMethod.POST)
-    public String deleteAction(HttpServletRequest request, RedirectAttributes redirectAttributes, Model model) {
+    public String deleteAction(@ModelAttribute DeleteDataForm deleteDataForm, HttpServletRequest request,
+                               RedirectAttributes redirectAttributes, Model model) {
         try {
-            String userUnderstandTermsParam = request.getParameter("understand_terms");
-            Boolean userUnderstandTerms = userUnderstandTermsParam == null ? Boolean.FALSE : request.getParameter("understand_terms").equals("on");
-            if (!userUnderstandTerms) {
-                throw new RuntimeException("You have to read warning notice about this operation before proceed.");
-            }
-            Integer periodCriteriaId = Integer.valueOf(request.getParameter("period_criteria_id"));
-            Integer affectedRows = logManager.delete(periodCriteriaId);
-            redirectAttributes.addFlashAttribute("success", "Success deleted " + affectedRows);
+            Integer affectedRows = logManager.delete(deleteDataForm);
+            redirectAttributes.addFlashAttribute("success", "Success! Count of deleted rows: " + affectedRows);
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("error", e.getMessage());
         }
@@ -178,19 +174,6 @@ public class AppController {
     public String insert(Model model) {
         model.addAttribute("tip", "Choose table to insert");
         return "insert";
-    }
-
-    @RequestMapping("/backup")
-    //todo vlaptev  "mysqldump wlogs -u root -proot -r \"C:\\ProgramData\\MySQL\\MySQL Server 5.7\\Uploads\\backup.sql\"");
-    public String backup(Model model) { //todo - select where backup to do, select table to backup
-        model.addAttribute("backup", "Success");
-        return "backup";
-    }
-
-    @RequestMapping("/admin")
-    public String admin(Model model) {
-        model.addAttribute("admin", "You are number 1!");
-        return "admin";
     }
 
     @RequestMapping(value = "/showJoinedTables", method = RequestMethod.GET)

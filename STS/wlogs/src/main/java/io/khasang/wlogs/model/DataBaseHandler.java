@@ -36,7 +36,7 @@ public class DataBaseHandler {
             lg.getLog().info(lg.getTime() + " method: sqlInsert() " + " Trying to create table 'wlogs'");
             jdbcTemplate.execute("DROP TABLE IF EXISTS wlogs");
             jdbcTemplate.execute("CREATE TABLE IF NOT EXISTS wlogs" +
-                    "(id INT NOT NULL PRIMARY KEY ," +
+                    "(id INT NOT NULL PRIMARY KEY AUTO_INCREMENT," +
                     "occurred_at DATE NOT NULL," +
                     "error_source VARCHAR(20) NOT NULL," +
                     "error_level MEDIUMTEXT NOT NULL," +
@@ -51,7 +51,7 @@ public class DataBaseHandler {
 
             lg.getLog().info(lg.getTime() + " method: sqlInsert() " + " Trying to create table 'typeerror'");
             jdbcTemplate.execute("DROP TABLE IF EXISTS typeerror");
-            jdbcTemplate.execute("CREATE TABLE IF NOT EXISTS typeerror(id INT NOT NULL PRIMARY KEY," +
+            jdbcTemplate.execute("CREATE TABLE IF NOT EXISTS typeerror(id INT NOT NULL PRIMARY KEY AUTO_INCREMENT," +
                     "error_level VARCHAR(10) NOT NULL," +
                     "critical VARCHAR(45) NOT NULL )");
             jdbcTemplate.update("INSERT INTO typeerror" +

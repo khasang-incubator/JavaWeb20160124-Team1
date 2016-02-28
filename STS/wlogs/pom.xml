@@ -14,7 +14,7 @@
     </properties>
 
     <dependencies>
-        <!--Spring frame work-->
+        <!--Spring framework-->
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-core</artifactId>

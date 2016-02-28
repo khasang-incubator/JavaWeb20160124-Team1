@@ -17,13 +17,11 @@ import javax.servlet.http.HttpServletRequest;
 @Controller
 public class AppController {
     @Autowired
+    Login login;
+    @Autowired
+    Registration registration;
+    @Autowired
     private LogManager logManager;
-    @Autowired
-    private LogRepository logRepository;
-    @Autowired
-    private DataBaseHandler dbHandler;
-    @Autowired
-    private InsertComment insertComment;
     @Autowired
     private ViewStatisticData viewStatisticData;
     @Autowired
@@ -33,10 +31,23 @@ public class AppController {
     @Autowired
     ViewDataFromTable viewDataFromTable;
     @Autowired
+    private LogRepository logRepository;
+    @Autowired
+    private DataBaseHandler dbHandler;
+    @Autowired
+    private InsertComment insertComment;
+    final public static Integer DEFAULT_LIMIT = 100;
+    @Autowired
     @Qualifier("productorder")
     TableObjectInterface tableObjectInterface;
 
-    final public static Integer DEFAULT_LIMIT = 100;
+    @RequestMapping("/backup")
+    //todo vlaptev  "mysqldump wlogs -u root -proot -r \"C:\\ProgramData\\MySQL\\MySQL Server 5.7\\Uploads\\backup.sql\"");
+    public String backup(Model model) { //todo - select where backup to do, select table to backup
+        model.addAttribute("backup", "Success");
+        return "backup";
+    }
+
 
     @RequestMapping(value = "/", name = "home")
     public String index(HttpServletRequest request, Model model) {
@@ -77,9 +88,8 @@ public class AppController {
 
     @RequestMapping("/welcome")
     public String welcome(Model model) {
-        model.addAttribute("welcome", ""); // todo main menu aushar
+        model.addAttribute("welcome", ""); // todo main menu
         // todo add 8 button(6 blank, 1 with link to http://localhost:8080/, 2 with select like %event%
-        // todo view import export delete shink admin createtable help logout insertcomment join
         return "welcome";
     }
 
@@ -91,7 +101,7 @@ public class AppController {
         model.addAttribute("logRecordsTotal", logRepository.countAll());
         return "delete";
     }
-
+    
     @RequestMapping(value = "/delete", method = RequestMethod.POST)
     public String deleteAction(@ModelAttribute DeleteDataForm deleteDataForm, HttpServletRequest request,
                                RedirectAttributes redirectAttributes, Model model) {
@@ -119,7 +129,13 @@ public class AppController {
         return "logout";
     }
 
-    @RequestMapping("/showlogin") //todo ashishkin select all error description with like %user%
+    @RequestMapping("/admin")
+    public String admin(Model model) {
+        model.addAttribute("admin", "You are number 1!");
+        return "admin";
+    }
+
+    @RequestMapping("/showlogin") //todo ashishkin  select all error description with like %user%
     public String showlogin(Model model) {
         model.addAttribute("showlogin", "You are number 1!");
         return "showlogin";
@@ -148,34 +164,17 @@ public class AppController {
         return "tableview";
     }
 
-    @RequestMapping("login") //todo dalbot
+    @RequestMapping("login")
+    //todo dalbot return user list from current logon name, db with id, username, role, description
     public String login(Model model) {
-        model.addAttribute("login", "Login Users"); //return user list from current logon name, db with id, username, role, description
+        model.addAttribute("users", login.showUsers());
         return "login";
-    }
-
-    @RequestMapping("registration") //todo dalbot
-    public String registration() {
-        return "registration";
     }
 
     @RequestMapping("/insert")
     public String insert(Model model) {
         model.addAttribute("tip", "Choose table to insert");
         return "insert";
-    }
-
-    @RequestMapping("/backup")
-    //todo vlaptev  "mysqldump wlogs -u root -proot -r \"C:\\ProgramData\\MySQL\\MySQL Server 5.7\\Uploads\\backup.sql\"");
-    public String backup(Model model) { //todo - select where backup to do, select table to backup
-        model.addAttribute("backup", "Success");
-        return "backup";
-    }
-
-    @RequestMapping("/admin")
-    public String admin(Model model) {
-        model.addAttribute("admin", "You are number 1!");
-        return "admin";
     }
 
     @RequestMapping(value = "/showJoinedTables", method = RequestMethod.GET)
@@ -214,6 +213,25 @@ public class AppController {
         model.addAttribute("tblOne", dbHandler.getTableName(0));
         model.addAttribute("tblTwo", dbHandler.getTableName(1));
         return "join";
+    }
+
+    @RequestMapping("/registration") //todo dalbot
+    public String registration() {
+        return "registration";
+    }
+
+    @RequestMapping(value = "/registration", method = RequestMethod.POST)
+    public String addUserAction(HttpServletRequest request, RedirectAttributes redirectAttributes, Model model) {
+        String sqlAnswer = null;
+        try {
+            String username = request.getParameter("username");
+            String password = request.getParameter("password");
+            sqlAnswer = registration.sqlInsert(username, password);
+        } catch (Exception e) {
+            sqlAnswer = "smth wrong";
+        }
+        model.addAttribute("formAnswer", sqlAnswer);
+        return "registration";
     }
 
     @RequestMapping("/tempselect")

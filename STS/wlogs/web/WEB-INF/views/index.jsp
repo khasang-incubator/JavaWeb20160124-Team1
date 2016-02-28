@@ -43,14 +43,6 @@
             </ul>
         </nav>
     </div>
-    <form role="form" class="form-inline">
-        <div class="form-group">
-            <input name="filter" type="text" value="${currentFilter}" class="form-control" placeholder="Фильтр"/>
-        </div>
-        <div class="form-group">
-            <input type="submit" class="btn btn-info" value="Применить" />
-        </div>
-    </form>
     <div>
         <table class="table table-striped table-bordered table-hover logs_list">
             <thead>
@@ -98,7 +90,4 @@
             </ul>
         </nav>
     </div>
-
-<a href="/createtblQuestion">Create table(to test sorlov task)</a><br>
-<a href="/join">Join(to test sorlov task)</a>
 <jsp:directive.include file="part_footer.jsp"/>

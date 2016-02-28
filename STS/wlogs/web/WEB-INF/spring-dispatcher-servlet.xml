@@ -70,6 +70,9 @@ http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd http://www.springfr
         </property>
     </bean>
 
+    <bean id="login" class="io.khasang.wlogs.model.Login"/>
+    <bean id="registration" class="io.khasang.wlogs.model.Registration"/>
+
     <bean id="deleteDataTable" class="io.khasang.wlogs.model.DeleteDataTable">
         <property name="sharedTransactionTemplate" ref="sharedTransactionTemplate"/>
         <property name="jdbcTemplate" ref="jdbcTemplate"/>

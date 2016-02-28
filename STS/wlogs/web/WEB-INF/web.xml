@@ -5,7 +5,7 @@ http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd">
 
     <context-param>
         <param-name>contextConfigLocation</param-name>
-        <param-value>/WEB-INF/spring-dispatcher-servlet.xml, /WEB-INF/spring-security-config.xml</param-value>
+        <param-value>/WEB-INF/spring-security-config.xml</param-value>
     </context-param>
 
     <!-- Listener loads all config files -->
@@ -17,8 +17,19 @@ http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd">
 
     <servlet>
         <servlet-name>spring-dispatcher</servlet-name>
-        <servlet-class> org.springframework.web.servlet.DispatcherServlet
-        </servlet-class>
+        <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+        <init-param>
+            <param-name>contextClass</param-name>
+            <param-value>
+                org.springframework.web.context.support.AnnotationConfigWebApplicationContext
+            </param-value>
+        </init-param>
+        <init-param>
+            <param-name>contextConfigLocation</param-name>
+            <param-value>
+                io.khasang.wlogs.app.config.WebConfig
+            </param-value>
+        </init-param>
     </servlet>
 
     <servlet-mapping>

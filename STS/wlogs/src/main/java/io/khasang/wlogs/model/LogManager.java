@@ -26,28 +26,15 @@ public class LogManager{
     private String tableName;
     @Autowired
     private JdbcTemplate jdbcTemplate;
+    @Autowired
     private LogRepository logRepository;
+    @Autowired
     private TransactionTemplate sharedTransactionTemplate;
+    @Autowired
     private DeleteDataTable deleteDataTable;
-
-    public void setDeleteDataTable(DeleteDataTable deleteDataTable) {
-        this.deleteDataTable = deleteDataTable;
-    }
-
-    public void setSharedTransactionTemplate(TransactionTemplate sharedTransactionTemplate) {
-        this.sharedTransactionTemplate = sharedTransactionTemplate;
-    }
-
-    public void setLogRepository(LogRepository logRepository) {
-        this.logRepository = logRepository;
-    }
 
     public void setTableName(String tableName) {
         this.tableName = tableName;
-    }
-
-    public void setJdbcTemplate(JdbcTemplate jdbcTemplate) {
-        this.jdbcTemplate = jdbcTemplate;
     }
 
     public int delete(DeleteDataForm deleteDataForm) throws Exception {

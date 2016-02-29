@@ -60,9 +60,6 @@ public class AppConfig {
     public LogManager logManager(LogRepository logRepository, TransactionTemplate sharedTransactionTemplate,
                                  JdbcTemplate jdbcTemplate) {
         LogManager logManager = new LogManager();
-        logManager.setSharedTransactionTemplate(sharedTransactionTemplate);
-        logManager.setJdbcTemplate(jdbcTemplate);
-        logManager.setLogRepository(logRepository);
         logManager.setTableName(LogModel.tableName);
         return logManager;
     }

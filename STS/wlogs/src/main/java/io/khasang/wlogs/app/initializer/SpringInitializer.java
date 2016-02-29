@@ -1,8 +1,9 @@
-package io.khasang.wlogs.config;
+package io.khasang.wlogs.app.initializer;
 
+import io.khasang.wlogs.app.config.WebConfig;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
-public class WebInit extends AbstractAnnotationConfigDispatcherServletInitializer {
+public class SpringInitializer extends AbstractAnnotationConfigDispatcherServletInitializer {
     @Override
     protected Class<?>[] getRootConfigClasses() {
         return new Class<?>[] { WebConfig.class };

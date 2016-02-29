@@ -1,4 +1,4 @@
-package io.khasang.wlogs.config;
+package io.khasang.wlogs.app.config;
 
 import org.springframework.context.annotation.*;
 import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
@@ -13,7 +13,7 @@ import java.util.Properties;
 
 @EnableWebMvc
 @Configuration
-@ComponentScan({"io.khasang.wlogs.config", "io.khasang.wlogs.controller"})
+@ComponentScan({"io.khasang.wlogs.app.config", "io.khasang.wlogs.controller"})
 public class WebConfig extends WebMvcConfigurerAdapter {
     private static final String VIEW_RESOLVER_PREFIX = "/WEB-INF/views/";
     private static final String VIEW_RESOLVER_SUFFIX = ".jsp";

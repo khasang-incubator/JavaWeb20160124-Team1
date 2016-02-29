@@ -1,4 +1,4 @@
-package io.khasang.wlogs.config;
+package io.khasang.wlogs.app.config;
 
 import io.khasang.wlogs.model.*;
 import org.springframework.beans.factory.annotation.Autowired;

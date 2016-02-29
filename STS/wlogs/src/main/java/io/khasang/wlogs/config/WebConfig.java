@@ -1,4 +1,4 @@
-package io.khasang.wlogs.app.config;
+package io.khasang.wlogs.config;
 
 import org.springframework.context.annotation.*;
 import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;

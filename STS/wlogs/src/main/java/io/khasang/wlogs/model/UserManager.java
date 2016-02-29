@@ -21,7 +21,7 @@ public class UserManager {
     private PasswordEncoder passwordEncoder;
 
     public void create(UserRegistrationForm userRegistrationForm) throws Exception {
-        if (!this.ROOT_USERNAME.equals(userRegistrationForm.getUsername()) ||
+        if (this.ROOT_USERNAME.equals(userRegistrationForm.getUsername()) ||
             this.userRepository.userExists(userRegistrationForm.getUsername()) ||
             this.userRepository.userExists(userRegistrationForm.getEmail())) {
             throw new Exception("User with such name or email already exists. Try another one.");

@@ -6,24 +6,22 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementSetter;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 public class UserManager {
+    final private static String ROOT_USERNAME = "root";
     @Autowired
     private JdbcTemplate jdbcTemplate;
     @Autowired
     private UserRepository userRepository;
     @Autowired
-    private InMemoryUserDetailsManager inMemoryUserDetailsManager;
-    @Autowired
-    @Qualifier("bcryptPasswordEncoder")
+    @Qualifier("bCryptPasswordEncoder")
     private PasswordEncoder passwordEncoder;
 
     public void create(UserRegistrationForm userRegistrationForm) throws Exception {
-        if (this.inMemoryUserDetailsManager.userExists(userRegistrationForm.getUsername()) ||
+        if (!this.ROOT_USERNAME.equals(userRegistrationForm.getUsername()) ||
             this.userRepository.userExists(userRegistrationForm.getUsername()) ||
             this.userRepository.userExists(userRegistrationForm.getEmail())) {
             throw new Exception("User with such name or email already exists. Try another one.");

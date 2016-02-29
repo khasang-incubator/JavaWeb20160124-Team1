@@ -13,7 +13,7 @@ import java.util.Properties;
 
 @EnableWebMvc
 @Configuration
-@ComponentScan(basePackages = "io.khasang.wlogs.controller")
+@ComponentScan({"io.khasang.wlogs.config", "io.khasang.wlogs.controller"})
 public class WebConfig extends WebMvcConfigurerAdapter {
     private static final String VIEW_RESOLVER_PREFIX = "/WEB-INF/views/";
     private static final String VIEW_RESOLVER_SUFFIX = ".jsp";

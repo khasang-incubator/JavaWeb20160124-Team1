@@ -2,11 +2,13 @@ package io.khasang.wlogs.app.config;
 
 import io.khasang.wlogs.model.*;
 import org.springframework.beans.factory.annotation.Autowire;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.core.env.Environment;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
@@ -20,29 +22,21 @@ import org.springframework.transaction.support.TransactionTemplate;
 @Configuration
 @PropertySource("classpath:jdbc.properties")
 public class AppConfig {
-    @Value("${jdbc.host}")
-    private String jdbcHost;
-    @Value("${jdbc.port}")
-    private String jdbcPort;
-    @Value("${jdbc.user}")
-    private String jdbcUser;
-    @Value("${jdbc.password}")
-    private String jdbcPassword;
-    @Value("${jdbc.db_name}")
-    private String jdbcDbName;
+    @Autowired
+    private Environment environment;
 
-    @Bean(autowire = Autowire.BY_TYPE)
-    public DataBaseHandler dbHandler(@Qualifier("loggerDataBaseHandler") SelfLoggerService loggerService) {
-        DataBaseHandler dataBaseHandler = new DataBaseHandler();
-        dataBaseHandler.setLg(loggerService);
-        return dataBaseHandler;
-    }
-
-    @Bean
-    public SelfLoggerService loggerDataBaseHandler() {
+    @Bean(name = "loggerDataBaseHandler")
+    public SelfLoggerService getLoggerDataBaseHandler() {
         SelfLoggerService selfLoggerService = new SelfLoggerService();
         selfLoggerService.setMsg("DataBaseHandler");
         return selfLoggerService;
+    }
+
+    @Bean(name = "dbHandler")
+    public DataBaseHandler getDbHandler(@Qualifier("loggerDataBaseHandler") SelfLoggerService loggerDataBaseHandler) {
+        DataBaseHandler dataBaseHandler = new DataBaseHandler();
+        dataBaseHandler.setLg(loggerDataBaseHandler);
+        return dataBaseHandler;
     }
 
     @Bean
@@ -130,15 +124,21 @@ public class AppConfig {
         return new DataSourceTransactionManager(dataSource);
     }
 
-    @Bean
+    @Bean(name="jdbcTemplate")
     public JdbcTemplate jdbcTemplate() {
         return new JdbcTemplate(this.dataSource());
     }
 
     @Bean
     public DriverManagerDataSource dataSource() {
+        String jdbcHost = this.environment.getProperty("jdbc.host");
+        String jdbcPort = this.environment.getProperty("jdbc.port");
+        String jdbcUser = this.environment.getProperty("jdbc.user");
+        String jdbcPassword = this.environment.getProperty("jdbc.password");
+        String jdbcDbName = this.environment.getProperty("jdbc.db_name");
+
         DriverManagerDataSource driverManagerDataSource = new DriverManagerDataSource();
-        driverManagerDataSource.setDriverClassName(String.valueOf(com.mysql.jdbc.Driver.class));
+        driverManagerDataSource.setDriverClassName("com.mysql.jdbc.Driver");
         driverManagerDataSource.setUrl("jdbc:mysql://" + jdbcHost + ":" + jdbcPort + "/" + jdbcDbName);
         driverManagerDataSource.setUsername(jdbcUser);
         driverManagerDataSource.setPassword(jdbcPassword);

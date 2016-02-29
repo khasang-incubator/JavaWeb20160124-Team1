@@ -57,8 +57,7 @@ public class AppConfig {
     }
 
     @Bean
-    public LogManager logManager(LogRepository logRepository, TransactionTemplate sharedTransactionTemplate,
-                                 JdbcTemplate jdbcTemplate) {
+    public LogManager logManager() {
         LogManager logManager = new LogManager();
         logManager.setTableName(LogModel.tableName);
         return logManager;

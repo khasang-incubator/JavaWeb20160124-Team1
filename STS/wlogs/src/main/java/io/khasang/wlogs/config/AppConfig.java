@@ -63,6 +63,7 @@ public class AppConfig {
         logManager.setSharedTransactionTemplate(sharedTransactionTemplate);
         logManager.setJdbcTemplate(jdbcTemplate);
         logManager.setLogRepository(logRepository);
+        logManager.setTableName(LogModel.tableName);
         return logManager;
     }
 

@@ -21,18 +21,20 @@
     <table align="center" class="table table-striped table-bordered table-hover logs_list">
         <tr>
             <th><center>ID</center></th>
-            <th><center>Occurred At</center></th>
-            <th><center>Error Level</center></th>
-            <th><center>Error Source</center></th>
-            <th><center>Error Description</center></th>
+            <th><center>Login</center></th>
+            <th><center>Password</center></th>
+            <th><center>E-mail</center></th>
+            <th><center>Role</center></th>
+            <th><center>Active</center></th>
         </tr>
         <c:forEach items="${allusers}" var="allusers">
             <tr>
-                <td><c:out value="${allusers.id}"/></td>
-                <td><c:out value="${allusers.occurredAt}"/></td>
-                <td><c:out value="${allusers.errorLevel}"/></td>
-                <td><c:out value="${allusers.errorSource}"/></td>
-                <td class="break_all"><c:out value="${allusers.errorDescription}"/></td>
+                <td class="break_all"><c:out value="${allusers.id}"/></td>
+                <td class="break_all"><c:out value="${allusers.login}"/></td>
+                <td class="break_all"><c:out value="${allusers.passowrd}"/></td>
+                <td class="break_all"><c:out value="${allusers.email}"/></td>
+                <td class="break_all"><c:out value="${allusers.role}"/></td>
+                <td class="break_all"><c:out value="${allusers.active}"/></td>
             </tr>
         </c:forEach>
     </table>

@@ -15,11 +15,13 @@ public interface TableObjectInterface {
 
     int getId();
 
-    String getOccurredAt();
+    String getLogin();
 
-    String getErrorLevel();
+    String getPassowrd();
 
-    String getErrorSource();
+    String getEmail();
 
-    String getErrorDescription();
+    String getRole();
+
+    String getActive();
 }

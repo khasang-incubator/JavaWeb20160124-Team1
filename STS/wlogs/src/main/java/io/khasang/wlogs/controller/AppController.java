@@ -121,16 +121,22 @@ public class AppController {
         return "logout";
     }
 
-    @RequestMapping("/showlogin") //from for users searching
+    @RequestMapping("/showlogin")
     public String showlogin(Model model) {
         model.addAttribute("showlogin", "You are number 1!");
         return "showlogin";
     }
 
-    @RequestMapping("/showlogin/allusers") //result for "Show all users" request
+    @RequestMapping("/showlogin/allusers")
     public String allusers (Model model) {
         model.addAttribute("allusers", viewDataFromTable.selectWholeTable(tableObjectInterface));
         return "allusers";
+    }
+
+    @RequestMapping("/showlogin/selectuser")
+    public String selectuser (Model model) {
+        model.addAttribute("allusers", viewDataFromTable.selectWholeTable(tableObjectInterface));
+        return "selectuser";
     }
 
     @RequestMapping("/createtable")

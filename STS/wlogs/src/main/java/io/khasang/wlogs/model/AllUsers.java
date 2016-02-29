@@ -12,10 +12,11 @@ public class AllUsers implements TableObjectInterface {
     private SimpleDriverDataSource dataSource;
     private JdbcTemplate jdbcTemplate;
     private int id;
-    private String occurredAt;
-    private String errorLevel;
-    private String errorSource;
-    private String errorDescription;
+    private String login;
+    private String password;
+    private String email;
+    private String role;
+    private String active;
 
     public AllUsers() {
     }
@@ -42,8 +43,8 @@ public class AllUsers implements TableObjectInterface {
     }
 
     public List selectWholeTable() throws SQLException {
-        return this.jdbcTemplate.query("SELECT id, occurred_at, error_level, error_source, error_description " +
-                "FROM wlogs.wlogs", new ItemMapper());
+        return this.jdbcTemplate.query("SELECT id, login, password, email, role, active " +
+                "FROM wlogs.users", new UsersMapper());
     }
 
     @Override
@@ -52,52 +53,64 @@ public class AllUsers implements TableObjectInterface {
     }
 
     @Override
-    public String getOccurredAt() {
-        return occurredAt;
+    public String getLogin() {
+        return login;
+    }
+
+    @Override
+    public String getPassowrd() {
+        return password;
+    }
+
+    @Override
+    public String getEmail() {
+        return email;
+    }
+
+    @Override
+    public String getRole() {
+        return role;
+    }
+
+    @Override
+    public String getActive() {
+        return active;
     }
 
     public void setId(int id) {
         this.id = id;
     }
 
-    public void setOccurredAt(String occurredAt) {
-        this.occurredAt = occurredAt;
+    public void setLogin(String login) {
+        this.login = login;
     }
 
-    public String getErrorLevel() {
-        return errorLevel;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
-    public void setErrorLevel(String errorLevel) {
-        this.errorLevel = errorLevel;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
-    public String getErrorSource() {
-        return errorSource;
+    public void setRole(String role) {
+        this.role = role;
     }
 
-    @Override
-    public String getErrorDescription() {
-        return errorDescription;
-    }
-
-    public void setErrorSource(String errorSource) {
-        this.errorSource = errorSource;
-    }
-
-    public void setErrorDescription(String errorDescription) {
-        this.errorDescription = errorDescription;
+    public void setActive(String active) {
+        this.active = active;
     }
 }
 
-final class ItemMapper implements RowMapper<AllUsers> {
+final class UsersMapper implements RowMapper<AllUsers> {
     public AllUsers mapRow(ResultSet rs, int rowNum) throws SQLException {
         AllUsers allUsers = new AllUsers();
         allUsers.setId(rs.getInt("id"));
-        allUsers.setOccurredAt(rs.getString("occurred_at"));
-        allUsers.setErrorLevel(rs.getString("error_level"));
-        allUsers.setErrorSource(rs.getString("error_source"));
-        allUsers.setErrorDescription(rs.getString("error_description"));
+        allUsers.setLogin(rs.getString("login"));
+        allUsers.setPassword(rs.getString("password"));
+        allUsers.setEmail(rs.getString("email"));
+        allUsers.setRole(rs.getString("role"));
+        allUsers.setActive(rs.getString("active"));
         return allUsers;
     }
 }

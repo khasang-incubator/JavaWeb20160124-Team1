@@ -101,7 +101,7 @@ public class AppController {
         model.addAttribute("logRecordsTotal", logRepository.countAll());
         return "delete";
     }
-    
+
     @RequestMapping(value = "/delete", method = RequestMethod.POST)
     public String deleteAction(@ModelAttribute DeleteDataForm deleteDataForm, HttpServletRequest request,
                                RedirectAttributes redirectAttributes, Model model) {
@@ -165,7 +165,6 @@ public class AppController {
     }
 
     @RequestMapping("login")
-    //todo dalbot return user list from current logon name, db with id, username, role, description
     public String login(Model model) {
         model.addAttribute("users", login.showUsers());
         return "login";
@@ -215,7 +214,7 @@ public class AppController {
         return "join";
     }
 
-    @RequestMapping("/registration") //todo dalbot
+    @RequestMapping("/registration")
     public String registration() {
         return "registration";
     }

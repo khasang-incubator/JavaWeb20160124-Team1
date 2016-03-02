@@ -8,7 +8,6 @@
 <title>wlogs</title>
 </head>
 <body>
-<%@ include file="/WEB-INF/views/header.jsp"%>
 <div class="container">
 	<div class="content" align="center">
 		<h1>Regestration page</h1>

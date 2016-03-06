@@ -33,13 +33,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     protected BCryptPasswordEncoder bCryptPasswordEncoder;
     @Autowired
-    protected SecurityExpressionHandler<FilterInvocation> defaultWebSecurityExpressionHandler;
+    protected DefaultWebSecurityExpressionHandler defaultWebSecurityExpressionHandler;
     @Autowired
     protected AffirmativeBased accessDesignManager;
 
     @Override
     public void configure(WebSecurity web) throws Exception {
         web
+                .expressionHandler(this.defaultWebSecurityExpressionHandler)
                 .ignoring()
                         .antMatchers("/css/**", "/js/**", "/images/**");
     }
@@ -63,11 +64,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                        .accessDecisionManager(this.accessDesignManager)
-                        .expressionHandler(this.defaultWebSecurityExpressionHandler)
                         .antMatchers("/auth/login").anonymous()
                         .antMatchers("/users").anonymous()
                         .anyRequest().fullyAuthenticated()
+                        .expressionHandler(this.defaultWebSecurityExpressionHandler)
+                        .accessDecisionManager(this.accessDesignManager)
                         .and()
                 .formLogin()
                         .loginPage("/auth/login")
@@ -79,7 +80,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Bean
     public RoleHierarchyImpl roleHierarchy() {
         RoleHierarchyImpl roleHierarchy = new RoleHierarchyImpl();
-        roleHierarchy.setHierarchy("ROLE_SUPER_ADMIN > ROLE_ADMIN > ROLE_USER");
+        roleHierarchy.setHierarchy("ROLE_SUPER_ADMIN > ROLE_ADMIN ROLE_ADMIN > ROLE_USER");
         return roleHierarchy;
     }
 
@@ -89,14 +90,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Bean
-    public SecurityExpressionHandler<FilterInvocation> defaultWebSecurityExpressionHandler(RoleHierarchyImpl roleHierarchy) {
+    public DefaultWebSecurityExpressionHandler defaultWebSecurityExpressionHandler(RoleHierarchyImpl roleHierarchy) {
         DefaultWebSecurityExpressionHandler defaultWebSecurityExpressionHandler = new DefaultWebSecurityExpressionHandler();
         defaultWebSecurityExpressionHandler.setRoleHierarchy(roleHierarchy);
         return defaultWebSecurityExpressionHandler;
     }
 
     @Bean
-    public AffirmativeBased accessDesignManager(RoleHierarchyVoter roleVoter, SecurityExpressionHandler<FilterInvocation> defaultWebSecurityExpressionHandler) {
+    public AffirmativeBased accessDesignManager(RoleHierarchyVoter roleVoter, DefaultWebSecurityExpressionHandler defaultWebSecurityExpressionHandler) {
         List<AccessDecisionVoter<? extends Object>> args = new ArrayList<>();
         WebExpressionVoter webExpressionVoter = new WebExpressionVoter();
         webExpressionVoter.setExpressionHandler(defaultWebSecurityExpressionHandler);

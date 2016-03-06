@@ -20,7 +20,7 @@
                 <div id="logo">
                     <a href="/"><img src="/images/khasang-logo.png" alt="">&nbsp;WLOGS</a>
                 </div>
-                <sec:authorize access="isFullyAuthenticated()">
+                <sec:authorize access="hasAuthority('ROLE_USER')">
                     <ul id="menu_items">
                         <li>
                             <a href="/" title="Просмотр">

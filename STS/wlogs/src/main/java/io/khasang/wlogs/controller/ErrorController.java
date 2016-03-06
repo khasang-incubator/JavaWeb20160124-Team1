@@ -1,28 +1,35 @@
 package io.khasang.wlogs.controller;
 
 import org.springframework.http.HttpStatus;
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.servlet.NoHandlerFoundException;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
-@Controller
+@ControllerAdvice
 public class ErrorController {
-    @RequestMapping("404")
-    public String error404(HttpServletRequest request, HttpServletResponse response, Model model) {
-        Integer statusCode = (Integer) request.getAttribute("javax.servlet.error.status_code");
-        Throwable throwable = (Throwable) request.getAttribute("javax.servlet.error.exception");
+    @ExceptionHandler(NoHandlerFoundException.class)
+    public String handle404Error(NoHandlerFoundException exception, HttpServletRequest request, Model model) {
+        model.addAttribute("exceptionMessage", exception.getMessage());
+        model.addAttribute("requestedUri", request.getRequestURI());
+        model.addAttribute("statusCode", HttpStatus.NOT_FOUND.value());
+        return "error/wlogs_error";
+    }
+
+    @ExceptionHandler(Exception.class)
+    public String handleError(final Throwable throwable, HttpServletRequest request, Model model) {
+        Integer statusCode = HttpStatus.BAD_REQUEST.value();
         String exceptionMessage = getExceptionMessage(throwable, statusCode);
-        String requestUri = (String) request.getAttribute("javax.servlet.error.request_uri");
+        String requestUri = request.getRequestURI();
         if (requestUri == null) {
             requestUri = "Unknown";
         }
         model.addAttribute("exceptionMessage", exceptionMessage);
         model.addAttribute("requestedUri", requestUri);
         model.addAttribute("statusCode", statusCode);
-        return "error/404";
+        return "error/wlogs_error";
     }
 
     private String getExceptionMessage(final Throwable throwable, final Integer statusCode) {

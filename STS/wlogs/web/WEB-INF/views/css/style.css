@@ -10,7 +10,6 @@ html, body {
 button {
     color: gray;
     font-size:14px;
-    font-family:Calibri;
 }
 
 body {
@@ -48,17 +47,22 @@ div#logo {
     display: table;
     margin: 0;
     padding: 0;
-    width: auto;
     height: 50px;
     float: left;
 }
 
-div#logo span {
-    display: table-cell;
-    vertical-align: middle;
+div#logo img {
     height: 50px;
-    font-size: xx-large;
+    width: auto;
+}
+
+div#logo a {
     color: white;
+    font-size: x-large;
+}
+
+div#logo a:hover {
+    text-decoration: none;
 }
 
 ul#menu_items {
@@ -130,4 +134,37 @@ ul.dropdown li.dropdown-top a {
 ul.dropdown li.dropdown-top:hover .dropdown-inside {
     display: block;
     left: 0;
+}
+
+.darkblue {
+    color: darkblue;
+    font-family: Calibri;
+    font-size: 14px;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.font-larger {
+    font-size: larger;
+}
+
+.error .jumbotron {
+    margin-top: 25px;
+}
+
+div#login-form {
+    min-height: 90%;
+    display: table;
+    width: 100%;
+}
+
+div#login-form div.login-wrapper {
+    display: table-cell;
+    vertical-align: middle;
+}
+
+.align-center {
+    text-align: center;
 }

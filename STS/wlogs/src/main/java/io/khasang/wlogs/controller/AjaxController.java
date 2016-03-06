@@ -15,10 +15,6 @@ public class AjaxController {
     @Autowired
     private LogManager logManager;
 
-    public void setLogManager(LogManager logManager) {
-        this.logManager = logManager;
-    }
-
     @RequestMapping(value = "/import-fixtures", produces = "application/json", method = RequestMethod.POST)
     @ResponseBody
     public String loadFixtures(HttpServletResponse response) {

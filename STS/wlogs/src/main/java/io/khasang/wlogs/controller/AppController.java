@@ -4,6 +4,7 @@ import io.khasang.wlogs.form.DeleteDataForm;
 import io.khasang.wlogs.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
+import java.security.Principal;
 
 @Controller
 public class AppController {
@@ -119,23 +121,7 @@ public class AppController {
         return "import";
     }
 
-    @RequestMapping("/export")
-    public String exportLogs(Model model) {
-        return "export";
-    }
-
-    @RequestMapping("/logout")
-    public String logout(Model model) {
-        return "logout";
-    }
-
-    @RequestMapping("/admin")
-    public String admin(Model model) {
-        model.addAttribute("admin", "You are number 1!");
-        return "admin";
-    }
-
-    @RequestMapping("/showlogin") //todo ashishkin  select all error description with like %user%
+    @RequestMapping("/showlogin") //todo ashishkin select all error description with like %user%
     public String showlogin(Model model) {
         model.addAttribute("showlogin", "You are number 1!");
         return "showlogin";
@@ -237,5 +223,11 @@ public class AppController {
     public String selectData(Model model) {
         model.addAttribute("items", viewDataFromTable.selectWholeTable(tableObjectInterface));
         return "select";
+    }
+
+    @RequestMapping("/profile")
+    public String profile(Model model, UsernamePasswordAuthenticationToken principal) {
+        model.addAttribute("principal", principal.getPrincipal());
+        return "profile";
     }
 }

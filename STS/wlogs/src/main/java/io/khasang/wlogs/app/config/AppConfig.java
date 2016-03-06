@@ -160,4 +160,14 @@ public class AppConfig {
     public JdbcTemplate jdbc(DriverManagerDataSource dataSource) {
         return new JdbcTemplate(dataSource);
     }
+
+    @Bean
+    public Login login() {
+        return new Login();
+    }
+
+    @Bean
+    public Registration registration() {
+        return new Registration();
+    }
 }

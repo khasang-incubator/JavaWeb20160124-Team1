@@ -3,7 +3,12 @@
 <jsp:directive.page contentType="text/html;charset=UTF-8" language="java"/>
 <jsp:directive.include file="part_header.jsp"/>
 
-    <h2>Удаление записей лога</h2>
+    <h2>
+        <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+        Удаление записей из логов
+        <span class="label label-info">всего: ${logRecordsTotal}</span>
+    </h2>
+    <hr/>
     <div>
         <c:if test="${null != success}">
             <div class="alert alert-success alert-dismissible" role="alert">

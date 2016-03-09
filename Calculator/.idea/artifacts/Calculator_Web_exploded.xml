@@ -1,0 +1,30 @@
+<component name="ArtifactManager">
+  <artifact type="exploded-war" name="Calculator:Web exploded">
+    <output-path>$PROJECT_DIR$/out/artifacts/Calculator_Web_exploded</output-path>
+    <root id="root">
+      <element id="javaee-facet-resources" facet="Calculator/web/Web" />
+      <element id="directory" name="WEB-INF">
+        <element id="directory" name="classes">
+          <element id="module-output" name="Calculator" />
+        </element>
+        <element id="directory" name="lib">
+          <element id="library" level="project" name="Maven: jstl:jstl:1.2" />
+          <element id="library" level="project" name="Maven: org.springframework:spring-beans:4.2.4.RELEASE" />
+          <element id="library" level="project" name="Maven: org.slf4j:slf4j-api:1.7.16" />
+          <element id="library" level="project" name="Maven: org.springframework:spring-expression:4.2.4.RELEASE" />
+          <element id="library" level="project" name="Maven: org.springframework:spring-aop:4.2.4.RELEASE" />
+          <element id="library" level="project" name="Maven: org.slf4j:slf4j-simple:1.7.16" />
+          <element id="library" level="project" name="Maven: org.springframework:spring-jdbc:4.2.4.RELEASE" />
+          <element id="library" level="project" name="Maven: org.springframework:spring-context:4.2.4.RELEASE" />
+          <element id="library" level="project" name="Maven: org.springframework:spring-tx:4.2.4.RELEASE" />
+          <element id="library" level="project" name="Maven: javax.validation:validation-api:1.1.0.Final" />
+          <element id="library" level="project" name="Maven: org.springframework:spring-web:4.2.4.RELEASE" />
+          <element id="library" level="project" name="Maven: org.springframework:spring-core:4.2.4.RELEASE" />
+          <element id="library" level="project" name="Maven: aopalliance:aopalliance:1.0" />
+          <element id="library" level="project" name="Maven: org.springframework:spring-webmvc:4.2.4.RELEASE" />
+          <element id="library" level="project" name="Maven: commons-logging:commons-logging:1.2" />
+        </element>
+      </element>
+    </root>
+  </artifact>
+</component>

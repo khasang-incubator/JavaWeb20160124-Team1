@@ -11,7 +11,14 @@
     <title>Title</title>
 </head>
 <body>
-
+<center>
+    <header>
+        <h1>${title}</h1>
+    </header>
+    <form>
+        <button formaction="/calc" >Go to login</button>
+    </form>
+</center>
 </body>
 </html>
 

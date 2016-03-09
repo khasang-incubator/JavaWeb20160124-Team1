@@ -1,3 +1,5 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%--
   Created by IntelliJ IDEA.
   User: Dmitriy
@@ -8,9 +10,159 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Title</title>
+    <title>Calculator</title>
 </head>
 <body>
-
+<center>
+    <form>
+        <table>
+            <div id="fullexpression">
+                <tr align="right" valign="top">
+                    0
+                </tr>
+            </div>
+            <div id="currentnumber">
+                <tr align="right" valign="top">
+                    0
+                </tr>
+            </div>
+            <tr>
+                <td>
+                    <button>
+                        x!
+                    </button>
+                </td>
+                <td>
+                    <button>
+                        x!
+                    </button>
+                </td>
+                <td>
+                    <button>
+                        x!
+                    </button>
+                </td>
+                <td>
+                    <button>
+                        x!
+                    </button>
+                </td>
+                <td>
+                    <button>
+                        x!
+                    </button>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <button>
+                        x!
+                    </button>
+                </td>
+                <td>
+                    <button>
+                        x!
+                    </button>
+                </td>
+                <td>
+                    <button>
+                        x!
+                    </button>
+                </td>
+                <td>
+                    <button>
+                        x!
+                    </button>
+                </td>
+                <td>
+                    <button>
+                        x!
+                    </button>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <button>
+                        x!
+                    </button>
+                </td>
+                <td>
+                    <button>
+                        x!
+                    </button>
+                </td>
+                <td>
+                    <button>
+                        x!
+                    </button>
+                </td>
+                <td>
+                    <button>
+                        x!
+                    </button>
+                </td>
+                <td>
+                    <button>
+                        x!
+                    </button>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <button>
+                        x!
+                    </button>
+                </td>
+                <td>
+                    <button>
+                        x!
+                    </button>
+                </td>
+                <td>
+                    <button>
+                        x!
+                    </button>
+                </td>
+                <td>
+                    <button>
+                        x!
+                    </button>
+                </td>
+                <td>
+                    <button>
+                        x!
+                    </button>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <button>
+                        x!
+                    </button>
+                </td>
+                <td>
+                    <button>
+                        x!
+                    </button>
+                </td>
+                <td>
+                    <button>
+                        x!
+                    </button>
+                </td>
+                <td>
+                    <button>
+                        x!
+                    </button>
+                </td>
+                <td>
+                    <button>
+                        x!
+                    </button>
+                </td>
+            </tr>
+        </table>
+    </form>
+</center>
 </body>
 </html>

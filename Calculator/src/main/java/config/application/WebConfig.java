@@ -25,14 +25,8 @@ public class WebConfig extends WebMvcConfigurerAdapter {
         return viewResolver;
     }
 
+    @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/css/**")
-//                .addResourceLocations("classpath:/WEB-INF/views/");
-//        registry.addResourceHandler("/css/**")
-                .addResourceLocations("classpath:/WEB-INF/views/");
-//        registry.addResourceHandler("/img/**")
-//                .addResourceLocations("/img/");
-//        registry.addResourceHandler("/js/**")
-//                .addResourceLocations("/js/");
+        registry.addResourceHandler("/css/**").addResourceLocations("/WEB-INF/views/css/");
     }
 }
